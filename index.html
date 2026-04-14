@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Vibe Coded — Built with AI, Fueled by Vibes</title>
+  <title>mkvibes — Built with AI, Fueled by Vibes</title>
   <style>
     /* ── Reset & Base ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -119,10 +119,7 @@
     nav.scrolled { box-shadow: 0 0 40px rgba(124,58,237,0.15); }
 
     .nav-logo {
-      font-size: 1.25rem; font-weight: 700; letter-spacing: -0.02em;
-      background: linear-gradient(135deg, var(--accent1), var(--accent2));
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      text-decoration: none;
+      text-decoration: none; display: flex; align-items: center;
     }
 
     .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -336,6 +333,7 @@
     .tag-tool   { background: rgba(236,72,153,0.18); color: #f9a8d4; }
     .tag-game   { background: rgba(251,191,36,0.18); color: #fcd34d; }
     .tag-data   { background: rgba(34,197,94,0.18);  color: #86efac; }
+    .tag-health { background: rgba(20,184,166,0.18); color: #2dd4bf; }
     .tag-mobile { background: rgba(249,115,22,0.18); color: #fdba74; }
 
     /* ── Orbit System ─────────────────────────────────────────────── */
@@ -355,10 +353,13 @@
       top: 50%; left: 50%; transform: translate(-50%,-50%);
       animation: pathPulse 4s ease-in-out infinite;
     }
-    .orbit-path-1 { width:360px;  height:360px;  border-color: rgba(124,58,237,0.3); }
-    .orbit-path-2 { width:580px;  height:580px;  border-color: rgba(6,182,212,0.2); animation-delay:1.3s; }
-    .orbit-path-3 { width:800px;  height:800px;  border-color: rgba(240,171,252,0.12); animation-delay:2.6s; }
-    @keyframes pathPulse { 0%,100%{opacity:0.5} 50%{opacity:1} }
+    .orbit-path-1 { width:360px;  height:360px;  border-color: rgba(124,58,237,0.45); }
+    .orbit-path-2 { width:580px;  height:580px;  border-color: rgba(6,182,212,0.35); animation-delay:1.3s; }
+    .orbit-path-3 { width:800px;  height:800px;  border-color: rgba(240,171,252,0.2); animation-delay:2.6s; }
+    [data-theme="light"] .orbit-path-1 { border-color: rgba(124,58,237,0.35); }
+    [data-theme="light"] .orbit-path-2 { border-color: rgba(6,182,212,0.3); }
+    [data-theme="light"] .orbit-path-3 { border-color: rgba(240,171,252,0.25); }
+    @keyframes pathPulse { 0%,100%{opacity:0.6} 50%{opacity:1} }
 
     /* Sun */
     .orbit-sun {
@@ -424,8 +425,9 @@
     .planet-label {
       position:absolute; bottom:-1.55rem; left:50%; transform:translateX(-50%);
       white-space:nowrap; font-size:0.6rem; font-weight:600;
-      color:rgba(255,255,255,.45); pointer-events:none; letter-spacing:.03em;
+      color:rgba(255,255,255,.55); pointer-events:none; letter-spacing:.03em;
     }
+    [data-theme="light"] .planet-label { color: rgba(0,0,0,.55); }
 
     /* ── Detail Panel ─────────────────────────────────────────────── */
     .detail-panel {
@@ -740,6 +742,80 @@
       50%      { transform: translateY(-3px); }
     }
 
+    /* ── Mock UI: Northstar ──────────────────────────────────────── */
+    .mock-northstar {
+      height: 100%; background: #0e1219;
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .ns-topbar {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.65rem 0.85rem 0.5rem; flex-shrink: 0;
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+    }
+    .ns-progress-ring {
+      position: relative; width: 36px; height: 36px; flex-shrink: 0;
+    }
+    .ns-progress-ring svg { transform: rotate(-90deg); }
+    .ns-ring-bg   { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 3; }
+    .ns-ring-fill { fill: none; stroke: #f97316; stroke-width: 3; stroke-linecap: round;
+                    stroke-dasharray: 88; stroke-dashoffset: 70;
+                    animation: ringFill 1.5s ease both; }
+    @keyframes ringFill { from { stroke-dashoffset: 88; } }
+    .ns-pct {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.52rem; font-weight: 800; color: #f97316;
+    }
+    .ns-meta { flex: 1; display: flex; flex-direction: column; gap: 0.1rem; }
+    .ns-meta-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+    .ns-status {
+      padding: 0.12rem 0.45rem; border-radius: 100px;
+      background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4);
+      font-size: 0.55rem; font-weight: 700; color: #60a5fa;
+    }
+    .ns-date { font-size: 0.52rem; color: rgba(255,255,255,0.35); }
+    .ns-tasks-label { font-size: 0.5rem; color: rgba(255,255,255,0.25); }
+
+    .ns-tabs {
+      display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 0 0.85rem; flex-shrink: 0;
+    }
+    .ns-tab {
+      padding: 0.3rem 0.6rem; font-size: 0.55rem; color: rgba(255,255,255,0.3);
+      border-bottom: 1.5px solid transparent; cursor: default;
+    }
+    .ns-tab.active { color: #60a5fa; border-color: #60a5fa; }
+
+    .ns-timeline { flex: 1; padding: 0.4rem 0.6rem; overflow: hidden; position: relative; }
+    .ns-tl-row {
+      display: flex; align-items: center; gap: 0.4rem;
+      margin-bottom: 0.45rem; position: relative;
+    }
+    .ns-tl-dot {
+      width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0;
+    }
+    .ns-tl-label { font-size: 0.55rem; color: rgba(255,255,255,0.5); flex-shrink: 0; min-width: 55px; }
+    .ns-tl-bar-wrap { flex: 1; height: 7px; border-radius: 4px; background: rgba(255,255,255,0.06); overflow: hidden; }
+    .ns-tl-bar {
+      height: 100%; border-radius: 4px;
+      animation: barSlide 1s ease both;
+    }
+    @keyframes barSlide { from { transform: scaleX(0); transform-origin: left; } }
+
+    .ns-tl-row:nth-child(1) .ns-tl-dot { background: #22c55e; }
+    .ns-tl-row:nth-child(1) .ns-tl-bar  { width: 85%; background: linear-gradient(90deg,#16a34a,#22c55e); animation-delay:.1s; }
+    .ns-tl-row:nth-child(2) .ns-tl-dot { background: #22c55e; box-shadow:0 0 6px #22c55e; }
+    .ns-tl-row:nth-child(2) .ns-tl-bar  { width: 60%; background: linear-gradient(90deg,#15803d,#4ade80); animation-delay:.2s; }
+    .ns-tl-row:nth-child(3) .ns-tl-dot { background: #3b82f6; box-shadow:0 0 6px #3b82f6; }
+    .ns-tl-row:nth-child(3) .ns-tl-bar  { width: 35%; background: linear-gradient(90deg,#1d4ed8,#60a5fa); animation-delay:.3s; }
+    .ns-tl-row:nth-child(4) .ns-tl-dot { background: rgba(255,255,255,0.15); }
+    .ns-tl-row:nth-child(4) .ns-tl-bar  { width: 10%; background: rgba(255,255,255,0.15); animation-delay:.4s; }
+
+    .ns-tl-line {
+      position: absolute; left: 11px; top: 9px; bottom: 9px;
+      width: 1px; background: rgba(255,255,255,0.1);
+    }
+
     /* ── Mock UI: Borrowed (life-in-months) ──────────────────────── */
     .mock-borrowed {
       display: flex; flex-direction: column;
@@ -781,6 +857,257 @@
     .bdot-filled   { background: #4ade80; }
     .bdot-current  { background: #38bdf8; box-shadow: 0 0 5px #38bdf8; }
     .bdot-future   { background: transparent; border: 1px solid rgba(255,255,255,0.12); }
+
+    /* ── Mock UI: Pulse (health body map) ───────────────────────── */
+    .mock-pulse {
+      height: 100%;
+      background: radial-gradient(ellipse at 60% 20%, #0a2a2e 0%, #050f14 60%, #030a10 100%);
+      display: flex; flex-direction: column;
+      position: relative; overflow: hidden; border-radius: 4px;
+    }
+    .mock-pulse::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(circle at 65% 30%, rgba(20,184,166,0.12) 0%, transparent 55%),
+        radial-gradient(circle at 30% 70%, rgba(6,182,212,0.08) 0%, transparent 45%);
+      pointer-events: none;
+    }
+    .pulse-badge {
+      position: absolute; top: 1rem; left: 50%; transform: translateX(-50%);
+      background: rgba(20,184,166,0.15); border: 1px solid rgba(20,184,166,0.4);
+      color: #2dd4bf; font-size: 0.45rem; font-weight: 700; letter-spacing: 0.12em;
+      text-transform: uppercase; padding: 0.18rem 0.55rem; border-radius: 100px;
+      white-space: nowrap;
+    }
+    .pulse-hero {
+      position: absolute; top: 2.2rem; left: 0; right: 0;
+      text-align: center; padding: 0 0.8rem;
+    }
+    .pulse-hero-title {
+      font-size: 0.72rem; font-weight: 900; line-height: 1.2; letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #5eead4, #22d3ee, #a5f3fc);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .pulse-body-wrap {
+      position: absolute; top: 3.6rem; left: 50%; transform: translateX(-50%);
+      width: 52px; height: 74px;
+    }
+    /* Simplified human silhouette via CSS */
+    .pulse-silhouette {
+      width: 52px; height: 80px; position: relative;
+    }
+    .pulse-sil-head {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+      width: 14px; height: 14px; border-radius: 50%;
+      background: rgba(34,211,238,0.25); border: 1px solid rgba(34,211,238,0.5);
+      box-shadow: 0 0 8px rgba(34,211,238,0.4);
+    }
+    .pulse-sil-torso {
+      position: absolute; top: 15px; left: 50%; transform: translateX(-50%);
+      width: 22px; height: 30px; border-radius: 6px;
+      background: rgba(20,184,166,0.2); border: 1px solid rgba(20,184,166,0.45);
+      box-shadow: 0 0 12px rgba(20,184,166,0.25);
+    }
+    .pulse-sil-leg {
+      position: absolute; bottom: 0; width: 10px; height: 34px; border-radius: 4px;
+      background: rgba(34,211,238,0.18); border: 1px solid rgba(34,211,238,0.35);
+    }
+    .pulse-sil-leg.left  { left: 6px; }
+    .pulse-sil-leg.right { right: 6px; }
+    /* Floating marker dots */
+    .pulse-dot {
+      position: absolute; border-radius: 50%;
+      background: rgba(45,212,191,0.9);
+      box-shadow: 0 0 6px rgba(45,212,191,0.8), 0 0 12px rgba(45,212,191,0.4);
+    }
+    .pulse-dot-1 { width: 5px; height: 5px; top: 22px; left: 18px; }
+    .pulse-dot-2 { width: 4px; height: 4px; top: 30px; left: 30px; }
+    .pulse-dot-3 { width: 4px; height: 4px; top: 38px; left: 15px; }
+    .pulse-upload-card {
+      position: absolute; bottom: 1rem; left: 50%; transform: translateX(-50%);
+      width: 110px; background: rgba(10,42,46,0.85);
+      border: 1px solid rgba(20,184,166,0.35); border-radius: 8px;
+      padding: 0.5rem 0.6rem; text-align: center;
+    }
+    .pulse-upload-icon {
+      font-size: 0.9rem; margin-bottom: 0.2rem;
+    }
+    .pulse-upload-text {
+      font-size: 0.42rem; color: #2dd4bf; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; line-height: 1.3;
+    }
+    .pulse-upload-sub {
+      font-size: 0.38rem; color: rgba(255,255,255,0.35); margin-top: 0.15rem;
+    }
+
+    /* ── Disabled link ───────────────────────────────────────────── */
+    .dp-link-disabled {
+      display: inline-flex; align-items: center; gap: .5rem;
+      padding: .7rem 1.5rem; border-radius: 100px;
+      background: rgba(255,255,255,0.07);
+      color: rgba(255,255,255,0.35);
+      font-size: .875rem; font-weight: 600;
+      cursor: not-allowed;
+      border: 1px solid rgba(255,255,255,0.1);
+      user-select: none;
+    }
+
+    /* ── Body-level floating tooltip (escapes panel overflow clip) ── */
+    #dp-float-tooltip {
+      position: fixed;
+      width: 280px;
+      background: rgba(5,12,18,0.97); backdrop-filter: blur(20px);
+      border: 1px solid rgba(45,212,191,0.28);
+      border-radius: 14px; padding: 0.9rem 1.05rem;
+      font-size: 0.78rem; line-height: 1.65; color: rgba(255,255,255,0.78);
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      transform: translateY(6px);
+      z-index: 9000;
+      box-shadow: 0 12px 48px rgba(0,0,0,0.7), 0 0 24px rgba(45,212,191,0.08);
+    }
+    #dp-float-tooltip.visible {
+      opacity: 1; transform: translateY(0);
+    }
+    #dp-float-tooltip strong {
+      display: block; margin-bottom: 0.35rem;
+      color: #5eead4; font-size: 0.8rem;
+    }
+    #dp-float-tooltip::after {
+      content: '';
+      position: absolute; top: 100%; left: 2rem;
+      border: 7px solid transparent;
+      border-top-color: rgba(5,12,18,0.97);
+    }
+
+    /* ── Mock UI: Reflect (routine tracker) ─────────────────────── */
+    .mock-reflect {
+      height: 100%;
+      background: linear-gradient(160deg, #0d0820 0%, #130a2e 50%, #0a0618 100%);
+      display: flex; flex-direction: column;
+      padding: 0.85rem; overflow: hidden; position: relative;
+    }
+    .mock-reflect::before {
+      content: '';
+      position: absolute; top: -30px; right: -30px;
+      width: 120px; height: 120px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(124,58,237,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .rf-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.75rem;
+    }
+    .rf-title {
+      font-size: 0.75rem; font-weight: 800; letter-spacing: -0.01em;
+      background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .rf-date {
+      font-size: 0.38rem; color: rgba(167,139,250,0.5);
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+    .rf-routines { display: flex; flex-direction: column; gap: 0.32rem; }
+    .rf-routine {
+      display: flex; align-items: center; gap: 0.45rem;
+      background: rgba(124,58,237,0.07);
+      border: 1px solid rgba(124,58,237,0.15);
+      border-radius: 7px; padding: 0.32rem 0.45rem;
+    }
+    .rf-routine.done { border-color: rgba(167,139,250,0.3); background: rgba(124,58,237,0.13); }
+    .rf-check {
+      width: 11px; height: 11px; border-radius: 50%; flex-shrink: 0;
+      border: 1.5px solid rgba(124,58,237,0.4);
+    }
+    .rf-check.checked {
+      background: #7c3aed; border-color: #a78bfa;
+      box-shadow: 0 0 6px rgba(124,58,237,0.6);
+    }
+    .rf-routine-info { flex: 1; }
+    .rf-routine-name {
+      font-size: 0.48rem; font-weight: 600; color: rgba(255,255,255,0.8);
+      line-height: 1.2;
+    }
+    .rf-routine.done .rf-routine-name { color: rgba(167,139,250,0.7); }
+    .rf-routine-freq {
+      font-size: 0.36rem; color: rgba(167,139,250,0.45);
+      letter-spacing: 0.04em; margin-top: 0.1rem;
+    }
+    .rf-pill {
+      font-size: 0.32rem; padding: 0.1rem 0.35rem; border-radius: 100px;
+      font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; flex-shrink: 0;
+    }
+    .rf-pill.daily   { background: rgba(99,102,241,0.2);  color: #818cf8; }
+    .rf-pill.weekly  { background: rgba(168,85,247,0.2);  color: #c084fc; }
+    .rf-pill.monthly { background: rgba(236,72,153,0.2);  color: #f9a8d4; }
+    .rf-pill.yearly  { background: rgba(245,158,11,0.2);  color: #fcd34d; }
+    .rf-pill.custom  { background: rgba(20,184,166,0.2);  color: #2dd4bf; }
+    .rf-streak {
+      display: flex; align-items: center; gap: 0.3rem;
+      margin-top: 0.6rem; padding-top: 0.5rem;
+      border-top: 1px solid rgba(124,58,237,0.1);
+    }
+    .rf-streak-label { font-size: 0.38rem; color: rgba(255,255,255,0.3); }
+    .rf-streak-dots { display: flex; gap: 3px; }
+    .rf-streak-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(124,58,237,0.2);
+    }
+    .rf-streak-dot.active { background: #7c3aed; box-shadow: 0 0 5px rgba(124,58,237,0.6); }
+
+    /* ── Mock UI: Nul (trading bot) ─────────────────────────────── */
+    .mock-nul {
+      height: 100%;
+      background: radial-gradient(ellipse at 50% 0%, #041a0a 0%, #010d04 55%, #010804 100%);
+      display: flex; flex-direction: column;
+      padding: 0.8rem; position: relative; overflow: hidden;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+    .nul-header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .nul-name {
+      font-size: 0.9rem; font-weight: 900; letter-spacing: 0.12em;
+      color: #4ade80;
+      text-shadow: 0 0 10px rgba(74,222,128,0.6);
+    }
+    .nul-status {
+      font-size: 0.42rem; color: #4ade80; letter-spacing: 0.08em;
+      background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3);
+      padding: 0.15rem 0.4rem; border-radius: 4px;
+      animation: nulBlink 1.4s ease-in-out infinite;
+    }
+    @keyframes nulBlink { 0%,100%{opacity:1} 50%{opacity:0.4} }
+    .nul-pnl {
+      display: flex; justify-content: space-between; margin-bottom: 0.6rem;
+    }
+    .nul-pnl-item { display: flex; flex-direction: column; }
+    .nul-pnl-label { font-size: 0.38rem; color: rgba(255,255,255,0.3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.1rem; }
+    .nul-pnl-val { font-size: 0.65rem; font-weight: 700; }
+    .nul-pnl-val.green { color: #4ade80; text-shadow: 0 0 8px rgba(74,222,128,0.5); }
+    .nul-pnl-val.white { color: rgba(255,255,255,0.85); }
+    .nul-pnl-val.muted { color: rgba(255,255,255,0.4); }
+    /* Chart */
+    .nul-chart {
+      flex: 1; position: relative; margin-bottom: 0.5rem;
+    }
+    .nul-chart svg { width: 100%; height: 100%; }
+    /* Ticker rows */
+    .nul-tickers { display: flex; flex-direction: column; gap: 0.25rem; }
+    .nul-tick {
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 0.42rem; padding: 0.2rem 0.3rem; border-radius: 4px;
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+    }
+    .nul-tick-sym { color: rgba(255,255,255,0.6); font-weight: 700; letter-spacing: 0.05em; }
+    .nul-tick-price { color: rgba(255,255,255,0.5); }
+    .nul-tick-chg.up { color: #4ade80; }
+    .nul-tick-chg.dn { color: #f87171; }
 
     /* ── Process section ─────────────────────────────────────────── */
     #process { background: rgba(255,255,255,0.01); }
@@ -962,7 +1289,9 @@
 
 <!-- Nav -->
 <nav id="nav">
-  <a href="#" class="nav-logo">⚡ vibe.coded</a>
+  <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
+    <img src="mkvibes-logo.svg" alt="mkvibes" height="32" style="display:block;">
+  </a>
   <ul class="nav-links">
     <li><a href="#apps">Apps</a></li>
     <li><a href="#process">Process</a></li>
@@ -1036,7 +1365,7 @@
   <section id="apps">
     <div class="container">
       <p class="section-label reveal">Portfolio</p>
-      <h2 class="section-title reveal">Vibe Coded Apps</h2>
+      <h2 class="section-title reveal">mkvibes Apps</h2>
       <p class="section-desc reveal">
         Each project started with a vibe, a prompt, and an idea — then shipped in record time.
       </p>
@@ -1047,8 +1376,8 @@
         <button class="filter-btn" data-filter="ai">AI</button>
         <button class="filter-btn" data-filter="web">Web</button>
         <button class="filter-btn" data-filter="tool">Tool</button>
-        <button class="filter-btn" data-filter="game">Game</button>
         <button class="filter-btn" data-filter="data">Data</button>
+        <button class="filter-btn" data-filter="health">Health</button>
       </div>
 
       <!-- Orbit system (planets generated by JS) -->
@@ -1072,7 +1401,7 @@
           <div class="dp-tags"  id="dp-tags"></div>
           <div class="dp-name"  id="dp-name"></div>
           <p   class="dp-desc"  id="dp-desc"></p>
-          <a   class="dp-link"  id="dp-link" href="#" target="_blank" rel="noopener noreferrer">View Live →</a>
+          <div id="dp-link-container"></div>
         </div>
       </div>
       <div class="orbit-overlay" id="orbit-overlay"></div>
@@ -1120,18 +1449,18 @@
           <span class="terminal-title">vibe-session.log</span>
         </div>
         <div class="terminal-body">
-          <div><span class="line-prompt">malik@vibe </span><span class="line-cmd">$ describe-idea "I want an app that..."</span></div>
+          <div><span class="line-prompt">mk@vibe </span><span class="line-cmd">$ describe-idea "I want an app that..."</span></div>
           <div><span class="line-out">→ Parsing vibe... ████████████ 100%</span></div>
           <div><span class="line-ok">✓ Vibe calibrated. Confidence: high.</span></div>
           <br />
-          <div><span class="line-prompt">malik@vibe </span><span class="line-cmd">$ ai build --model claude --fast</span></div>
+          <div><span class="line-prompt">mk@vibe </span><span class="line-cmd">$ ai build --model claude --fast</span></div>
           <div><span class="line-out">→ Scaffolding project structure...</span></div>
           <div><span class="line-out">→ Writing components... [47 files]</span></div>
           <div><span class="line-out">→ Wiring up logic...</span></div>
           <div><span class="line-ok">✓ Build complete in 18m 42s</span></div>
           <br />
-          <div><span class="line-prompt">malik@vibe </span><span class="line-cmd">$ ship --platform vercel</span></div>
-          <div><span class="line-hi">⚡ Live at: https://your-app.vercel.app</span></div>
+          <div><span class="line-prompt">mk@vibe </span><span class="line-cmd">$ ship --platform aws</span></div>
+          <div><span class="line-hi">⚡ Live at: https://your-app.aws.app</span></div>
           <div><span class="line-ok">✓ Vibes successfully deployed.</span></div>
         </div>
       </div>
@@ -1202,7 +1531,6 @@
       </p>
       <div class="hero-actions reveal">
         <a href="mailto:you@example.com" class="btn-primary">Say Hello →</a>
-        <a href="https://github.com" target="_blank" class="btn-ghost">GitHub</a>
       </div>
     </div>
   </section>
@@ -1210,12 +1538,7 @@
 
 <!-- Footer -->
 <footer>
-  <span>⚡ vibe.coded — built with AI, shipped with purpose</span>
-  <div style="display:flex;gap:1.5rem;">
-    <a href="https://github.com" target="_blank">GitHub</a>
-    <a href="https://twitter.com" target="_blank">Twitter</a>
-    <a href="mailto:you@example.com">Email</a>
-  </div>
+  <span><img src="mkvibes-logo.svg" alt="mkvibes" height="22" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;opacity:0.7;"> built with AI, shipped with purpose</span>
 </footer>
 
 <script>
@@ -1309,46 +1632,130 @@
       </svg>`,
     },
     {
-      id: 'ai-chat', emoji: '🧠', orbit: 1,
-      bg: 'linear-gradient(145deg,#0f0520,#1a0a3d,#0c1a38)',
-      name: 'Your Featured App',
-      desc: 'Replace with your crown jewel — the app you\'re most proud of. Describe what it does, why you built it, and how it solves a real problem.',
-      tags: ['ai','web'], link: '#', previewType: 'chat',
+      id: 'northstar', orbit: 2,
+      bg: 'linear-gradient(145deg,#0a1628,#0d2444,#071830)',
+      name: 'Northstar',
+      desc: 'Northstar gives you beautiful project timelines, smart task tracking, and real-time forecasting — so you always know where you stand and what\'s next.',
+      tags: ['web','tool','data'], link: 'https://northstar.nainarmalik1705.workers.dev/', previewType: 'northstar',
+      bubbleHTML: `<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="nsbg" cx="50%" cy="35%" r="75%">
+            <stop offset="0%" stop-color="#1a6b8a"/>
+            <stop offset="55%" stop-color="#0d4a6b"/>
+            <stop offset="100%" stop-color="#071830"/>
+          </radialGradient>
+          <radialGradient id="nsglow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#fffbeb" stop-opacity="1"/>
+            <stop offset="40%" stop-color="#fde68a" stop-opacity="0.9"/>
+            <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+          </radialGradient>
+          <filter id="nsf" x="-60%" y="-60%" width="220%" height="220%">
+            <feGaussianBlur stdDeviation="2.5" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <!-- Background -->
+        <circle cx="28" cy="28" r="28" fill="url(#nsbg)"/>
+        <!-- Outer soft glow -->
+        <circle cx="28" cy="28" r="16" fill="url(#nsglow)" opacity="0.35"/>
+        <!-- Star shape — 8 sharp points -->
+        <g filter="url(#nsf)" transform="translate(28,28)">
+          <!-- Long rays -->
+          <polygon points="0,-14 1.4,-1.4 0,14 -1.4,-1.4" fill="#fef3c7" opacity="0.95"/>
+          <polygon points="-14,0 -1.4,1.4 14,0 -1.4,-1.4" fill="#fef3c7" opacity="0.95"/>
+          <!-- Diagonal rays (shorter) -->
+          <polygon points="-9,-9 -0.8,0 9,9 0.8,0"   fill="#fde68a" opacity="0.75"/>
+          <polygon points="9,-9 0.8,0 -9,9 -0.8,0"    fill="#fde68a" opacity="0.75"/>
+          <!-- Centre bright core -->
+          <circle r="3.5" fill="#fffbeb"/>
+        </g>
+      </svg>`,
     },
     {
-      id: 'code-tool', emoji: '💻', orbit: 1,
-      bg: 'linear-gradient(145deg,#050e14,#0a2030,#041020)',
-      name: 'App Name Here',
-      desc: 'Replace with your actual project — what does it do, who is it for, and what problem does it solve?',
-      tags: ['tool','ai'], link: '#', previewType: 'editor',
+      id: 'reflect', orbit: 1,
+      bg: 'linear-gradient(145deg,#0d0820,#180f38,#0a0618)',
+      name: 'Reflect',
+      desc: 'Build routines that actually stick. Daily, weekly, monthly, yearly — or fully custom. Reflect helps you show up consistently for the things that matter.',
+      tags: ['web','tool'], link: '',
+      disabledTitle: 'Coming soon ✨',
+      disabledMsg: 'Reflect is in the works. Building something worth waiting for.',
+      previewType: 'reflect',
+      bubbleHTML: `<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="rfbg" cx="50%" cy="40%" r="65%">
+            <stop offset="0%" stop-color="#1e1050"/>
+            <stop offset="60%" stop-color="#0d0820"/>
+            <stop offset="100%" stop-color="#080514"/>
+          </radialGradient>
+          <filter id="rff" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="1.6" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <circle cx="28" cy="28" r="28" fill="url(#rfbg)"/>
+        <!-- Outer ring -->
+        <circle cx="28" cy="28" r="20" stroke="#7c3aed" stroke-width="1.2" fill="none" opacity="0.5" filter="url(#rff)"/>
+        <!-- Middle ring -->
+        <circle cx="28" cy="28" r="13" stroke="#a78bfa" stroke-width="1" fill="none" opacity="0.6" filter="url(#rff)"/>
+        <!-- Inner ring -->
+        <circle cx="28" cy="28" r="6" stroke="#c4b5fd" stroke-width="1" fill="none" opacity="0.7" filter="url(#rff)"/>
+        <!-- Tick marks on outer ring -->
+        <g stroke="#7c3aed" stroke-width="1.4" stroke-linecap="round" opacity="0.8" filter="url(#rff)">
+          <line x1="28" y1="8"  x2="28" y2="11"/>
+          <line x1="28" y1="45" x2="28" y2="48"/>
+          <line x1="8"  y1="28" x2="11" y2="28"/>
+          <line x1="45" y1="28" x2="48" y2="28"/>
+        </g>
+        <!-- Centre dot -->
+        <circle cx="28" cy="28" r="2.5" fill="#a78bfa" filter="url(#rff)"/>
+        <!-- Sweep hand -->
+        <line x1="28" y1="28" x2="28" y2="14" stroke="#c4b5fd" stroke-width="1.5" stroke-linecap="round" filter="url(#rff)"/>
+      </svg>`,
     },
     {
-      id: 'game', emoji: '🎮', orbit: 1,
-      bg: 'linear-gradient(145deg,#2d0b1a,#7f1d3f,#200a14)',
-      name: 'App Name Here',
-      desc: 'Replace with your game or interactive experience. How does it play?',
-      tags: ['game'], link: '#', previewType: 'game',
+      id: 'pulse', orbit: 1,
+      bg: 'linear-gradient(145deg,#030a10,#061820,#030f18)',
+      name: 'Pulse',
+      desc: 'Turn your lab PDF into a living body map: surface what each marker means, forecast likely side-effect patterns from your profile, and get practical remediation steps.',
+      tags: ['ai','health','data'], link: '', previewType: 'pulse',
+      disabledTitle: 'A gentle note ❤️',
+      disabledMsg: 'This app is still in private development and isn\'t open to the public yet. More importantly — your health deserves real, human care. Please speak with your doctor or a qualified medical professional. They understand your full picture in ways no AI ever can. Take care of yourself.',
+      bubbleHTML: `<img src="pulse/pulse-logo.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Pulse logo">`,
     },
     {
-      id: 'data-dash', emoji: '📊', orbit: 2,
-      bg: 'linear-gradient(145deg,#081a0a,#0d3518,#051008)',
-      name: 'App Name Here',
-      desc: 'Replace with your data or analytics project. What insights does it surface?',
-      tags: ['data','web'], link: '#', previewType: 'chart',
-    },
-    {
-      id: 'web-app', emoji: '🌐', orbit: 2,
-      bg: 'linear-gradient(145deg,#0c0c20,#141438,#0c0820)',
-      name: 'App Name Here',
-      desc: 'Replace with your web application. Full-stack, fast, and shipped in a weekend.',
-      tags: ['web'], link: '#', previewType: 'browser',
-    },
-    {
-      id: 'ai-gen', emoji: '✨', orbit: 2,
-      bg: 'linear-gradient(145deg,#12080c,#2e0f20,#180a10)',
-      name: 'App Name Here',
-      desc: 'Replace with your AI or creative project. What does it generate, transform, or imagine?',
-      tags: ['ai'], link: '#', previewType: 'gen',
+      id: 'nul', orbit: 2,
+      bg: 'linear-gradient(145deg,#010a04,#021a08,#010d04)',
+      name: 'Nul',
+      desc: 'An algorithmic trading bot that runs continuously until it 10×s your initial investment — or takes it to zero. Nul is Dutch for zero. It knows both outcomes.',
+      tags: ['ai','data','tool'], link: '',
+      disabledTitle: 'Not for the faint-hearted ⚠️',
+      disabledMsg: 'Nul is not publicly available. This bot trades real capital continuously — and yes, it can take your entire investment to zero. That\'s not a disclaimer, that\'s the point. Please never risk money you can\'t afford to lose, and always seek independent financial advice before algorithmic trading.',
+      previewType: 'nul',
+      bubbleHTML: `<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="nulbg" cx="50%" cy="40%" r="65%">
+            <stop offset="0%" stop-color="#052010"/>
+            <stop offset="60%" stop-color="#020d06"/>
+            <stop offset="100%" stop-color="#010804"/>
+          </radialGradient>
+          <filter id="nulf" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation="1.8" result="b"/>
+            <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
+        <circle cx="28" cy="28" r="28" fill="url(#nulbg)"/>
+        <!-- Chart line going up -->
+        <polyline points="8,40 16,36 22,38 28,28 34,24 42,14 50,10"
+          stroke="#22c55e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"
+          fill="none" filter="url(#nulf)" opacity="0.9"/>
+        <!-- Glow dot at peak -->
+        <circle cx="50" cy="10" r="2.5" fill="#4ade80" filter="url(#nulf)"/>
+        <!-- Bold zero -->
+        <text x="28" y="50" text-anchor="middle"
+          font-family="system-ui,-apple-system,monospace"
+          font-size="9" font-weight="900" letter-spacing="0.05em"
+          fill="rgba(74,222,128,0.6)">NUL</text>
+      </svg>`,
     },
     {
       id: 'kudoly', orbit: 2,
@@ -1453,6 +1860,54 @@
             <div class="bpage-cards"><div class="bpage-card"></div><div class="bpage-card"></div><div class="bpage-card"></div></div>
           </div>
         </div></div>`;
+      case 'northstar': return `
+        <div class="mock-northstar">
+          <div class="ns-topbar">
+            <div class="ns-progress-ring">
+              <svg width="36" height="36" viewBox="0 0 36 36">
+                <circle class="ns-ring-bg"   cx="18" cy="18" r="14"/>
+                <circle class="ns-ring-fill" cx="18" cy="18" r="14"/>
+              </svg>
+              <div class="ns-pct">20%</div>
+            </div>
+            <div class="ns-meta">
+              <div class="ns-meta-row">
+                <span class="ns-status">In Progress</span>
+                <span class="ns-date">Started Apr 11</span>
+                <span class="ns-date">Due Feb 5, 2027</span>
+              </div>
+              <div class="ns-tasks-label">10 of 50 tasks done</div>
+            </div>
+          </div>
+          <div class="ns-tabs">
+            <div class="ns-tab active">Tasks (10)</div>
+            <div class="ns-tab">Comments</div>
+            <div class="ns-tab">Files</div>
+          </div>
+          <div class="ns-timeline">
+            <div class="ns-tl-line"></div>
+            <div class="ns-tl-row">
+              <div class="ns-tl-dot"></div>
+              <div class="ns-tl-label">Month 1: Research</div>
+              <div class="ns-tl-bar-wrap"><div class="ns-tl-bar"></div></div>
+            </div>
+            <div class="ns-tl-row">
+              <div class="ns-tl-dot"></div>
+              <div class="ns-tl-label">Month 2: Interviews</div>
+              <div class="ns-tl-bar-wrap"><div class="ns-tl-bar"></div></div>
+            </div>
+            <div class="ns-tl-row">
+              <div class="ns-tl-dot"></div>
+              <div class="ns-tl-label">Month 3: MVP Build</div>
+              <div class="ns-tl-bar-wrap"><div class="ns-tl-bar"></div></div>
+            </div>
+            <div class="ns-tl-row">
+              <div class="ns-tl-dot"></div>
+              <div class="ns-tl-label">Month 4: UI/UX</div>
+              <div class="ns-tl-bar-wrap"><div class="ns-tl-bar"></div></div>
+            </div>
+          </div>
+        </div>`;
       case 'kudoly': return `
         <div class="mock-kudoly">
           <div class="kudoly-wordmark">kudoly</div>
@@ -1464,6 +1919,120 @@
             <span class="kudoly-word">inspiring</span>
             <span class="kudoly-word">rockstar</span>
           </div>
+        </div>`;
+      case 'reflect': return `
+        <div class="mock-reflect">
+          <div class="rf-header">
+            <span class="rf-title">Reflect</span>
+            <span class="rf-date">Mon, 14 Apr</span>
+          </div>
+          <div class="rf-routines">
+            <div class="rf-routine done">
+              <div class="rf-check checked"></div>
+              <div class="rf-routine-info">
+                <div class="rf-routine-name">Morning journaling</div>
+                <div class="rf-routine-freq">Every day · 08:00</div>
+              </div>
+              <span class="rf-pill daily">Daily</span>
+            </div>
+            <div class="rf-routine done">
+              <div class="rf-check checked"></div>
+              <div class="rf-routine-info">
+                <div class="rf-routine-name">Midday walk</div>
+                <div class="rf-routine-freq">3× per day</div>
+              </div>
+              <span class="rf-pill daily">Daily</span>
+            </div>
+            <div class="rf-routine">
+              <div class="rf-check"></div>
+              <div class="rf-routine-info">
+                <div class="rf-routine-name">Weekly review</div>
+                <div class="rf-routine-freq">Every Sunday</div>
+              </div>
+              <span class="rf-pill weekly">Weekly</span>
+            </div>
+            <div class="rf-routine">
+              <div class="rf-check"></div>
+              <div class="rf-routine-info">
+                <div class="rf-routine-name">Read something new</div>
+                <div class="rf-routine-freq">Every month</div>
+              </div>
+              <span class="rf-pill monthly">Monthly</span>
+            </div>
+            <div class="rf-routine">
+              <div class="rf-check"></div>
+              <div class="rf-routine-info">
+                <div class="rf-routine-name">Deep health check</div>
+                <div class="rf-routine-freq">Every year</div>
+              </div>
+              <span class="rf-pill yearly">Yearly</span>
+            </div>
+          </div>
+          <div class="rf-streak">
+            <span class="rf-streak-label">7-day streak</span>
+            <div class="rf-streak-dots">
+              <div class="rf-streak-dot active"></div>
+              <div class="rf-streak-dot active"></div>
+              <div class="rf-streak-dot active"></div>
+              <div class="rf-streak-dot active"></div>
+              <div class="rf-streak-dot active"></div>
+              <div class="rf-streak-dot active"></div>
+              <div class="rf-streak-dot active"></div>
+            </div>
+          </div>
+        </div>`;
+      case 'nul': return `
+        <div class="mock-nul">
+          <div class="nul-header">
+            <span class="nul-name">NUL</span>
+            <span class="nul-status">● LIVE TRADING</span>
+          </div>
+          <div class="nul-pnl">
+            <div class="nul-pnl-item">
+              <span class="nul-pnl-label">Portfolio</span>
+              <span class="nul-pnl-val white">€ 10,000</span>
+            </div>
+            <div class="nul-pnl-item" style="text-align:center">
+              <span class="nul-pnl-label">Target</span>
+              <span class="nul-pnl-val muted">€ 100,000</span>
+            </div>
+            <div class="nul-pnl-item" style="text-align:right">
+              <span class="nul-pnl-label">Today P&L</span>
+              <span class="nul-pnl-val green">+€ 312.40</span>
+            </div>
+          </div>
+          <div class="nul-chart">
+            <svg viewBox="0 0 200 70" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartfill" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#4ade80" stop-opacity="0.25"/>
+                  <stop offset="100%" stop-color="#4ade80" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <path d="M0,60 L20,55 L35,58 L50,48 L65,50 L80,40 L95,42 L110,30 L125,28 L140,20 L155,22 L170,12 L185,8 L200,5 L200,70 L0,70 Z"
+                fill="url(#chartfill)"/>
+              <path d="M0,60 L20,55 L35,58 L50,48 L65,50 L80,40 L95,42 L110,30 L125,28 L140,20 L155,22 L170,12 L185,8 L200,5"
+                stroke="#4ade80" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                style="filter:drop-shadow(0 0 4px rgba(74,222,128,0.7))"/>
+              <circle cx="200" cy="5" r="2.5" fill="#4ade80" style="filter:drop-shadow(0 0 6px #4ade80)"/>
+            </svg>
+          </div>
+          <div class="nul-tickers">
+            <div class="nul-tick">
+              <span class="nul-tick-sym">BTC/EUR</span>
+              <span class="nul-tick-price">€ 58,240</span>
+              <span class="nul-tick-chg up">+2.4%</span>
+            </div>
+            <div class="nul-tick">
+              <span class="nul-tick-sym">ETH/EUR</span>
+              <span class="nul-tick-price">€ 2,840</span>
+              <span class="nul-tick-chg dn">−0.8%</span>
+            </div>
+          </div>
+        </div>`;
+      case 'pulse': return `
+        <div style="height:100%;display:flex;align-items:center;justify-content:center;background:#060e14;">
+          <img src="pulse/pulse-screenshot.png" style="max-width:100%;max-height:100%;object-fit:contain;display:block;" alt="Pulse screenshot">
         </div>`;
       case 'borrowed': return buildBorrowedPreview();
       default: return `
@@ -1551,6 +2120,10 @@
         const planet = document.createElement('div');
         planet.className = 'planet';
         planet.style.animationDuration = cfg.duration + 's';
+        /* Offset counter-rotation so every planet starts upright regardless of arm angle.
+           CW ring: delay = -(angle/360)*dur  |  CCW ring: delay = +(angle/360)*dur */
+        const delay = (cfg.dir === 'cw' ? -1 : 1) * (angle / 360) * cfg.duration;
+        planet.style.animationDelay = delay + 's';
         planet.dataset.appId = app.id;
 
         const bubble = document.createElement('div');
@@ -1584,13 +2157,39 @@
     const panel   = document.getElementById('detail-panel');
     const overlay = document.getElementById('orbit-overlay');
 
-    document.getElementById('dp-preview').innerHTML = previewHTML(app.previewType);
-    document.getElementById('dp-preview').style.background = app.bg;
+    const preview = document.getElementById('dp-preview');
+    preview.innerHTML = previewHTML(app.previewType);
+    preview.style.background = app.bg;
+    preview.style.height = app.previewType === 'pulse' ? '360px' : '';
     document.getElementById('dp-tags').innerHTML = app.tags.map(t =>
       `<span class="btag tag-${t}">${t}</span>`).join('');
     document.getElementById('dp-name').textContent = app.name;
     document.getElementById('dp-desc').textContent = app.desc;
-    document.getElementById('dp-link').href = app.link;
+
+    const linkContainer = document.getElementById('dp-link-container');
+    if (app.link && app.link !== '#') {
+      linkContainer.innerHTML = `<a class="dp-link" href="${app.link}" target="_blank" rel="noopener noreferrer">View Live →</a>`;
+    } else if (app.link === '') {
+      const title = app.disabledTitle || 'Not publicly available';
+      const msg   = app.disabledMsg   || 'This app is not publicly available.';
+      document.getElementById('dp-float-tooltip').innerHTML = `<strong>${title}</strong>${msg}`;
+      linkContainer.innerHTML = `<span class="dp-link-disabled" id="dp-disabled-btn">Not Publicly Available</span>`;
+      const btn = document.getElementById('dp-disabled-btn');
+      const tip = document.getElementById('dp-float-tooltip');
+      btn.addEventListener('mouseenter', () => {
+        const r = btn.getBoundingClientRect();
+        tip.style.left = Math.max(8, r.left) + 'px';
+        tip.style.top  = (r.top - tip.offsetHeight - 12) + 'px';
+        tip.classList.add('visible');
+      });
+      btn.addEventListener('mouseleave', () => tip.classList.remove('visible'));
+      btn.addEventListener('mousemove', () => {
+        const r = btn.getBoundingClientRect();
+        tip.style.top = (r.top - tip.offsetHeight - 12) + 'px';
+      });
+    } else {
+      linkContainer.innerHTML = `<a class="dp-link" href="${app.link}" target="_blank" rel="noopener noreferrer">View Live →</a>`;
+    }
 
     /* Init dynamic content */
     setTimeout(() => {
@@ -1837,7 +2436,7 @@
   const phrases = [
     'with pure vibes',
     'using AI magic',
-    'at warp speed',
+    'faster than my coffee gets cold',
     'from zero to shipped',
     'without limits',
   ];
@@ -1928,5 +2527,11 @@
     });
   });
 </script>
+
+<!-- Floating tooltip for disabled links — lives on body to escape panel overflow clip -->
+<div id="dp-float-tooltip">
+  <strong>A gentle note ❤️</strong>
+  This app is in private development and will never be released to the public. Most importantly, your health truly matters, and you deserve real, compassionate care from a human professional. Please speak with your doctor or a qualified medical professional.Take good care of yourself.
+</div>
 </body>
 </html>
