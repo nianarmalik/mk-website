@@ -472,6 +472,13 @@
       transition:box-shadow .2s, transform .2s;
     }
     .dp-link:hover { box-shadow:0 0 30px rgba(124,58,237,.5); transform:translateY(-1px); }
+    .dp-learn-more {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: .75rem;
+      font-size: .78rem; color: var(--accent2); text-decoration: none;
+      opacity: 0.8; transition: opacity .2s;
+    }
+    .dp-learn-more:hover { opacity: 1; text-decoration: underline; }
 
     /* Dim overlay */
     .orbit-overlay {
@@ -1175,28 +1182,90 @@
     .line-ok     { color: #22c55e; }
     .line-hi     { color: #22d3ee; }
 
-    /* ── About / Philosophy ──────────────────────────────────────── */
-    .philosophy-grid {
+    /* ── About Me ────────────────────────────────────────────────── */
+    .about-grid {
       display: grid; grid-template-columns: 1fr 1fr;
-      gap: 4rem; align-items: center;
+      gap: 4rem; align-items: start;
       margin-top: 3rem;
     }
-    @media (max-width: 768px) {
-      .philosophy-grid { grid-template-columns: 1fr; gap: 2rem; }
-    }
-    .philosophy-text p { color: var(--muted); line-height: 1.8; margin-bottom: 1rem; }
-    .philosophy-text p:last-child { margin-bottom: 0; }
-    .philosophy-text strong { color: var(--text); }
+    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
 
+    .about-text p {
+      color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-size: 0.95rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+    .about-text strong { color: var(--text); }
+
+    /* Stats row */
+    .about-stats {
+      display: flex; gap: 1.5rem; margin: 1.75rem 0; flex-wrap: wrap;
+    }
+    .about-stat {
+      display: flex; flex-direction: column;
+      padding: 0.9rem 1.2rem; border-radius: 14px;
+      border: 1px solid var(--border); background: var(--surface);
+      min-width: 80px;
+    }
+    .about-stat-num {
+      font-size: 1.5rem; font-weight: 900; letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1;
+    }
+    .about-stat-label { font-size: 0.65rem; color: var(--muted); margin-top: 0.25rem; letter-spacing: 0.04em; }
+
+    /* Periyar quote card */
+    .periyar-quote {
+      position: relative;
+      padding: 1.5rem 1.5rem 1.5rem 2rem;
+      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid rgba(124,58,237,0.2);
+      margin-bottom: 1.25rem;
+    }
+    .periyar-quote::before {
+      content: '';
+      position: absolute; left: 0; top: 10%; bottom: 10%;
+      width: 3px; border-radius: 2px;
+      background: linear-gradient(180deg, var(--accent1), var(--accent2));
+    }
+    .periyar-quote-text {
+      font-size: 0.82rem; line-height: 1.75; color: var(--text);
+      font-style: italic; margin-bottom: 0.75rem;
+    }
+    .periyar-quote-text em { font-style: normal; color: var(--accent2); font-weight: 600; }
+    .periyar-quote-author {
+      font-size: 0.72rem; font-weight: 700; color: var(--accent1); letter-spacing: 0.05em;
+    }
+
+    /* Fun quote */
+    .fun-quote {
+      padding: 1rem 1.25rem;
+      border-radius: 14px;
+      background: rgba(6,182,212,0.06);
+      border: 1px solid rgba(6,182,212,0.15);
+      font-size: 0.8rem; color: var(--muted); line-height: 1.6;
+    }
+    .fun-quote span { color: var(--accent2); font-weight: 600; }
+
+    /* Role tags */
+    .role-tags {
+      display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem;
+    }
+    .role-tag {
+      font-size: 0.62rem; font-weight: 600; letter-spacing: 0.05em;
+      padding: 0.25rem 0.65rem; border-radius: 100px;
+      background: var(--surface); border: 1px solid var(--border);
+      color: var(--muted);
+    }
+
+    /* ── Philosophy ──────────────────────────────────────────────── */
     .philosophy-visual {
       display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
     }
     .vibe-card {
-      padding: 1.5rem;
-      border-radius: 16px;
-      border: 1px solid var(--border);
-      background: var(--surface);
-      text-align: center;
+      padding: 1.5rem; border-radius: 16px;
+      border: 1px solid var(--border); background: var(--surface); text-align: center;
     }
     .vibe-card .icon { font-size: 2rem; margin-bottom: 0.75rem; }
     .vibe-card h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.3rem; }
@@ -1294,7 +1363,6 @@
   </a>
   <ul class="nav-links">
     <li><a href="#apps">Apps</a></li>
-    <li><a href="#process">Process</a></li>
     <li><a href="#about">Philosophy</a></li>
     <li><a href="#cta" class="nav-cta">Get in Touch</a></li>
   </ul>
@@ -1408,114 +1476,110 @@
     </div>
   </section>
 
-  <!-- ── Process ────────────────────────────────────────────────────── -->
-  <section id="process">
-    <div class="container">
-      <p class="section-label reveal">How I Work</p>
-      <h2 class="section-title reveal">The Vibe Coding Method</h2>
-      <p class="section-desc reveal">
-        A creative loop between human intuition and AI execution — from raw idea to shipped product.
-      </p>
 
-      <div class="process-grid">
-        <div class="process-card reveal" data-num="01">
-          <div class="process-icon" style="background: rgba(124,58,237,0.15);">💡</div>
-          <h3>Catch the Vibe</h3>
-          <p>An idea hits. Could be a problem I'm annoyed by, something missing in the world, or just a spark of curiosity.</p>
-        </div>
-        <div class="process-card reveal" data-num="02">
-          <div class="process-icon" style="background: rgba(6,182,212,0.15);">🗣️</div>
-          <h3>Describe It</h3>
-          <p>Turn the vibe into a prompt. No spec documents — just a clear description of what the thing should feel like.</p>
-        </div>
-        <div class="process-card reveal" data-num="03">
-          <div class="process-icon" style="background: rgba(236,72,153,0.15);">🤖</div>
-          <h3>AI Builds It</h3>
-          <p>Claude Code, Cursor, or ChatGPT does the heavy lifting. I steer, review, and iterate. Think of it as pair programming with a tireless AI.</p>
-        </div>
-        <div class="process-card reveal" data-num="04">
-          <div class="process-icon" style="background: rgba(34,197,94,0.15);">🚀</div>
-          <h3>Ship Fast</h3>
-          <p>Deploy it. Show it to people. Collect real feedback. Don't wait for perfection — vibes don't wait.</p>
-        </div>
-      </div>
-
-      <!-- Terminal -->
-      <div class="terminal reveal">
-        <div class="terminal-bar">
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <div class="terminal-dot"></div>
-          <span class="terminal-title">vibe-session.log</span>
-        </div>
-        <div class="terminal-body">
-          <div><span class="line-prompt">mk@vibe </span><span class="line-cmd">$ describe-idea "I want an app that..."</span></div>
-          <div><span class="line-out">→ Parsing vibe... ████████████ 100%</span></div>
-          <div><span class="line-ok">✓ Vibe calibrated. Confidence: high.</span></div>
-          <br />
-          <div><span class="line-prompt">mk@vibe </span><span class="line-cmd">$ ai build --model claude --fast</span></div>
-          <div><span class="line-out">→ Scaffolding project structure...</span></div>
-          <div><span class="line-out">→ Writing components... [47 files]</span></div>
-          <div><span class="line-out">→ Wiring up logic...</span></div>
-          <div><span class="line-ok">✓ Build complete in 18m 42s</span></div>
-          <br />
-          <div><span class="line-prompt">mk@vibe </span><span class="line-cmd">$ ship --platform aws</span></div>
-          <div><span class="line-hi">⚡ Live at: https://your-app.aws.app</span></div>
-          <div><span class="line-ok">✓ Vibes successfully deployed.</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ── Philosophy ─────────────────────────────────────────────────── -->
+  <!-- ── About + Philosophy ───────────────────────────────────────── -->
   <section id="about">
     <div class="container">
-      <div class="philosophy-grid">
-        <div class="philosophy-text">
-          <p class="section-label reveal">Philosophy</p>
-          <h2 class="section-title reveal">Why Vibe Coding?</h2>
+      <p class="section-label reveal">Philosophy</p>
+      <h2 class="section-title reveal">The Human Behind the Vibes</h2>
+      <div class="about-grid">
+
+        <!-- Left: personal story -->
+        <div class="about-text">
           <div class="reveal">
             <p>
-              <strong>Vibe coding is about lowering the barrier between imagination and reality.</strong>
-              AI doesn't replace the creative mind — it removes the friction.
+              Hey, I'm <strong>Malik</strong> — a software professional with 15+ years across the industry,
+              now based in the beautiful Netherlands for the last 8 years. I moved here from India seeking a
+              <strong>safe, open, and secular environment</strong> for my family — and the Netherlands has been
+              exactly that.
+            </p>
+            <div class="about-stats">
+              <div class="about-stat">
+                <span class="about-stat-num">15+</span>
+                <span class="about-stat-label">Years in tech</span>
+              </div>
+              <div class="about-stat">
+                <span class="about-stat-num">8</span>
+                <span class="about-stat-label">Years in NL</span>
+              </div>
+              <div class="about-stat">
+                <span class="about-stat-num">∞</span>
+                <span class="about-stat-label">Ideas pending</span>
+              </div>
+            </div>
+            <div class="role-tags">
+              <span class="role-tag">Java Developer</span>
+              <span class="role-tag">Deployment Engineer</span>
+              <span class="role-tag">Tester & QA</span>
+              <span class="role-tag">Scrum Master</span>
+              <span class="role-tag">Team Lead</span>
+              <span class="role-tag">Architect</span>
+              <span class="role-tag">Operations Engineer</span>
+            </div>
+            <p>
+              I'm reserved — I talk less and do more. I've always been inspired by people and ideas,
+              but never had enough time to turn them into reality.
+              <strong>Then vibe coding happened.</strong> Seeing an idea come alive gives me energy
+              I can't get enough of. Maybe something here will inspire someone to build something even more interesting.
             </p>
             <p>
-              Instead of spending weeks fighting boilerplate and syntax, I spend that energy on the parts that
-              actually matter: <strong>the idea, the design, the user experience.</strong>
+              I live with my wife, my son, and a daughter who makes life beautiful.
             </p>
-            <p>
-              Every app here was an experiment. Some are polished products, some are chaotic proofs-of-concept.
-              All of them were fun to make — and that's the whole point.
-            </p>
+
+            <div class="periyar-quote" style="margin-top:1.5rem;">
+              <p class="periyar-quote-text">
+                "If larger country oppresses a smaller country, I'll stand with smaller country.
+                If smaller country has Majoritarian Religion which oppresses minority religions, I'll stand with Minority religion.
+                If minority religion has caste and one caste oppresses another caste, I'll stand with caste being oppressed.
+                If in oppressed caste an employer oppresses his employee, I'll stand with employee.
+                If employee goes Home and oppresses his wife, I'll stand with that woman.
+                Overall <em>oppression is my enemy</em>."
+              </p>
+              <div class="periyar-quote-author">— PERIYAR</div>
+            </div>
+
+            <div class="fun-quote" style="margin-top:1rem;">
+              A colleague once said: <span>"The problem is between the chair and the keyboard."</span> 😄
+              <br><small style="opacity:0.6;font-size:0.72rem;">...sometimes painfully accurate.</small>
+            </div>
           </div>
         </div>
-        <div class="philosophy-visual reveal">
-          <div class="vibe-card">
-            <div class="icon">⚡</div>
-            <h4>Move Fast</h4>
-            <p>Hours, not months</p>
-          </div>
-          <div class="vibe-card">
-            <div class="icon">🎯</div>
-            <h4>Stay Focused</h4>
-            <p>One idea, done well</p>
-          </div>
-          <div class="vibe-card">
-            <div class="icon">🔁</div>
-            <h4>Iterate</h4>
-            <p>Ship, learn, improve</p>
-          </div>
-          <div class="vibe-card">
-            <div class="icon">😄</div>
-            <h4>Have Fun</h4>
-            <p>Vibes over process</p>
-          </div>
-          <div class="vibe-card vibe-card-wide">
-            <div class="icon">🤝</div>
-            <h4>Human + AI Collaboration</h4>
-            <p>You bring the vision. AI brings the velocity.</p>
+
+        <!-- Right: philosophy cards -->
+        <div class="reveal">
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.75;margin-bottom:1.5rem;">
+            Vibe coding is about lowering the barrier between imagination and reality.
+            AI doesn't replace the creative mind — it removes the friction.
+          </p>
+          <div class="philosophy-visual">
+            <div class="vibe-card">
+              <div class="icon">⚡</div>
+              <h4>Move Fast</h4>
+              <p>Hours, not months</p>
+            </div>
+            <div class="vibe-card">
+              <div class="icon">🎯</div>
+              <h4>Stay Focused</h4>
+              <p>One idea, done well</p>
+            </div>
+            <div class="vibe-card">
+              <div class="icon">🔁</div>
+              <h4>Iterate</h4>
+              <p>Ship, learn, improve</p>
+            </div>
+            <div class="vibe-card">
+              <div class="icon">😄</div>
+              <h4>Have Fun</h4>
+              <p>Vibes over process</p>
+            </div>
+            <div class="vibe-card vibe-card-wide">
+              <div class="icon">🤝</div>
+              <h4>Human + AI Collaboration</h4>
+              <p>You bring the vision. AI brings the velocity.</p>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -1530,7 +1594,7 @@
         I'm always down to collaborate, share notes on AI-assisted development, or just talk shop about building cool stuff fast.
       </p>
       <div class="hero-actions reveal">
-        <a href="mailto:you@example.com" class="btn-primary">Say Hello →</a>
+        <a href="mailto:nainarmalik1705@gmail.com" class="btn-primary">Say Hello →</a>
       </div>
     </div>
   </section>
@@ -1677,6 +1741,7 @@
       name: 'Reflect',
       desc: 'Build routines that actually stick. Daily, weekly, monthly, yearly — or fully custom. Reflect helps you show up consistently for the things that matter.',
       tags: ['web','tool'], link: '',
+      disabledLabel: 'Coming Soon',
       disabledTitle: 'Coming soon ✨',
       disabledMsg: 'Reflect is in the works. Building something worth waiting for.',
       previewType: 'reflect',
@@ -1716,10 +1781,12 @@
       id: 'pulse', orbit: 1,
       bg: 'linear-gradient(145deg,#030a10,#061820,#030f18)',
       name: 'Pulse',
-      desc: 'Turn your lab PDF into a living body map: surface what each marker means, forecast likely side-effect patterns from your profile, and get practical remediation steps.',
+      desc: 'Upload your lab results — PDF, image, or scan — and turn them into a living body map: surface what each marker means, forecast likely side-effect patterns from your profile, and get practical remediation steps.',
       tags: ['ai','health','data'], link: '', previewType: 'pulse',
       disabledTitle: 'A gentle note ❤️',
       disabledMsg: 'This app is still in private development and isn\'t open to the public yet. More importantly — your health deserves real, human care. Please speak with your doctor or a qualified medical professional. They understand your full picture in ways no AI ever can. Take care of yourself.',
+      learnMoreLink: 'https://www.reddit.com/r/ClaudeAI/comments/1s41fny/25_years_multiple_specialists_zero_answers_one/',
+      learnMoreLabel: 'How AI can help in healthcare →',
       bubbleHTML: `<img src="pulse/pulse-logo.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt="Pulse logo">`,
     },
     {
@@ -1756,6 +1823,18 @@
           font-size="9" font-weight="900" letter-spacing="0.05em"
           fill="rgba(74,222,128,0.6)">NUL</text>
       </svg>`,
+    },
+    {
+      id: 'slimbon', orbit: 2,
+      bg: 'linear-gradient(145deg,#051a0e,#073d1a,#041208)',
+      name: 'SlimBon',
+      desc: 'Upload a photo of your Dutch grocery receipt and SlimBon OCRs the text, extracts every line item, and categorises them — meat, vegetables, dairy and more. Then get AI-powered recommendations on your health and spending habits.',
+      tags: ['ai','tool','data'], link: '',
+      disabledLabel: 'In Testing',
+      disabledTitle: 'Almost there 🧪',
+      disabledMsg: 'SlimBon is currently in testing before its public release. Hang tight — it\'s almost ready.',
+      previewType: 'slimbon',
+      bubbleHTML: `<img src="slimbon/slimbon-logo.png" style="width:100%;height:100%;object-fit:cover;display:block;" alt="SlimBon logo">`,
     },
     {
       id: 'kudoly', orbit: 2,
@@ -1981,6 +2060,10 @@
             </div>
           </div>
         </div>`;
+      case 'slimbon': return `
+        <div style="height:100%;display:flex;align-items:flex-start;justify-content:center;background:#0d1117;overflow:hidden;">
+          <img src="slimbon/slimbon-screenshot.png" style="width:100%;object-fit:cover;object-position:top center;display:block;" alt="SlimBon screenshot">
+        </div>`;
       case 'nul': return `
         <div class="mock-nul">
           <div class="nul-header">
@@ -2160,7 +2243,7 @@
     const preview = document.getElementById('dp-preview');
     preview.innerHTML = previewHTML(app.previewType);
     preview.style.background = app.bg;
-    preview.style.height = app.previewType === 'pulse' ? '360px' : '';
+    preview.style.height = (app.previewType === 'pulse' || app.previewType === 'slimbon') ? '360px' : '';
     document.getElementById('dp-tags').innerHTML = app.tags.map(t =>
       `<span class="btag tag-${t}">${t}</span>`).join('');
     document.getElementById('dp-name').textContent = app.name;
@@ -2173,7 +2256,11 @@
       const title = app.disabledTitle || 'Not publicly available';
       const msg   = app.disabledMsg   || 'This app is not publicly available.';
       document.getElementById('dp-float-tooltip').innerHTML = `<strong>${title}</strong>${msg}`;
-      linkContainer.innerHTML = `<span class="dp-link-disabled" id="dp-disabled-btn">Not Publicly Available</span>`;
+      const btnLabel = app.disabledLabel || 'Not Publicly Available';
+      const learnMore = app.learnMoreLink
+        ? `<br><a class="dp-learn-more" href="${app.learnMoreLink}" target="_blank" rel="noopener noreferrer">${app.learnMoreLabel || 'Learn more →'}</a>`
+        : '';
+      linkContainer.innerHTML = `<span class="dp-link-disabled" id="dp-disabled-btn">${btnLabel}</span>${learnMore}`;
       const btn = document.getElementById('dp-disabled-btn');
       const tip = document.getElementById('dp-float-tooltip');
       btn.addEventListener('mouseenter', () => {
