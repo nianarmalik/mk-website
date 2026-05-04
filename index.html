@@ -3,7 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>mkvibes — Built with AI, Fueled by Vibes</title>
+  <title>Malik Khan — Built with AI, Fueled by Vibes</title>
+  <meta name="description" content="Malik Khan — software professional building apps, tools, and experiments through AI-assisted vibe coding. Based in the Netherlands.">
+  <meta name="author" content="Malik Khan">
+  <meta name="theme-color" content="#060612" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f4f1eb" media="(prefers-color-scheme: light)">
+  <link rel="canonical" href="https://malikkhan.me/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://malikkhan.me/">
+  <meta property="og:title" content="Malik Khan — Built with AI, Fueled by Vibes">
+  <meta property="og:description" content="A collection of apps, tools, and experiments crafted through AI-assisted vibe coding.">
+  <meta property="og:image" content="https://malikkhan.me/og-image.png">
+  <meta property="og:site_name" content="Malik Khan">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Malik Khan — Built with AI, Fueled by Vibes">
+  <meta name="twitter:description" content="A collection of apps, tools, and experiments crafted through AI-assisted vibe coding.">
+  <meta name="twitter:image" content="https://malikkhan.me/og-image.png">
+
+  <!-- Favicon (inline SVG: gradient MK badge) -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='-apple-system,system-ui,sans-serif' font-size='44' font-weight='800' fill='white'%3EMK%3C/text%3E%3C/svg%3E">
+  <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='-apple-system,system-ui,sans-serif' font-size='44' font-weight='800' fill='white'%3EMK%3C/text%3E%3C/svg%3E">
+
   <style>
     /* ── Reset & Base ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -119,7 +143,22 @@
     nav.scrolled { box-shadow: 0 0 40px rgba(124,58,237,0.15); }
 
     .nav-logo {
-      text-decoration: none; display: flex; align-items: center;
+      text-decoration: none; display: flex; align-items: center; gap: 0.65rem;
+    }
+    .brand-mark {
+      width: 32px; height: 32px; border-radius: 9px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.78rem; font-weight: 800; letter-spacing: 0.02em;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow: 0 0 18px var(--glow1), inset 0 1px 0 rgba(255,255,255,0.18);
+    }
+    .brand-text {
+      font-size: 0.95rem; font-weight: 700; letter-spacing: -0.01em;
+      color: var(--text);
+    }
+    @media (max-width: 480px) {
+      .brand-text { display: none; }
     }
 
     .nav-links { display: flex; gap: 2rem; list-style: none; }
@@ -215,9 +254,15 @@
     }
 
     .gradient-text {
-      background: linear-gradient(135deg, #c084fc 0%, #818cf8 40%, #22d3ee 100%);
+      background: linear-gradient(135deg, #c084fc 0%, #818cf8 25%, #22d3ee 50%, #c084fc 75%, #818cf8 100%);
+      background-size: 200% auto;
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
+      animation: gradientShimmer 5s linear infinite;
+    }
+    @keyframes gradientShimmer {
+      from { background-position: 0% center; }
+      to   { background-position: 200% center; }
     }
 
     .hero-sub {
@@ -1326,27 +1371,290 @@
       100% { background-position:  200% center; }
     }
 
-    .reveal {
-      opacity: 0; transform: translateY(28px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    /* .reveal defined in Cinematic block below */
 
     /* ── Scrollbar ───────────────────────────────────────────────── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: rgba(124,58,237,0.4); border-radius: 3px; }
 
+    /* ── Cinematic: Scroll Progress ─────────────────────────────── */
+    #scroll-progress {
+      position: fixed; top: 0; left: 0; height: 2px;
+      width: 0%; z-index: 200; pointer-events: none;
+      background: linear-gradient(90deg, var(--accent1), var(--accent2), var(--accent3));
+      box-shadow: 0 0 10px var(--glow2);
+      transition: width 0.05s linear;
+    }
+
+    /* ── Cinematic: Film Grain ────────────────────────────────── */
+    .film-grain {
+      position: fixed; inset: 0; z-index: 2; pointer-events: none;
+      opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-size: 300px 300px;
+      animation: filmGrain 0.2s steps(1) infinite;
+    }
+    @keyframes filmGrain {
+      0%   { background-position: 0 0; }
+      25%  { background-position: -48px 22px; }
+      50%  { background-position: 24px -48px; }
+      75%  { background-position: -24px -24px; }
+      100% { background-position: 48px 48px; }
+    }
+    [data-theme="light"] .film-grain { opacity: 0.01; }
+
+    /* ── Cinematic: Intro Splash ──────────────────────────────── */
+    #intro-splash {
+      position: fixed; inset: 0; z-index: 9999;
+      background: #060612;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 1.1rem;
+      transition: opacity 0.9s cubic-bezier(0.4,0,0.2,1),
+                  transform 0.9s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="light"] #intro-splash { background: #f4f1eb; }
+    #intro-splash.hidden {
+      opacity: 0; transform: scale(1.03); pointer-events: none;
+    }
+    .intro-logo-wrap {
+      opacity: 0;
+      animation: introReveal 0.85s 0.15s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .intro-brand {
+      display: flex; align-items: center; gap: 0.9rem;
+    }
+    .intro-mark {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; font-weight: 800; letter-spacing: 0.02em;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      box-shadow: 0 0 30px var(--glow1), inset 0 1px 0 rgba(255,255,255,0.2);
+    }
+    .intro-name {
+      font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em;
+      color: var(--text);
+    }
+    .intro-tagline {
+      font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted); opacity: 0;
+      animation: introReveal 0.85s 0.4s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    .intro-bar {
+      height: 1px; width: 0;
+      background: linear-gradient(90deg, transparent, var(--accent1), var(--accent2), transparent);
+      animation: introBar 0.65s 0.65s ease forwards;
+    }
+    @keyframes introReveal {
+      from { opacity: 0; transform: translateY(10px) scale(0.97); filter: blur(6px); }
+      to   { opacity: 1; transform: none; filter: none; }
+    }
+    @keyframes introBar { to { width: 180px; } }
+
+    /* ── Cinematic: Cursor Trail ──────────────────────────────── */
+    .cursor-trail {
+      position: fixed; top: 0; left: 0;
+      border-radius: 50%; pointer-events: none; z-index: 9996;
+      background: var(--accent2); mix-blend-mode: screen;
+    }
+    [data-theme="light"] .cursor-trail {
+      mix-blend-mode: multiply; background: var(--accent1);
+    }
+
+    /* ── Cinematic: Hero Parallax Container ──────────────────── */
+    .hero-content { will-change: transform; }
+    #hero { perspective: 1400px; }
+
+    /* ── Cinematic: Enhanced Reveal ──────────────────────────── */
+    .reveal {
+      opacity: 0; transform: translateY(26px);
+      transition: opacity 0.75s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.75s cubic-bezier(0.22,1,0.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── Cinematic: 3D Card Tilt ─────────────────────────────── */
+    .vibe-card {
+      transform-style: preserve-3d; will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.3s ease, border-color 0.3s ease !important;
+    }
+    .vibe-card:hover {
+      border-color: rgba(124,58,237,0.35);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 40px rgba(124,58,237,0.12);
+    }
+    .process-card {
+      transition: transform 0.5s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.3s ease !important;
+    }
+    .process-card:hover {
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45), 0 0 40px rgba(124,58,237,0.1);
+    }
+    .about-stat { transition: transform 0.5s cubic-bezier(0.22,1,0.36,1) !important; }
+
+    /* ── Cinematic: Magnetic Buttons ─────────────────────────── */
+    .btn-primary, .btn-ghost, .dp-link { will-change: transform; }
+
+    /* ── Cinematic: Stats bar sheen ──────────────────────────── */
+    .stats-bar { position: relative; overflow: hidden; }
+    .stats-bar::after {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(124,58,237,0.06) 40%,
+        rgba(6,182,212,0.06) 60%,
+        transparent 100%);
+      animation: statsSheen 5s ease-in-out infinite;
+    }
+    @keyframes statsSheen {
+      0%,100% { transform: translateX(-110%); }
+      50%      { transform: translateX(110%); }
+    }
+
+    /* ── Cinematic: CTA glow breath ──────────────────────────── */
+    .cta-glow {
+      animation: ctaBreath 4.5s ease-in-out infinite;
+    }
+    @keyframes ctaBreath {
+      0%,100% { transform: translate(-50%,-50%) scale(1);    opacity: 0.7; }
+      50%      { transform: translate(-50%,-50%) scale(1.18); opacity: 1; }
+    }
+
+    /* ── Cinematic: Orbit sun hover ──────────────────────────── */
+    .orbit-sun {
+      transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.4s ease;
+    }
+    .orbit-sun:hover {
+      transform: scale(1.09);
+      box-shadow: 0 0 90px rgba(124,58,237,0.38), inset 0 0 40px rgba(124,58,237,0.2);
+    }
+
+    /* ── Cinematic: Section top accent line ──────────────────── */
+    #apps, #about { position: relative; }
+    #apps::before, #about::before {
+      content: '';
+      position: absolute; left: 50%; top: 0; transform: translateX(-50%);
+      height: 1px; width: 0;
+      background: linear-gradient(90deg, transparent, var(--accent1), var(--accent2), transparent);
+      transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+    #apps.in-view::before, #about.in-view::before { width: 80%; }
+
+    /* ── Footer brand styles ─────────────────────────────────────── */
+    .footer-brand {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+    }
+    .footer-mark {
+      width: 24px; height: 24px; font-size: 0.6rem; border-radius: 7px;
+    }
+    .footer-domain {
+      color: var(--accent2) !important; font-weight: 600;
+    }
+    .footer-domain:hover { color: var(--text) !important; }
+
+    /* ── Mobile hamburger ────────────────────────────────────────── */
+    .nav-burger {
+      display: none;
+      background: transparent; border: none; padding: 0.4rem;
+      cursor: none; flex-direction: column; gap: 5px;
+      width: 36px; height: 36px;
+      align-items: center; justify-content: center;
+      margin-left: 0.5rem;
+    }
+    .nav-burger span {
+      display: block;
+      width: 22px; height: 2px;
+      background: var(--text); border-radius: 1px;
+      transition: transform 0.3s ease, opacity 0.2s ease;
+      transform-origin: center;
+    }
+    .nav-burger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .nav-burger.open span:nth-child(2) { opacity: 0; }
+    .nav-burger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* ── Focus visible (keyboard a11y, since custom cursor hides default) ─── */
+    a:focus-visible, button:focus-visible, .filter-btn:focus-visible {
+      outline: 2px solid var(--accent2);
+      outline-offset: 3px;
+      border-radius: 6px;
+    }
+    .planet-bubble:focus-visible {
+      outline: 2px solid var(--accent2);
+      outline-offset: 4px;
+    }
+
+    /* ── Touch / coarse pointer: drop custom cursor ──────────────── */
+    @media (hover: none), (pointer: coarse) {
+      body { cursor: auto !important; }
+      a, button, .planet-bubble, .filter-btn, .theme-toggle,
+      .dp-close, .orbit-sun, .nav-burger, .nav-cta {
+        cursor: pointer !important;
+      }
+      #cursor, #cursor-ring, .cursor-trail { display: none !important; }
+    }
+
+    /* ── Reduced motion ──────────────────────────────────────────── */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+      }
+      .film-grain, .cursor-trail { display: none !important; }
+      .gradient-text { animation: none !important; background-position: 0 center !important; }
+      .stats-bar::after { display: none !important; }
+      .cta-glow { animation: none !important; }
+      .orbit-ring, .orbit-path, .planet { animation: none !important; }
+      .badge-dot, .sun-ring, .sun-ring2 { animation: none !important; }
+      #intro-splash { display: none !important; }
+    }
+
     /* ── Responsive ──────────────────────────────────────────────── */
     @media (max-width: 600px) {
-      nav { padding: 1rem 1.25rem; }
-      .nav-links { display: none; }
+      nav { padding: 1rem 1.25rem; flex-wrap: wrap; }
+      .nav-burger { display: flex; }
+      .nav-links {
+        display: flex; flex-direction: column; gap: 0.85rem;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: var(--nav-bg); backdrop-filter: blur(20px);
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--border);
+        transform: translateY(-12px); opacity: 0; pointer-events: none;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+      .nav-links.open {
+        transform: translateY(0); opacity: 1; pointer-events: all;
+      }
+      .nav-links a { font-size: 1rem; padding: 0.4rem 0; }
       .apps-grid { grid-template-columns: 1fr; }
       .stats-bar { gap: 1.5rem; }
+      footer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
     }
   </style>
 </head>
 <body>
+
+<!-- Scroll progress -->
+<div id="scroll-progress"></div>
+
+<!-- Film grain -->
+<div class="film-grain"></div>
+
+<!-- Intro splash -->
+<div id="intro-splash">
+  <div class="intro-logo-wrap">
+    <div class="intro-brand">
+      <span class="intro-mark">MK</span>
+      <span class="intro-name">Malik Khan</span>
+    </div>
+  </div>
+  <div class="intro-tagline">malikkhan.me</div>
+  <div class="intro-bar"></div>
+</div>
 
 <!-- Custom Cursor -->
 <div id="cursor"></div>
@@ -1359,13 +1667,17 @@
 <!-- Nav -->
 <nav id="nav">
   <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;">
-    <img src="mkvibes-logo.svg" alt="mkvibes" height="32" style="display:block;">
+    <span class="brand-mark">MK</span>
+    <span class="brand-text">Malik Khan</span>
   </a>
-  <ul class="nav-links">
+  <ul class="nav-links" id="nav-links">
     <li><a href="#apps">Apps</a></li>
     <li><a href="#about">Philosophy</a></li>
     <li><a href="#cta" class="nav-cta">Get in Touch</a></li>
   </ul>
+  <button class="nav-burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
     <div class="toggle-icon-wrap">
       <!-- Sun (visible in dark mode) -->
@@ -1391,14 +1703,16 @@
 <main>
   <!-- ── Hero ─────────────────────────────────────────────────────── -->
   <section id="hero">
-    <div class="hero-badge">
-      <span class="badge-dot"></span>
-      Built with AI · Fueled by Vibes
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Built with AI · Fueled by Vibes
+      </div>
+      <h1 class="hero-title">
+        I build things<br />
+        <span class="gradient-text typewriter" id="typewriter"></span>
+      </h1>
     </div>
-    <h1 class="hero-title">
-      I build things<br />
-      <span class="gradient-text typewriter" id="typewriter"></span>
-    </h1>
     <p class="hero-sub">
       A collection of apps, tools, and experiments crafted through AI-assisted vibe coding —
       where ideas become products at the speed of thought.
@@ -1433,7 +1747,7 @@
   <section id="apps">
     <div class="container">
       <p class="section-label reveal">Portfolio</p>
-      <h2 class="section-title reveal">mkvibes Apps</h2>
+      <h2 class="section-title reveal">Apps &amp; Experiments</h2>
       <p class="section-desc reveal">
         Each project started with a vibe, a prompt, and an idea — then shipped in record time.
       </p>
@@ -1612,10 +1926,18 @@
 
 <!-- Footer -->
 <footer>
-  <span><img src="mkvibes-logo.svg" alt="mkvibes" height="22" style="display:inline-block;vertical-align:middle;margin-right:0.5rem;opacity:0.7;"> built with AI, shipped with purpose</span>
+  <span class="footer-brand">
+    <span class="brand-mark footer-mark">MK</span>
+    Malik Khan · Built with AI, shipped with purpose
+  </span>
+  <a href="https://malikkhan.me" class="footer-domain">malikkhan.me</a>
 </footer>
 
 <script>
+  /* ── A11y: Reduced motion + touch detection (declared early so all later code can reference) ─ */
+  const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const IS_TOUCH = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+
   /* ── Theme Toggle ───────────────────────────────────────────────── */
   const html         = document.documentElement;
   const themeBtn     = document.getElementById('theme-toggle');
@@ -2526,8 +2848,10 @@
   `;
   document.head.appendChild(emojiStyle);
 
-  /* Spawn a dense field of emojis */
-  for (let i = 0; i < 55; i++) spawnEmoji();
+  /* Spawn a dense field of emojis (skipped under reduced motion) */
+  if (!REDUCED_MOTION) {
+    for (let i = 0; i < 55; i++) spawnEmoji();
+  }
 
   /* ── Typewriter ─────────────────────────────────────────────────── */
   const phrases = [
@@ -2606,6 +2930,137 @@
     });
   }, { threshold: 0.5 });
   statsObserver.observe(document.querySelector('.stats-bar'));
+
+  /* ── A11y: Mobile hamburger ─────────────────────────────────────── */
+  const burger = document.getElementById('nav-burger');
+  const navLinks = document.getElementById('nav-links');
+  if (burger && navLinks) {
+    burger.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      burger.classList.toggle('open', open);
+      burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        burger.classList.remove('open');
+        burger.setAttribute('aria-expanded', 'false');
+      });
+    });
+  }
+
+  /* ── Cinematic: Intro Splash ────────────────────────────────────── */
+  window.addEventListener('load', () => {
+    const splash = document.getElementById('intro-splash');
+    if (!splash) return;
+    if (REDUCED_MOTION) { splash.remove(); return; }
+    setTimeout(() => {
+      splash.classList.add('hidden');
+      setTimeout(() => splash.remove(), 950);
+    }, 1650);
+  });
+
+  /* ── Cinematic: Scroll Progress ─────────────────────────────────── */
+  const scrollProgress = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollProgress && total > 0)
+      scrollProgress.style.width = (scrolled / total * 100) + '%';
+  }, { passive: true });
+
+  /* ── Cinematic: Cursor Trail (skipped on touch / reduced motion) ── */
+  if (!IS_TOUCH && !REDUCED_MOTION) {
+    const TRAIL_N = 5;
+    const trailEls = Array.from({ length: TRAIL_N }, (_, i) => {
+      const el = document.createElement('div');
+      el.className = 'cursor-trail';
+      const size = 9 - i * 1.5;
+      el.style.cssText = `width:${size}px;height:${size}px;opacity:${0.38 - i * 0.07};margin-left:${-size/2}px;margin-top:${-size/2}px;`;
+      document.body.appendChild(el);
+      return el;
+    });
+    const trailPos = Array.from({ length: TRAIL_N }, () => ({ x: 0, y: 0 }));
+    (function animTrail() {
+      trailPos[0] = { x: mx, y: my };
+      for (let i = TRAIL_N - 1; i > 0; i--) {
+        trailPos[i] = {
+          x: trailPos[i].x + (trailPos[i-1].x - trailPos[i].x) * 0.32,
+          y: trailPos[i].y + (trailPos[i-1].y - trailPos[i].y) * 0.32,
+        };
+      }
+      trailEls.forEach((el, i) => {
+        el.style.transform = `translate(${trailPos[i].x}px,${trailPos[i].y}px)`;
+      });
+      requestAnimationFrame(animTrail);
+    })();
+  }
+
+  /* ── Cinematic: Hero Parallax ────────────────────────────────────── */
+  const heroContent = document.querySelector('.hero-content');
+  const heroSection = document.getElementById('hero');
+  let heroVisible = true;
+  new IntersectionObserver(entries => {
+    heroVisible = entries[0].isIntersecting;
+  }, { threshold: 0 }).observe(heroSection);
+
+  if (!REDUCED_MOTION && !IS_TOUCH) {
+    document.addEventListener('mousemove', e => {
+      if (!heroVisible || !heroContent) return;
+      const x = (e.clientX / window.innerWidth  - 0.5);
+      const y = (e.clientY / window.innerHeight - 0.5);
+      heroContent.style.transform = `translate(${x * -18}px, ${y * -12}px)`;
+    });
+  }
+
+  /* ── Cinematic: Magnetic Buttons ─────────────────────────────────── */
+  if (!REDUCED_MOTION && !IS_TOUCH)
+  document.querySelectorAll('.btn-primary, .btn-ghost').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX - r.left - r.width  / 2) * 0.28;
+      const y = (e.clientY - r.top  - r.height / 2) * 0.38;
+      btn.style.transition = 'transform 0.15s ease, box-shadow 0.2s ease';
+      btn.style.transform  = `translate(${x}px,${y}px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transition = 'transform 0.6s cubic-bezier(0.22,1,0.36,1), box-shadow 0.2s ease';
+      btn.style.transform  = '';
+      setTimeout(() => { btn.style.transition = ''; }, 600);
+    });
+  });
+
+  /* ── Cinematic: 3D Card Tilt ─────────────────────────────────────── */
+  function addTilt(selector, intensity) {
+    if (REDUCED_MOTION || IS_TOUCH) return;
+    document.querySelectorAll(selector).forEach(card => {
+      card.addEventListener('mousemove', e => {
+        const r = card.getBoundingClientRect();
+        const x = (e.clientX - r.left)  / r.width  - 0.5;
+        const y = (e.clientY - r.top)   / r.height - 0.5;
+        card.style.transition = 'transform 0.15s ease';
+        card.style.transform  = `perspective(700px) rotateY(${x*intensity}deg) rotateX(${-y*intensity}deg) translateZ(6px)`;
+      });
+      card.addEventListener('mouseleave', () => {
+        card.style.transition = 'transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+        card.style.transform  = 'perspective(700px) rotateY(0deg) rotateX(0deg) translateZ(0)';
+        setTimeout(() => { card.style.transition = ''; }, 600);
+      });
+    });
+  }
+  addTilt('.vibe-card',    10);
+  addTilt('.process-card',  8);
+  addTilt('.about-stat',   14);
+  addTilt('.periyar-quote', 5);
+
+  /* ── Cinematic: Section accent line ─────────────────────────────── */
+  new IntersectionObserver(entries => {
+    entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+  }, { threshold: 0.08 }).observe && document.querySelectorAll('#apps, #about').forEach(s => {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
+    }, { threshold: 0.08 }).observe(s);
+  });
 
   /* ── Filter ─────────────────────────────────────────────────────── */
   document.querySelectorAll('.filter-btn').forEach(btn => {
