@@ -537,14 +537,21 @@
     /* Mobile */
     @media (max-width: 700px) {
       .orbit-wrap { height:500px; }
-      .orbit-path-1 { width:260px; height:260px; }
-      .orbit-path-2 { width:420px; height:420px; }
-      .orbit-path-3 { width:580px; height:580px; }
+      .orbit-path-1 { width:220px; height:220px; }
+      .orbit-path-2 { width:340px; height:340px; }
+      .orbit-path-3 { width:460px; height:460px; }
       .detail-panel { width:calc(100vw - 2rem); right:-110vw; border-radius:20px; }
       .detail-panel.open { right:1rem; }
     }
     @media (max-width: 480px) {
-      .orbit-wrap { height:400px; transform:scale(.78); transform-origin:center top; }
+      .orbit-wrap { height:380px; }
+      .orbit-path-1 { width:180px; height:180px; }
+      .orbit-path-2 { width:270px; height:270px; }
+      .orbit-path-3 { width:340px; height:340px; }
+      .orbit-sun { width:100px; height:100px; }
+      .planet-bubble { width:46px; height:46px; }
+      .sun-title { font-size:0.7rem; }
+      .sun-hint { font-size:0.55rem; }
     }
 
     /* ── Mock UI: Chat (feat) ────────────────────────────────────── */
@@ -1631,8 +1638,44 @@
       }
       .nav-links a { font-size: 1rem; padding: 0.4rem 0; }
       .apps-grid { grid-template-columns: 1fr; }
-      .stats-bar { gap: 1.5rem; }
+      .stats-bar { gap: 1.5rem; padding: 1.5rem 1rem; }
+      .stat-num { font-size: 2rem; }
       footer { flex-direction: column; align-items: flex-start; gap: 0.5rem; }
+
+      /* Hero: shrink type, allow wrapping, tighter padding */
+      #hero { padding: 6rem 1.25rem 3rem; min-height: 100svh; }
+      .hero-title {
+        font-size: clamp(2rem, 9vw, 2.6rem);
+        line-height: 1.1;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+      }
+      .hero-sub { font-size: 0.95rem; margin-bottom: 2rem; padding: 0 0.5rem; }
+      .hero-actions { width: 100%; }
+      .btn-primary, .btn-ghost { padding: 0.75rem 1.5rem; font-size: 0.95rem; }
+      .hero-badge { font-size: 0.7rem; padding: 0.3rem 0.8rem; margin-bottom: 1.5rem; }
+
+      /* Sections: tighter padding */
+      section, .container { padding-left: 1.25rem; padding-right: 1.25rem; }
+      .section-title { font-size: clamp(1.6rem, 6vw, 2.2rem); }
+
+      /* Filter row: scrollable instead of wrapping awkwardly */
+      .filter-row {
+        flex-wrap: nowrap; overflow-x: auto;
+        justify-content: flex-start;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 0.5rem;
+      }
+      .filter-row::-webkit-scrollbar { display: none; }
+      .filter-btn { flex-shrink: 0; }
+    }
+
+    /* Very narrow phones */
+    @media (max-width: 380px) {
+      .hero-title { font-size: 1.85rem; }
+      .nav-logo .brand-text { display: none; }
+      nav { padding: 0.85rem 1rem; }
     }
   </style>
 </head>
@@ -2211,12 +2254,30 @@
     },
   ];
 
-  /* Ring configs: { radius, duration (s), dir } — auto-scales as apps are added */
-  const RING_CONFIGS = [
-    { radius: 180, duration: 26, dir: 'cw'  },
-    { radius: 290, duration: 42, dir: 'ccw' },
-    { radius: 400, duration: 58, dir: 'cw'  },
-  ];
+  /* Ring configs: { radius, duration (s), dir } — radii match CSS orbit-path widths/2 and scale with viewport */
+  function getRingConfigs() {
+    const w = window.innerWidth;
+    if (w <= 480) {
+      return [
+        { radius:  90, duration: 26, dir: 'cw'  },
+        { radius: 135, duration: 42, dir: 'ccw' },
+        { radius: 170, duration: 58, dir: 'cw'  },
+      ];
+    }
+    if (w <= 700) {
+      return [
+        { radius: 110, duration: 26, dir: 'cw'  },
+        { radius: 170, duration: 42, dir: 'ccw' },
+        { radius: 230, duration: 58, dir: 'cw'  },
+      ];
+    }
+    return [
+      { radius: 180, duration: 26, dir: 'cw'  },
+      { radius: 290, duration: 42, dir: 'ccw' },
+      { radius: 400, duration: 58, dir: 'cw'  },
+    ];
+  }
+  const RING_CONFIGS = getRingConfigs();
 
   /* Preview HTML per type */
   function previewHTML(type) {
@@ -2756,8 +2817,9 @@
 
   let orbs;
   function initParticles() {
-    particles = Array.from({ length: 160 }, () => new Particle());
-    orbs      = Array.from({ length: 28  }, () => new OrbParticle());
+    const isSmall = window.innerWidth < 600;
+    particles = Array.from({ length: isSmall ? 60  : 160 }, () => new Particle());
+    orbs      = Array.from({ length: isSmall ? 12  : 28  }, () => new OrbParticle());
   }
   initParticles();
 
@@ -2848,9 +2910,10 @@
   `;
   document.head.appendChild(emojiStyle);
 
-  /* Spawn a dense field of emojis (skipped under reduced motion) */
+  /* Spawn a dense field of emojis (fewer on mobile, skipped under reduced motion) */
   if (!REDUCED_MOTION) {
-    for (let i = 0; i < 55; i++) spawnEmoji();
+    const emojiCount = window.innerWidth < 600 ? 18 : 55;
+    for (let i = 0; i < emojiCount; i++) spawnEmoji();
   }
 
   /* ── Typewriter ─────────────────────────────────────────────────── */
