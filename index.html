@@ -28,6 +28,11 @@
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='-apple-system,system-ui,sans-serif' font-size='44' font-weight='800' fill='white'%3EMK%3C/text%3E%3C/svg%3E">
   <link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%237c3aed'/%3E%3Cstop offset='1' stop-color='%2306b6d4'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='100' height='100' rx='22' fill='url(%23g)'/%3E%3Ctext x='50' y='68' text-anchor='middle' font-family='-apple-system,system-ui,sans-serif' font-size='44' font-weight='800' fill='white'%3EMK%3C/text%3E%3C/svg%3E">
 
+  <!-- Fonts: Space Grotesk (display) + Space Mono (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
   <style>
     /* ── Reset & Base ─────────────────────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -72,11 +77,17 @@
     html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-family: 'Space Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
       cursor: none;
+    }
+
+    /* Display font for headings, brand and hero/section titles */
+    h1, h2, h3, h4, h5, h6,
+    .hero-title, .section-title, .brand-text, .nav-logo {
+      font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
     }
 
     /* ── Custom Cursor ────────────────────────────────────────────── */
@@ -251,6 +262,9 @@
       letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
       animation: fadeUp 0.6s 0.1s ease both;
+      position: relative;
+      perspective: 1000px;
+      transform-style: preserve-3d;
     }
 
     .gradient-text {
@@ -313,6 +327,348 @@
       content: '|';
       animation: blink 1s infinite;
       color: var(--accent2);
+    }
+
+    /* ── Coffee station: machine vends a cup, coffee cools while typing ─ */
+    .coffee-station {
+      position: absolute;
+      width: 1.6em;
+      height: 2.0em;
+      pointer-events: none;
+      -webkit-text-fill-color: initial;
+      opacity: 0;
+      transform: translateY(0.3em) scale(0.5);
+      transform-origin: bottom center;
+      transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.34, 1.56, 0.64, 1);
+      filter: drop-shadow(0 0.05em 0.1em rgba(0,0,0,0.45));
+    }
+    .coffee-station.active { opacity: 1; transform: translateY(0) scale(1); }
+
+    /* Machine body */
+    .cm-body {
+      position: absolute;
+      top: 0;
+      left: 10%;
+      width: 80%;
+      height: 50%;
+      background: linear-gradient(180deg, #52525b 0%, #27272a 100%);
+      border-radius: 0.1em 0.1em 0.04em 0.04em;
+      box-shadow:
+        inset 0 0.04em 0.05em rgba(255,255,255,0.18),
+        inset 0 -0.04em 0.06em rgba(0,0,0,0.55),
+        inset 0.03em 0 0.04em rgba(0,0,0,0.3);
+    }
+    .cm-screen {
+      position: absolute;
+      top: 18%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      height: 28%;
+      background: linear-gradient(180deg, #0a0e1a 0%, #050810 100%);
+      border-radius: 0.03em;
+      box-shadow:
+        inset 0 0 0 0.5px rgba(34, 211, 238, 0.4),
+        inset 0 0 0.06em rgba(34, 211, 238, 0.5);
+      overflow: hidden;
+    }
+    .cm-screen::before {
+      content: '';
+      position: absolute;
+      top: 35%;
+      left: 18%;
+      right: 18%;
+      height: 12%;
+      background: rgba(34, 211, 238, 0.75);
+      box-shadow: 0 0.07em 0 rgba(34, 211, 238, 0.5);
+    }
+    .cm-led {
+      position: absolute;
+      top: 9%;
+      right: 14%;
+      width: 0.07em;
+      height: 0.07em;
+      background: #22d3ee;
+      border-radius: 50%;
+      box-shadow: 0 0 0.08em #22d3ee;
+      animation: ledBlink 1.2s ease-in-out infinite;
+    }
+    @keyframes ledBlink {
+      0%, 100% { opacity: 1;   transform: scale(1);    }
+      50%      { opacity: 0.4; transform: scale(0.85); }
+    }
+    .cm-grille {
+      position: absolute;
+      bottom: 8%;
+      left: 22%;
+      right: 22%;
+      height: 18%;
+      background:
+        repeating-linear-gradient(
+          90deg,
+          rgba(0,0,0,0.55) 0,
+          rgba(0,0,0,0.55) 1px,
+          transparent 1px,
+          transparent 3px
+        );
+      border-radius: 0.02em;
+    }
+    .cm-spout {
+      position: absolute;
+      top: 49%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0.2em;
+      height: 0.1em;
+      background: linear-gradient(180deg, #3f3f46, #18181b);
+      border-radius: 0 0 0.04em 0.04em;
+      box-shadow: 0 0.02em 0.03em rgba(0,0,0,0.5);
+    }
+
+    /* Stream from spout to cup */
+    .coffee-stream {
+      position: absolute;
+      top: 56%;
+      left: 50%;
+      width: 0.05em;
+      height: 0.32em;
+      background: linear-gradient(180deg, transparent 0%, #4a2511 25%, #6b3520 75%, transparent 100%);
+      transform: translateX(-50%) scaleY(0);
+      transform-origin: top center;
+      opacity: 0;
+      filter: blur(0.5px);
+    }
+    .coffee-station.active .coffee-stream {
+      animation: streamPour 1.3s ease-in-out 0.4s forwards;
+    }
+    @keyframes streamPour {
+      0%   { opacity: 0;  transform: translateX(-50%) scaleY(0);   }
+      18%  { opacity: 1;  transform: translateX(-50%) scaleY(1);   }
+      82%  { opacity: 1;  transform: translateX(-50%) scaleY(1);   }
+      100% { opacity: 0;  transform: translateX(-50%) scaleY(0.3); }
+    }
+
+    /* Cup + saucer (sit below machine) */
+    .coffee-saucer {
+      position: absolute;
+      bottom: 0;
+      left: 14%;
+      right: 14%;
+      height: 0.06em;
+      background: linear-gradient(180deg, #e4e4e7, #71717a);
+      border-radius: 0.1em;
+      box-shadow: 0 0.02em 0.03em rgba(0,0,0,0.4);
+    }
+    .coffee-mug {
+      position: absolute;
+      bottom: 0.06em;
+      left: 22%;
+      width: 56%;
+      height: 36%;
+      background: linear-gradient(180deg, #f4f4f5 0%, #d4d4d8 100%);
+      border-radius: 0.04em 0.04em 0.16em 0.16em;
+      box-shadow:
+        inset 0 -0.04em 0.06em rgba(0,0,0,0.25),
+        inset 0 0.03em 0.03em rgba(255,255,255,0.45);
+      overflow: hidden;
+    }
+    .coffee-mug-fill {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 0;
+      background: linear-gradient(180deg, #3d1f0e 0%, #2d1408 100%);
+      box-shadow: inset 0 0.03em 0.03em rgba(0,0,0,0.4);
+    }
+    .coffee-station.active .coffee-mug-fill {
+      animation:
+        mugFill 1.0s ease-out 0.6s forwards,
+        mugCool 2.6s ease-out 1.7s forwards;
+    }
+    @keyframes mugFill {
+      0%   { height: 0;   }
+      100% { height: 78%; }
+    }
+    @keyframes mugCool {
+      0%   { background: linear-gradient(180deg, #3d1f0e 0%, #2d1408 100%); }
+      55%  { background: linear-gradient(180deg, #6a4528 0%, #4a2f1c 100%); }
+      100% { background: linear-gradient(180deg, #a1907a 0%, #6f604f 100%); box-shadow: inset 0 0.03em 0.03em rgba(0,0,0,0.18); }
+    }
+    .coffee-handle {
+      position: absolute;
+      right: 17%;
+      bottom: 14%;
+      width: 0.18em;
+      height: 0.22em;
+      border: 0.06em solid #a1a1aa;
+      border-left: none;
+      border-radius: 0 0.4em 0.4em 0;
+    }
+
+    /* Steam — appears after pour, fades during typing */
+    .steam {
+      position: absolute;
+      bottom: 50%;
+      width: 0.13em;
+      height: 0.5em;
+      background: linear-gradient(0deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.9) 50%, rgba(255,255,255,0) 100%);
+      border-radius: 50%;
+      filter: blur(1.5px);
+      opacity: 0;
+      transform-origin: bottom center;
+    }
+    .steam-1 { left: 38%; }
+    .steam-2 { left: 50%; }
+    .steam-3 { left: 62%; }
+    .coffee-station.active .steam-1 { animation: steamRise 1.7s  ease-out 1.7s infinite, steamCool 2.6s ease-in 1.7s forwards; }
+    .coffee-station.active .steam-2 { animation: steamRise 2.0s  ease-out 2.0s infinite, steamCool 2.6s ease-in 1.7s forwards; }
+    .coffee-station.active .steam-3 { animation: steamRise 1.85s ease-out 2.3s infinite, steamCool 2.6s ease-in 1.7s forwards; }
+    @keyframes steamRise {
+      0%   { transform: translateY(0)       scaleX(1)   scaleY(0.6); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translateY(-1.0em)  scaleX(2.2) scaleY(1.5); opacity: 0; }
+    }
+    @keyframes steamCool {
+      0%   { filter: blur(1.5px) opacity(1);   }
+      60%  { filter: blur(1.5px) opacity(0.4); }
+      100% { filter: blur(2px)   opacity(0);   }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .coffee-station, .coffee-station * { animation: none !important; transition: none !important; }
+    }
+
+    /* ── Phrase: "with pure vibes" — wobble + intense glow ───────────── */
+    .typewriter.fx-vibes {
+      display: inline-block;
+      animation: gradientShimmer 1.2s linear infinite, vibesWobble 1.6s ease-in-out infinite;
+      text-shadow:
+        0 0 25px rgba(192, 132, 252, 0.55),
+        0 0 50px rgba(34, 211, 238, 0.35);
+      filter: saturate(1.4);
+    }
+    @keyframes vibesWobble {
+      0%, 100% { transform: skewX(0deg)  translateY(0)    rotate(0deg);  }
+      25%      { transform: skewX(-3deg) translateY(-3px) rotate(-1deg); }
+      50%      { transform: skewX(0deg)  translateY(0)    rotate(0deg);  }
+      75%      { transform: skewX(3deg)  translateY(3px)  rotate(1deg);  }
+    }
+
+    /* ── Phrase: "using AI magic" — orbiting math/AI glyphs in 3D space ─── */
+    .typewriter.fx-magic {
+      text-shadow:
+        0 0 24px rgba(124, 58, 237, 0.55),
+        0 0 48px rgba(34, 211, 238, 0.35),
+        0 0 96px rgba(192, 132, 252, 0.25);
+      animation: gradientShimmer 2s linear infinite, magicAura 2.4s ease-in-out infinite;
+    }
+    @keyframes magicAura {
+      0%, 100% { filter: brightness(1)    saturate(1)    drop-shadow(0 0 0 rgba(124,58,237,0));   }
+      50%      { filter: brightness(1.15) saturate(1.25) drop-shadow(0 0 12px rgba(192,132,252,0.4)); }
+    }
+    .fx-glyph {
+      position: absolute;
+      font-size: 0.6em;
+      font-weight: 600;
+      pointer-events: none;
+      color: rgba(192, 132, 252, 0.95);
+      text-shadow: 0 0 10px rgba(192, 132, 252, 0.7), 0 0 22px rgba(192, 132, 252, 0.4);
+      -webkit-text-fill-color: initial;
+      animation: glyphFloat 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
+      will-change: transform, opacity;
+      opacity: 0;
+      z-index: 2;
+      transform-style: preserve-3d;
+      letter-spacing: 0;
+    }
+    .fx-glyph.cyan   { color: rgba(34, 211, 238, 0.95);  text-shadow: 0 0 10px rgba(34,211,238,0.7),  0 0 22px rgba(34,211,238,0.4); }
+    .fx-glyph.indigo { color: rgba(129, 140, 248, 0.95); text-shadow: 0 0 10px rgba(129,140,248,0.7), 0 0 22px rgba(129,140,248,0.4); }
+    .fx-glyph.big    { font-size: 0.95em; font-weight: 700; }
+    @keyframes glyphFloat {
+      0%   { transform: translate3d(0, 0, -160px) rotate(var(--rot0, 0deg)) scale(0.3); opacity: 0; }
+      18%  { opacity: 1; }
+      55%  { transform: translate3d(calc(var(--gx1, 0px) * 0.6), calc(var(--gy1, 0px) * 0.6), 80px) rotate(calc(var(--rot1, 0deg) * 0.6)) scale(1.15); opacity: 0.95; }
+      100% { transform: translate3d(var(--gx1, 0px), var(--gy1, 0px), 200px) rotate(var(--rot1, 0deg)) scale(0.85); opacity: 0; }
+    }
+
+    /* ── Phrase: "from zero to shipped" — full-screen rocket flight ──── */
+    .fx-rocket-fullscreen {
+      position: fixed;
+      bottom: -2vh;
+      left: -8vw;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      pointer-events: none;
+      filter: drop-shadow(0 0 22px rgba(124, 58, 237, 0.8))
+              drop-shadow(0 0 38px rgba(34, 211, 238, 0.5));
+      animation: rocketCross 3.2s cubic-bezier(0.4, 0.05, 0.55, 0.85) forwards;
+      -webkit-text-fill-color: initial;
+      will-change: transform, opacity;
+      z-index: 100;
+      transform-origin: center;
+    }
+    @keyframes rocketCross {
+      0%   { transform: translate3d(0, 0, -200px)            rotate(-32deg) rotateY(0deg)   scale(0.35); opacity: 0; }
+      8%   { transform: translate3d(6vw, -6vh, -80px)        rotate(-32deg) rotateY(8deg)   scale(0.7);  opacity: 1; }
+      45%  { transform: translate3d(55vw, -55vh, 100px)      rotate(-32deg) rotateY(0deg)   scale(1.15); opacity: 1; }
+      80%  { transform: translate3d(95vw, -95vh, 60px)       rotate(-32deg) rotateY(-8deg)  scale(1);    opacity: 1; }
+      100% { transform: translate3d(125vw, -125vh, -100px)   rotate(-32deg) rotateY(-15deg) scale(0.6);  opacity: 0; }
+    }
+    .fx-rocket-puff {
+      position: fixed;
+      width: clamp(14px, 1.6vw, 26px);
+      height: clamp(14px, 1.6vw, 26px);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255,220,120,0.95) 0%, rgba(255,110,90,0.6) 45%, rgba(124,58,237,0.25) 75%, transparent 100%);
+      pointer-events: none;
+      filter: blur(3px);
+      animation: puffFade 0.85s ease-out forwards;
+      z-index: 99;
+      opacity: 0;
+      will-change: transform, opacity;
+    }
+    @keyframes puffFade {
+      0%   { transform: scale(0.4) translate3d(0, 0, 0); opacity: 0;   }
+      20%  { transform: scale(1.2) translate3d(0, 0, 0); opacity: 0.95; }
+      100% { transform: scale(2.6) translate3d(0, 1vh, 0); opacity: 0; }
+    }
+
+    /* ── Phrase: "without limits" — brackets break ───────────────────── */
+    .typewriter.fx-limits {
+      display: inline-block;
+      text-shadow:
+        0 0 30px rgba(34, 211, 238, 0.7),
+        0 0 60px rgba(192, 132, 252, 0.5);
+      animation: gradientShimmer 1.5s linear infinite;
+    }
+    .fx-bracket {
+      position: absolute;
+      font-size: 1em;
+      font-weight: 900;
+      color: var(--accent2);
+      text-shadow: 0 0 18px rgba(34, 211, 238, 0.7), 0 0 36px rgba(124, 58, 237, 0.5);
+      pointer-events: none;
+      -webkit-text-fill-color: initial;
+      z-index: 2;
+    }
+    .fx-bracket-l { animation: bracketBreakL 1.4s cubic-bezier(0.5, -0.4, 0.7, 1) forwards; transform-origin: right center; }
+    .fx-bracket-r { animation: bracketBreakR 1.4s cubic-bezier(0.5, -0.4, 0.7, 1) forwards; transform-origin: left center; }
+    @keyframes bracketBreakL {
+      0%   { opacity: 0;   transform: translate3d(0.4em, 0, -80px)   scale(0.6)  rotateY(0deg)  rotateZ(0deg);   }
+      30%  { opacity: 1;   transform: translate3d(0, 0, 0)            scale(1.2)  rotateY(0deg)  rotateZ(0deg);   }
+      55%  { opacity: 1;   transform: translate3d(-0.05em, 0, 30px)   scale(1.35) rotateY(-15deg) rotateZ(-6deg); }
+      100% { opacity: 0;   transform: translate3d(-3.5em, -0.3em, 200px) scale(0.5) rotateY(-90deg) rotateZ(-50deg); }
+    }
+    @keyframes bracketBreakR {
+      0%   { opacity: 0;   transform: translate3d(-0.4em, 0, -80px)  scale(0.6)  rotateY(0deg)  rotateZ(0deg);  }
+      30%  { opacity: 1;   transform: translate3d(0, 0, 0)            scale(1.2)  rotateY(0deg)  rotateZ(0deg);  }
+      55%  { opacity: 1;   transform: translate3d(0.05em, 0, 30px)    scale(1.35) rotateY(15deg)  rotateZ(6deg); }
+      100% { opacity: 0;   transform: translate3d(3.5em, -0.3em, 200px) scale(0.5) rotateY(90deg) rotateZ(50deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .typewriter.fx-vibes, .typewriter.fx-limits, .typewriter.fx-magic { animation: none !important; }
+      .fx-glyph, .fx-rocket, .fx-rocket-trail, .fx-bracket { display: none !important; }
     }
 
     /* ── Stats bar ───────────────────────────────────────────────── */
@@ -1752,8 +2108,8 @@
         Built with AI · Fueled by Vibes
       </div>
       <h1 class="hero-title">
-        I build things<br />
-        <span class="gradient-text typewriter" id="typewriter"></span>
+        <span class="hero-title-line1" id="hero-title-line1">I build things</span><br />
+        <span class="gradient-text typewriter" id="typewriter"></span><span class="coffee-station" id="coffee-station" aria-hidden="true"><span class="cm-body"><span class="cm-screen"></span><span class="cm-led"></span><span class="cm-grille"></span></span><span class="cm-spout"></span><span class="coffee-stream"></span><span class="coffee-saucer"></span><span class="coffee-mug"><span class="coffee-mug-fill"></span></span><span class="coffee-handle"></span><span class="steam steam-1"></span><span class="steam steam-2"></span><span class="steam steam-3"></span></span>
       </h1>
     </div>
     <p class="hero-sub">
@@ -1762,7 +2118,6 @@
     </p>
     <div class="hero-actions">
       <a href="#apps" class="btn-primary">Explore Apps ↓</a>
-      <a href="#process" class="btn-ghost">How it's made</a>
     </div>
   </section>
 
@@ -2926,23 +3281,192 @@
   ];
   let pi = 0, ci = 0, deleting = false;
   const tw = document.getElementById('typewriter');
+  const coffeeStation = document.getElementById('coffee-station');
+  const heroTitle = document.querySelector('.hero-title');
+  const heroTitleLine1 = document.getElementById('hero-title-line1');
+
+  /* helper: bounding box of typewriter text inside hero-title */
+  function getTwBox() {
+    const tRect = heroTitle.getBoundingClientRect();
+    const wRect = tw.getBoundingClientRect();
+    return { x: wRect.left - tRect.left, y: wRect.top - tRect.top, w: wRect.width, h: wRect.height };
+  }
+
+  /* === phrase effects ============================================== */
+  /* "with pure vibes" — wobble + glow */
+  function vibesStart() { tw.classList.add('fx-vibes'); }
+  function vibesStop()  { tw.classList.remove('fx-vibes'); }
+
+  /* "using AI magic" — math/AI glyphs materialize and drift outward in 3D */
+  const GLYPHS    = ['∑','∇','∞','◇','⬡','△','◯','⊕','⟁','§','◈','✦','π','λ','∂','◬','⌬','⊗'];
+  const GLYPH_TINTS = ['', 'cyan', 'indigo', '', 'cyan', 'indigo'];
+  let glyphTimer = null;
+  function spawnGlyph() {
+    const b = getTwBox();
+    const el = document.createElement('span');
+    const tint = GLYPH_TINTS[Math.floor(Math.random() * GLYPH_TINTS.length)];
+    const cls = ['fx-glyph'];
+    if (tint) cls.push(tint);
+    if (Math.random() < 0.25) cls.push('big');
+    el.className = cls.join(' ');
+    el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+    /* spawn near a random point along the text's vertical center band */
+    const sx = b.x + 0.15 * b.w + Math.random() * b.w * 0.7;
+    const sy = b.y + 0.25 * b.h + Math.random() * b.h * 0.5;
+    el.style.left = sx + 'px';
+    el.style.top  = sy + 'px';
+    /* drift outward: pick an angle biased upward, with random distance */
+    const angle = (Math.random() * Math.PI) - Math.PI;          /* -π..0 → upper hemisphere */
+    const dist  = b.h * (1.4 + Math.random() * 1.2);            /* 1.4–2.6 line-heights */
+    const gx1   = Math.cos(angle) * dist;
+    const gy1   = Math.sin(angle) * dist;                       /* negative → upward */
+    el.style.setProperty('--gx1', gx1 + 'px');
+    el.style.setProperty('--gy1', gy1 + 'px');
+    el.style.setProperty('--rot0', (Math.random() * 60 - 30) + 'deg');
+    el.style.setProperty('--rot1', (Math.random() * 240 - 120) + 'deg');
+    el.style.animationDelay = (Math.random() * 0.2) + 's';
+    heroTitle.appendChild(el);
+    setTimeout(() => el.remove(), 3000);
+  }
+  function magicStart() {
+    tw.classList.add('fx-magic');
+    for (let i = 0; i < 4; i++) spawnGlyph();
+    glyphTimer = setInterval(spawnGlyph, 180);
+  }
+  function magicStop() {
+    tw.classList.remove('fx-magic');
+    clearInterval(glyphTimer);
+    glyphTimer = null;
+  }
+
+  /* "faster than my coffee gets cold" — machine vends, then text types,
+     then coffee is cold. The station is anchored to the right of "I build things"
+     on line 1 so it stays put as the typewriter line below grows/shrinks. */
+  function repositionCoffeeStation() {
+    const tRect = heroTitle.getBoundingClientRect();
+    const lRect = heroTitleLine1.getBoundingClientRect();
+    const titleFs = parseFloat(getComputedStyle(heroTitle).fontSize) || 16;
+    /* Station internals are em-based, so capping its font-size caps its overall size. */
+    const stationFs = titleFs * 0.45;
+    coffeeStation.style.fontSize = stationFs + 'px';
+    const stationH = stationFs * 2.0;
+    /* Sit just right of "I build things", vertically centered with that line */
+    coffeeStation.style.left = (lRect.right - tRect.left + stationFs * 0.4) + 'px';
+    coffeeStation.style.top  = (lRect.top   - tRect.top  + lRect.height / 2 - stationH / 2) + 'px';
+  }
+  function coffeeVend() {
+    repositionCoffeeStation();
+    coffeeStation.classList.remove('active');
+    void coffeeStation.offsetWidth;
+    coffeeStation.classList.add('active');
+  }
+  function coffeeStop() { coffeeStation.classList.remove('active'); }
+  window.addEventListener('resize', () => {
+    if (coffeeStation.classList.contains('active')) repositionCoffeeStation();
+  });
+
+  /* "from zero to shipped" — full-screen 3D rocket flight */
+  const rocketCleanups = [];
+  function rocketStart() {
+    /* trail puffs spaced along the diagonal path */
+    const N = 28;
+    const totalDur = 3200;       /* must match rocketCross duration */
+    const startX = -8, startY = 102;     /* in vw / vh — matches CSS start (left:-8vw, bottom:-2vh) */
+    const endX   = 117, endY   = -23;    /* approx end after translate(125vw, -125vh) */
+    for (let i = 0; i < N; i++) {
+      const t = (i + 1) / (N + 1);          /* 0..1 along path */
+      const delay = t * (totalDur - 700);
+      const id = setTimeout(() => {
+        const puff = document.createElement('span');
+        puff.className = 'fx-rocket-puff';
+        puff.style.left = (startX + t * (endX - startX)) + 'vw';
+        puff.style.top  = (startY + t * (endY - startY)) + 'vh';
+        document.body.appendChild(puff);
+        const rid = setTimeout(() => puff.remove(), 900);
+        rocketCleanups.push(rid);
+      }, delay);
+      rocketCleanups.push(id);
+    }
+    /* the rocket itself */
+    const r = document.createElement('span');
+    r.className = 'fx-rocket-fullscreen';
+    r.textContent = '🚀';
+    document.body.appendChild(r);
+    const rid = setTimeout(() => r.remove(), totalDur + 200);
+    rocketCleanups.push(rid);
+  }
+  function rocketStop() { /* let the launch finish even if phrase changes */ }
+
+  /* "without limits" — brackets snap and break */
+  function limitsStart() {
+    tw.classList.add('fx-limits');
+    const b = getTwBox();
+    const fontSize = parseFloat(getComputedStyle(heroTitle).fontSize) || 16;
+    const pad = fontSize * 0.4;
+    const l = document.createElement('span');
+    l.className = 'fx-bracket fx-bracket-l';
+    l.textContent = '⟦';
+    l.style.left = (b.x - pad) + 'px';
+    l.style.top  = b.y + 'px';
+    heroTitle.appendChild(l);
+    setTimeout(() => l.remove(), 1450);
+    const r = document.createElement('span');
+    r.className = 'fx-bracket fx-bracket-r';
+    r.textContent = '⟧';
+    r.style.left = (b.x + b.w + pad * 0.2) + 'px';
+    r.style.top  = b.y + 'px';
+    heroTitle.appendChild(r);
+    setTimeout(() => r.remove(), 1450);
+  }
+  function limitsStop() { tw.classList.remove('fx-limits'); }
+
+  const PHRASE_FX = {
+    'with pure vibes':                { pauseMs: 2400, start: vibesStart,  stop: vibesStop  },
+    'using AI magic':                 { pauseMs: 2600, start: magicStart,  stop: magicStop  },
+    'faster than my coffee gets cold':{ preMs: 1700, preStart: coffeeVend, pauseMs: 1000, start: () => {}, stop: coffeeStop },
+    'from zero to shipped':           { pauseMs: 3600, start: rocketStart, stop: rocketStop },
+    'without limits':                 { pauseMs: 2400, start: limitsStart, stop: limitsStop },
+  };
+
+  let activeFx = null;
+  let preppedPi = null;
+  function clearActiveFx() { if (activeFx) { activeFx.stop(); activeFx = null; } }
 
   function typeLoop() {
     const phrase = phrases[pi];
+    const fx = PHRASE_FX[phrase];
     if (!deleting) {
+      /* pre-typing phase: run preStart once, wait preMs, then begin typing */
+      if (ci === 0 && fx && fx.preMs && preppedPi !== pi && !REDUCED_MOTION) {
+        preppedPi = pi;
+        if (fx.preStart) fx.preStart();
+        setTimeout(typeLoop, fx.preMs);
+        return;
+      }
       tw.textContent = phrase.slice(0, ci + 1);
       ci++;
+      if (coffeeStation.classList.contains('active')) repositionCoffeeStation();
       if (ci === phrase.length) {
-        setTimeout(() => { deleting = true; }, 1800);
-        setTimeout(typeLoop, 2200);
+        const pauseMs = fx ? fx.pauseMs : 1800;
+        if (fx && !REDUCED_MOTION) {
+          activeFx = fx;
+          fx.start();
+        }
+        setTimeout(() => {
+          deleting = true;
+          clearActiveFx();
+        }, pauseMs);
+        setTimeout(typeLoop, pauseMs + 400);
         return;
       }
     } else {
       tw.textContent = phrase.slice(0, ci - 1);
       ci--;
+      if (coffeeStation.classList.contains('active')) repositionCoffeeStation();
       if (ci === 0) {
         deleting = false;
         pi = (pi + 1) % phrases.length;
+        preppedPi = null;
       }
     }
     setTimeout(typeLoop, deleting ? 45 : 85);
