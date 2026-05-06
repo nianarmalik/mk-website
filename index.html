@@ -116,6 +116,455 @@
       border-color: var(--accent1);
       opacity: 0.7;
     }
+    body:has(.shoot-target:hover) #cursor-ring {
+      width: 48px; height: 48px;
+      border-color: #f472b6;
+      border-width: 2px;
+      opacity: 1;
+    }
+    body:has(.shoot-target:hover) #cursor {
+      background: #f472b6;
+      transform: scale(1.4);
+    }
+
+    /* ── Shoot game ──────────────────────────────────────────────── */
+    .shoot-target {
+      position: fixed;
+      top: 0; left: 0;
+      width: 56px; height: 56px;
+      pointer-events: auto;
+      cursor: none;
+      z-index: 50;
+      will-change: transform;
+      transform: translate3d(-200px,-200px,0);
+      transition: filter 0.15s ease;
+      filter: drop-shadow(0 0 14px rgba(244,114,182,0.95))
+              drop-shadow(0 0 28px rgba(124,58,237,0.7));
+      animation: shootBob 1.6s ease-in-out infinite;
+    }
+    .shoot-target svg { display: block; width: 100%; height: 100%; }
+    .shoot-target::before {
+      content: '';
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 2px solid rgba(244,114,182,0.55);
+      animation: shootRing 1.2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    .shoot-target::after {
+      content: '';
+      position: absolute; inset: -18px;
+      border-radius: 50%;
+      border: 1px solid rgba(124,58,237,0.4);
+      animation: shootRing 1.2s 0.3s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes shootRing {
+      0%,100% { transform: scale(1); opacity: 0.7; }
+      50%     { transform: scale(1.25); opacity: 0.1; }
+    }
+    @keyframes shootBob {
+      0%,100% { filter: drop-shadow(0 0 14px rgba(244,114,182,0.95)) drop-shadow(0 0 28px rgba(124,58,237,0.7)); }
+      50%     { filter: drop-shadow(0 0 22px rgba(244,114,182,1))    drop-shadow(0 0 44px rgba(124,58,237,0.95)); }
+    }
+    .shoot-target:hover { filter: brightness(1.4) saturate(1.3) drop-shadow(0 0 24px rgba(244,114,182,1)); }
+    .shoot-target.hit {
+      animation: shootHit 0.45s cubic-bezier(0.22,1,0.36,1) forwards;
+      pointer-events: none;
+    }
+    @keyframes shootHit {
+      0%   { box-shadow: 0 0 18px rgba(240,171,252,0.85), 0 0 36px rgba(124,58,237,0.55); }
+      30%  { transform: translate3d(var(--tx,0px), var(--ty,0px), 0) scale(1.7); box-shadow: 0 0 60px rgba(240,171,252,1), 0 0 120px rgba(244,114,182,0.7); }
+      100% { transform: translate3d(var(--tx,0px), var(--ty,0px), 0) scale(0); opacity: 0; }
+    }
+    .shoot-spark {
+      position: fixed;
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 49;
+      will-change: transform, opacity;
+      animation: shootSpark 0.7s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    @keyframes shootSpark {
+      0%   { transform: translate3d(0,0,0) scale(1); opacity: 1; }
+      100% { transform: translate3d(var(--sx,0px), var(--sy,0px), 0) scale(0.2); opacity: 0; }
+    }
+    .shoot-popup {
+      position: fixed;
+      pointer-events: none;
+      z-index: 51;
+      font-family: 'Space Grotesk', system-ui, sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      color: #f0abfc;
+      text-shadow: 0 0 12px rgba(240,171,252,0.7);
+      animation: shootPopup 0.9s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+    @keyframes shootPopup {
+      0%   { transform: translate(-50%, -50%) scale(0.6); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translate(-50%, calc(-50% - 40px)) scale(1.1); opacity: 0; }
+    }
+
+    .score-chip {
+      position: fixed;
+      left: 1.25rem; bottom: 1.25rem;
+      z-index: 80;
+      display: flex; align-items: center;
+      gap: 0.55rem;
+      padding: 0.5rem 0.85rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'Space Mono', ui-monospace, monospace;
+      font-size: 0.7rem;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+      user-select: none;
+      pointer-events: auto;
+      cursor: none;
+      opacity: 0.55;
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
+    }
+    .score-chip:hover { opacity: 1; }
+    .score-chip.flash {
+      transform: scale(1.08);
+      opacity: 1;
+      box-shadow: 0 4px 32px rgba(240,171,252,0.45);
+    }
+    .score-chip .sc-icon { font-size: 0.85rem; }
+    .score-chip .sc-score {
+      color: var(--accent3);
+      font-weight: 700;
+      font-size: 0.85rem;
+      min-width: 1.5ch;
+      text-align: right;
+    }
+    .score-chip .sc-sep {
+      color: var(--muted);
+      opacity: 0.5;
+    }
+    .score-chip .sc-best {
+      color: var(--muted);
+      font-size: 0.62rem;
+    }
+    .score-chip .sc-reset {
+      background: none; border: none;
+      color: var(--muted);
+      font: inherit;
+      font-size: 0.6rem;
+      cursor: none;
+      padding: 0 0.15rem;
+      opacity: 0;
+      transition: opacity 0.2s ease, color 0.2s ease;
+    }
+    .score-chip:hover .sc-reset { opacity: 0.7; }
+    .score-chip .sc-reset:hover { color: var(--accent3); opacity: 1; }
+    @media (max-width: 600px) {
+      .score-chip { left: 0.75rem; bottom: 0.75rem; padding: 0.4rem 0.7rem; font-size: 0.62rem; }
+      .shoot-target { width: 28px; height: 28px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .shoot-target, .score-chip { display: none !important; }
+    }
+
+    /* ── Theme Cat ──────────────────────────────────────────────── */
+    .theme-cat {
+      position: fixed;
+      right: 1rem;
+      bottom: 0;
+      width: 220px;
+      height: 280px;
+      z-index: 80;
+      pointer-events: none;
+      user-select: none;
+    }
+    /* Spotlight glow */
+    .theme-cat::before {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 30%;
+      width: 200px;
+      height: 220px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse 50% 60% at 50% 75%, rgba(244,114,182,0.16), rgba(124,58,237,0.08) 45%, transparent 75%);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .theme-cat .cat-shadow {
+      position: absolute;
+      bottom: 6px;
+      left: 30%;
+      width: 130px;
+      height: 14px;
+      transform: translateX(-50%);
+      background: radial-gradient(ellipse, rgba(0,0,0,0.5), transparent 70%);
+      filter: blur(3px);
+      pointer-events: none;
+    }
+    /* Rope — fixed positioned, spans from below bulb (top-right) down to cat */
+    .cat-rope {
+      position: fixed;
+      top: 60px;       /* just below the nav bulb */
+      right: 50px;     /* roughly aligned with bulb center */
+      width: 22px;
+      bottom: 80px;    /* ends near cat's right paw level */
+      transform-origin: top center;
+      pointer-events: auto;
+      cursor: none;
+      z-index: 81;
+    }
+    .cat-rope-anchor {
+      position: absolute;
+      top: -2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 10px;
+      height: 4px;
+      border-radius: 2px;
+      background: linear-gradient(180deg, #475569, #1e293b);
+      box-shadow: 0 0 6px rgba(0,0,0,0.4);
+    }
+    .cat-rope-line {
+      position: absolute;
+      top: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: calc(100% - 30px);
+      background: linear-gradient(to bottom, rgba(255,255,255,0.55), rgba(255,255,255,0.85));
+      opacity: 0.9;
+      box-shadow: 0 0 5px rgba(255,255,255,0.3);
+      transform-origin: top center;
+    }
+    .cat-rope-handle {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 20px;
+      height: 28px;
+      border-radius: 50% 50% 40% 40%;
+      background: radial-gradient(circle at 35% 25%, #fde68a, #d4a574 55%, #8b6240 100%);
+      box-shadow:
+        0 0 14px rgba(255,255,255,0.4),
+        0 3px 6px rgba(0,0,0,0.35),
+        inset -3px -4px 5px rgba(0,0,0,0.25),
+        inset 2px 2px 3px rgba(255,255,255,0.3);
+      transform-origin: top center;
+      transition: filter 0.3s ease;
+    }
+    .cat-rope:hover .cat-rope-handle {
+      filter: brightness(1.25);
+    }
+    /* Cat body — liquid glass sculpture */
+    .theme-cat .cat-body {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 180px;
+      height: 240px;
+      pointer-events: auto;
+      cursor: none;
+      transform-origin: 50% 92%;
+      transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), filter 0.3s ease;
+      filter:
+        drop-shadow(0 16px 22px rgba(10,20,40,0.55))
+        drop-shadow(0 0 18px rgba(180,220,255,0.25));
+      background: none;
+      border: none;
+      padding: 0;
+    }
+    .theme-cat .cat-body:hover {
+      transform: translateY(-2px) scale(1.02);
+      filter:
+        drop-shadow(0 20px 28px rgba(10,20,40,0.6))
+        drop-shadow(0 0 26px rgba(190,225,255,0.4));
+    }
+    /* Liquid glass backdrop layer — masked to cat silhouette */
+    .cat-glass-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(155deg,
+          rgba(255,255,255,0.55) 0%,
+          rgba(220,235,255,0.28) 30%,
+          rgba(200,225,255,0.20) 55%,
+          rgba(170,205,250,0.30) 80%,
+          rgba(140,180,235,0.45) 100%);
+      backdrop-filter: blur(10px) saturate(1.6);
+      -webkit-backdrop-filter: blur(10px) saturate(1.6);
+      -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 260' preserveAspectRatio='xMidYMax meet'><path d='M 145 220 Q 195 200 185 155 Q 175 120 150 130 Q 168 150 165 178 Q 162 200 140 215 Z' fill='white'/><path d='M 95 252 C 50 252 35 225 38 185 C 41 152 60 130 95 130 C 130 130 159 152 162 185 C 165 225 140 252 95 252 Z' fill='white'/><ellipse cx='95' cy='98' rx='48' ry='44' fill='white'/><path d='M 55 98 Q 42 70 45 38 Q 60 35 75 65 Q 78 85 70 96 Z' fill='white'/><path d='M 135 98 Q 148 70 145 38 Q 130 35 115 65 Q 112 85 120 96 Z' fill='white'/><ellipse cx='62' cy='245' rx='16' ry='11' fill='white'/><ellipse cx='128' cy='245' rx='16' ry='11' fill='white'/></svg>");
+      mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 260' preserveAspectRatio='xMidYMax meet'><path d='M 145 220 Q 195 200 185 155 Q 175 120 150 130 Q 168 150 165 178 Q 162 200 140 215 Z' fill='white'/><path d='M 95 252 C 50 252 35 225 38 185 C 41 152 60 130 95 130 C 130 130 159 152 162 185 C 165 225 140 252 95 252 Z' fill='white'/><ellipse cx='95' cy='98' rx='48' ry='44' fill='white'/><path d='M 55 98 Q 42 70 45 38 Q 60 35 75 65 Q 78 85 70 96 Z' fill='white'/><path d='M 135 98 Q 148 70 145 38 Q 130 35 115 65 Q 112 85 120 96 Z' fill='white'/><ellipse cx='62' cy='245' rx='16' ry='11' fill='white'/><ellipse cx='128' cy='245' rx='16' ry='11' fill='white'/></svg>");
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-position: center bottom;
+      mask-position: center bottom;
+      pointer-events: none;
+    }
+    .cat-overlay {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    /* Liquid glass — dark mode (cyan/electric tint) */
+    [data-theme="dark"] .cat-glass-bg {
+      background:
+        linear-gradient(155deg,
+          rgba(180,245,255,0.45) 0%,
+          rgba(103,232,249,0.25) 35%,
+          rgba(34,211,238,0.28) 65%,
+          rgba(59,130,246,0.40) 100%);
+    }
+    [data-theme="dark"] .theme-cat .cat-body {
+      filter:
+        drop-shadow(0 0 12px rgba(34,211,238,0.85))
+        drop-shadow(0 0 24px rgba(6,182,212,0.55))
+        drop-shadow(0 0 40px rgba(59,130,246,0.35));
+      animation: neonPulse 3.2s ease-in-out infinite;
+    }
+    [data-theme="dark"] .theme-cat .cat-body:hover {
+      filter:
+        drop-shadow(0 0 16px rgba(103,232,249,0.95))
+        drop-shadow(0 0 32px rgba(6,182,212,0.75))
+        drop-shadow(0 0 50px rgba(59,130,246,0.55));
+    }
+    [data-theme="dark"] .theme-cat .cat-shadow {
+      background: radial-gradient(ellipse, rgba(34,211,238,0.45), transparent 70%);
+      filter: blur(5px);
+    }
+    [data-theme="dark"] .theme-cat::before {
+      background: radial-gradient(ellipse 50% 60% at 50% 75%, rgba(34,211,238,0.28), rgba(59,130,246,0.16) 45%, transparent 75%);
+    }
+    @keyframes neonPulse {
+      0%, 100% {
+        filter:
+          drop-shadow(0 0 12px rgba(34,211,238,0.85))
+          drop-shadow(0 0 24px rgba(6,182,212,0.55))
+          drop-shadow(0 0 40px rgba(59,130,246,0.35));
+      }
+      50% {
+        filter:
+          drop-shadow(0 0 18px rgba(103,232,249,1))
+          drop-shadow(0 0 32px rgba(6,182,212,0.75))
+          drop-shadow(0 0 50px rgba(59,130,246,0.55));
+      }
+    }
+    /* Paw at rest by default — only animates up when pulling */
+    .theme-cat .cat-arm-right {
+      transform-origin: 64% 38%;
+      transform: rotate(0deg) translate(0, 0);
+      transition: transform 0.45s cubic-bezier(0.22,1,0.36,1);
+    }
+    .theme-cat.pulling .cat-arm-right {
+      animation: catPawReach 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    .theme-cat.pulling .cat-body {
+      animation: catBob 0.7s cubic-bezier(0.22,1,0.36,1);
+    }
+    /* Realistic pull-cord physics: bulb stays still, cord and handle move
+       purely VERTICALLY. Handle dips down with the pull, springs up past
+       rest, then oscillates vertically with damping. Cord scaleY tracks the
+       handle so they remain visually connected throughout. */
+    .cat-rope.pulling .cat-rope-line {
+      animation: catRopeStretch 1.1s cubic-bezier(0.22,1,0.36,1);
+    }
+    .cat-rope.pulling .cat-rope-handle {
+      animation: catRopeHandleBounce 1.1s cubic-bezier(0.22,1,0.36,1);
+    }
+    .theme-cat.pulling .cat-tail {
+      animation: catTailFlick 0.7s cubic-bezier(0.22,1,0.36,1);
+      transform-origin: 30% 80%;
+    }
+    @keyframes catPawReach {
+      0%   { transform: rotate(0deg) translate(0, 0); }
+      40%  { transform: rotate(-55deg) translate(8px, -22px); }
+      65%  { transform: rotate(-50deg) translate(8px, -16px); }
+      100% { transform: rotate(0deg) translate(0, 0); }
+    }
+    @keyframes catBob {
+      0%   { transform: translateY(0); }
+      40%  { transform: translateY(-3px); }
+      100% { transform: translateY(0); }
+    }
+    /* Cord stretches as the handle is pulled down, then relaxes with a
+       damped oscillation matching the handle's vertical bounce. */
+    @keyframes catRopeStretch {
+      0%   { transform: translateX(-50%) scaleY(1);     }
+      18%  { transform: translateX(-50%) scaleY(1.020); }   /* taut */
+      32%  { transform: translateX(-50%) scaleY(0.992); }   /* spring up */
+      46%  { transform: translateX(-50%) scaleY(1.008); }
+      62%  { transform: translateX(-50%) scaleY(0.997); }
+      78%  { transform: translateX(-50%) scaleY(1.002); }
+      100% { transform: translateX(-50%) scaleY(1);     }
+    }
+    /* Handle: pure vertical motion — pulled down, springs up overshooting,
+       then damped vertical oscillation. No rotation. */
+    @keyframes catRopeHandleBounce {
+      0%   { transform: translateX(-50%) translateY(0);    }
+      18%  { transform: translateX(-50%) translateY(14px); }   /* peak pull */
+      32%  { transform: translateX(-50%) translateY(-6px); }   /* spring up overshoot */
+      46%  { transform: translateX(-50%) translateY(4px);  }
+      62%  { transform: translateX(-50%) translateY(-2px); }
+      78%  { transform: translateX(-50%) translateY(0.8px);}
+      90%  { transform: translateX(-50%) translateY(-0.3px);}
+      100% { transform: translateX(-50%) translateY(0);    }
+    }
+    @keyframes catTailFlick {
+      0%   { transform: rotate(0deg); }
+      30%  { transform: rotate(-8deg); }
+      60%  { transform: rotate(6deg); }
+      100% { transform: rotate(0deg); }
+    }
+    .theme-cat .cat-hint {
+      position: absolute;
+      right: 100%;
+      bottom: 48px;
+      margin-right: 10px;
+      padding: 0.35rem 0.65rem;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-family: 'Space Mono', ui-monospace, monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+      pointer-events: none;
+    }
+    .theme-cat:hover .cat-hint {
+      opacity: 0.85;
+      transform: translateX(0);
+    }
+    @media (max-width: 900px) {
+      .theme-cat { width: 170px; height: 220px; right: 0.5rem; }
+      .theme-cat .cat-body { width: 140px; height: 190px; }
+      .cat-rope { right: 36px; bottom: 60px; }
+    }
+    @media (max-width: 600px) {
+      .theme-cat { width: 120px; height: 160px; right: 0.25rem; }
+      .theme-cat .cat-body { width: 100px; height: 140px; }
+      .cat-rope { width: 16px; right: 22px; bottom: 50px; top: 56px; }
+      .cat-rope-handle { width: 14px; height: 20px; }
+      .theme-cat .cat-hint { display: none; }
+      .theme-cat .cat-shadow { width: 80px; height: 10px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .theme-cat, .cat-rope { display: none !important; }
+    }
 
     /* ── Canvas ──────────────────────────────────────────────────── */
     #bg-canvas {
@@ -224,6 +673,21 @@
 
     [data-theme="light"] .ti-sun  { opacity: 0;  transform: rotate(90deg) scale(0.5); }
     [data-theme="light"] .ti-moon { opacity: 1;  transform: rotate(0deg) scale(1); }
+
+    /* Light mode bulb glow — radiates from the toggle button */
+    [data-theme="light"] .theme-toggle {
+      border-color: #fbbf24;
+      box-shadow: 0 0 18px rgba(253,224,71,0.55), 0 0 36px rgba(251,191,36,0.35);
+    }
+    [data-theme="light"] .theme-toggle .ti-moon svg {
+      filter: drop-shadow(0 0 4px rgba(253,224,71,0.9));
+      animation: bulbFlicker 4s ease-in-out infinite;
+    }
+    @keyframes bulbFlicker {
+      0%, 100% { filter: drop-shadow(0 0 4px rgba(253,224,71,0.9)); }
+      48%      { filter: drop-shadow(0 0 6px rgba(253,224,71,1)); }
+      52%      { filter: drop-shadow(0 0 3px rgba(253,224,71,0.7)); }
+    }
 
     /* Light mode: fix cursor blend mode */
     [data-theme="light"] #cursor { mix-blend-mode: normal; background: var(--accent1); }
@@ -555,7 +1019,7 @@
       75%      { transform: skewX(3deg)  translateY(3px)  rotate(1deg);  }
     }
 
-    /* ── Phrase: "using AI magic" — orbiting math/AI glyphs in 3D space ─── */
+    /* ── Phrase: "using AI magic" — in-place text scramble/decode ───── */
     .typewriter.fx-magic {
       text-shadow:
         0 0 24px rgba(124, 58, 237, 0.55),
@@ -563,33 +1027,13 @@
         0 0 96px rgba(192, 132, 252, 0.25);
       animation: gradientShimmer 2s linear infinite, magicAura 2.4s ease-in-out infinite;
     }
+    .typewriter.fx-magic.scrambling {
+      letter-spacing: 0.02em;
+      filter: contrast(1.05);
+    }
     @keyframes magicAura {
       0%, 100% { filter: brightness(1)    saturate(1)    drop-shadow(0 0 0 rgba(124,58,237,0));   }
       50%      { filter: brightness(1.15) saturate(1.25) drop-shadow(0 0 12px rgba(192,132,252,0.4)); }
-    }
-    .fx-glyph {
-      position: absolute;
-      font-size: 0.6em;
-      font-weight: 600;
-      pointer-events: none;
-      color: rgba(192, 132, 252, 0.95);
-      text-shadow: 0 0 10px rgba(192, 132, 252, 0.7), 0 0 22px rgba(192, 132, 252, 0.4);
-      -webkit-text-fill-color: initial;
-      animation: glyphFloat 2.6s cubic-bezier(0.2, 0.6, 0.3, 1) forwards;
-      will-change: transform, opacity;
-      opacity: 0;
-      z-index: 2;
-      transform-style: preserve-3d;
-      letter-spacing: 0;
-    }
-    .fx-glyph.cyan   { color: rgba(34, 211, 238, 0.95);  text-shadow: 0 0 10px rgba(34,211,238,0.7),  0 0 22px rgba(34,211,238,0.4); }
-    .fx-glyph.indigo { color: rgba(129, 140, 248, 0.95); text-shadow: 0 0 10px rgba(129,140,248,0.7), 0 0 22px rgba(129,140,248,0.4); }
-    .fx-glyph.big    { font-size: 0.95em; font-weight: 700; }
-    @keyframes glyphFloat {
-      0%   { transform: translate3d(0, 0, -160px) rotate(var(--rot0, 0deg)) scale(0.3); opacity: 0; }
-      18%  { opacity: 1; }
-      55%  { transform: translate3d(calc(var(--gx1, 0px) * 0.6), calc(var(--gy1, 0px) * 0.6), 80px) rotate(calc(var(--rot1, 0deg) * 0.6)) scale(1.15); opacity: 0.95; }
-      100% { transform: translate3d(var(--gx1, 0px), var(--gy1, 0px), 200px) rotate(var(--rot1, 0deg)) scale(0.85); opacity: 0; }
     }
 
     /* ── Phrase: "from zero to shipped" — full-screen rocket flight ──── */
@@ -668,7 +1112,7 @@
 
     @media (prefers-reduced-motion: reduce) {
       .typewriter.fx-vibes, .typewriter.fx-limits, .typewriter.fx-magic { animation: none !important; }
-      .fx-glyph, .fx-rocket, .fx-rocket-trail, .fx-bracket { display: none !important; }
+      .fx-rocket, .fx-rocket-trail, .fx-bracket { display: none !important; }
     }
 
     /* ── Stats bar ───────────────────────────────────────────────── */
@@ -1894,6 +2338,53 @@
       box-shadow: 0 0 90px rgba(124,58,237,0.38), inset 0 0 40px rgba(124,58,237,0.2);
     }
 
+    /* ── Pet the sun easter egg ──────────────────────────────── */
+    .orbit-sun.pet-hit {
+      animation: petBurst 0.55s cubic-bezier(0.22,1,0.36,1);
+    }
+    @keyframes petBurst {
+      0%   { transform: scale(1); box-shadow: 0 0 60px rgba(124,58,237,0.22), inset 0 0 30px rgba(124,58,237,0.12); }
+      30%  { transform: scale(1.22); box-shadow: 0 0 110px rgba(240,171,252,0.55), inset 0 0 50px rgba(240,171,252,0.32); }
+      100% { transform: scale(1); box-shadow: 0 0 60px rgba(124,58,237,0.22), inset 0 0 30px rgba(124,58,237,0.12); }
+    }
+    .pet-heart {
+      position: absolute;
+      left: 50%; top: 50%;
+      font-size: 1.3rem;
+      pointer-events: none;
+      user-select: none;
+      will-change: transform, opacity;
+      animation: petHeartFloat 1.25s cubic-bezier(0.22,1,0.36,1) forwards;
+      z-index: 11;
+    }
+    @keyframes petHeartFloat {
+      0%   { transform: translate(calc(-50% + var(--hx,0px)), -50%) scale(0.4); opacity: 0; }
+      20%  { opacity: 1; }
+      100% { transform: translate(calc(-50% + var(--hx,0px)), calc(-50% - 90px)) scale(1.15); opacity: 0; }
+    }
+    .pet-counter {
+      position: absolute;
+      bottom: -2.2rem; left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      font-family: 'Space Mono', ui-monospace, monospace;
+      font-size: 0.68rem;
+      color: var(--accent3);
+      letter-spacing: 0.06em;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      text-shadow: 0 0 12px rgba(240,171,252,0.5);
+      transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    }
+    .pet-counter.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .orbit-sun.pet-hit { animation: none; }
+      .pet-heart { display: none; }
+    }
+
     /* ── Cinematic: Section top accent line ──────────────────── */
     #apps, #about { position: relative; }
     #apps::before, #about::before {
@@ -2059,6 +2550,134 @@
 <div id="cursor"></div>
 <div id="cursor-ring"></div>
 
+<!-- Theme Rope (hangs from bulb in nav) -->
+<div class="cat-rope" id="theme-cat-rope" role="button" tabindex="0" aria-label="Pull rope to toggle theme">
+  <div class="cat-rope-anchor"></div>
+  <div class="cat-rope-line"></div>
+  <div class="cat-rope-handle"></div>
+</div>
+
+<!-- Theme Cat -->
+<div class="theme-cat" id="theme-cat" aria-hidden="true">
+  <div class="cat-hint">pull rope</div>
+  <div class="cat-shadow"></div>
+  <button class="cat-body" id="theme-cat-body" aria-label="Tap cat to toggle theme">
+    <!-- Liquid glass body (frosted backdrop, masked to silhouette) -->
+    <div class="cat-glass-bg"></div>
+    <!-- Detail overlay: edges, sheen, eyes, nose -->
+    <svg class="cat-overlay" viewBox="0 0 200 260" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMax meet">
+      <defs>
+        <linearGradient id="catSheenTop" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.85)"/>
+          <stop offset="55%" stop-color="rgba(255,255,255,0.18)"/>
+          <stop offset="100%" stop-color="rgba(255,255,255,0)"/>
+        </linearGradient>
+        <linearGradient id="catRimLight" x1="0" y1="0" x2="1" y2="0.6">
+          <stop offset="0%" stop-color="rgba(255,255,255,0.95)"/>
+          <stop offset="100%" stop-color="rgba(180,220,255,0.25)"/>
+        </linearGradient>
+        <radialGradient id="catEyeGlass" cx="0.4" cy="0.3" r="0.75">
+          <stop offset="0%" stop-color="#d6f5e0"/>
+          <stop offset="45%" stop-color="#5fbe7d"/>
+          <stop offset="100%" stop-color="#1a4a2a"/>
+        </radialGradient>
+        <radialGradient id="catNoseGlass" cx="0.5" cy="0.3" r="0.7">
+          <stop offset="0%" stop-color="rgba(255,220,225,0.95)"/>
+          <stop offset="100%" stop-color="rgba(180,110,130,0.85)"/>
+        </radialGradient>
+        <radialGradient id="catEarPink" cx="0.5" cy="0.5" r="0.75">
+          <stop offset="0%" stop-color="rgba(255,200,210,0.5)"/>
+          <stop offset="100%" stop-color="rgba(200,140,160,0.15)"/>
+        </radialGradient>
+      </defs>
+
+      <!-- TAIL (animated, glassy translucent with rim light) -->
+      <g class="cat-tail">
+        <path d="M 145 220 Q 195 200 185 155 Q 175 120 150 130 Q 168 150 165 178 Q 162 200 140 215 Z"
+              fill="rgba(220,240,255,0.18)"
+              stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/>
+        <!-- tail specular -->
+        <path d="M 175 178 Q 188 165 180 140" stroke="rgba(255,255,255,0.85)" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.85"/>
+      </g>
+
+      <!-- BODY rim outline (subtle glass edge) -->
+      <path d="M 95 252 C 50 252 35 225 38 185 C 41 152 60 130 95 130 C 130 130 159 152 162 185 C 165 225 140 252 95 252 Z"
+            fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/>
+
+      <!-- BODY top specular sheen -->
+      <path d="M 55 175 Q 65 142 95 134 Q 125 142 137 175"
+            stroke="rgba(255,255,255,0.9)" stroke-width="2.2" fill="none" stroke-linecap="round" opacity="0.85"/>
+
+      <!-- Belly subtle vertical sheen -->
+      <ellipse cx="95" cy="200" rx="22" ry="42" fill="url(#catSheenTop)" opacity="0.35"/>
+
+      <!-- LEFT FRONT PAW (at rest) -->
+      <g>
+        <ellipse cx="62" cy="245" rx="16" ry="11" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+        <ellipse cx="62" cy="240" rx="11" ry="3" fill="rgba(255,255,255,0.7)" opacity="0.55"/>
+        <!-- toe beans -->
+        <circle cx="56" cy="248" r="1.3" fill="rgba(210,140,160,0.7)"/>
+        <circle cx="62" cy="247" r="1.3" fill="rgba(210,140,160,0.7)"/>
+        <circle cx="68" cy="248" r="1.3" fill="rgba(210,140,160,0.7)"/>
+      </g>
+
+      <!-- RIGHT FRONT PAW (animates up on pull) -->
+      <g class="cat-arm-right">
+        <ellipse cx="128" cy="245" rx="16" ry="11" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+        <ellipse cx="128" cy="240" rx="11" ry="3" fill="rgba(255,255,255,0.7)" opacity="0.55"/>
+        <circle cx="122" cy="248" r="1.3" fill="rgba(210,140,160,0.7)"/>
+        <circle cx="128" cy="247" r="1.3" fill="rgba(210,140,160,0.7)"/>
+        <circle cx="134" cy="248" r="1.3" fill="rgba(210,140,160,0.7)"/>
+      </g>
+
+      <!-- HEAD rim -->
+      <ellipse cx="95" cy="98" rx="48" ry="44" fill="none" stroke="rgba(255,255,255,0.55)" stroke-width="1.1"/>
+
+      <!-- Head top specular sheen -->
+      <ellipse cx="86" cy="68" rx="32" ry="13" fill="url(#catSheenTop)" opacity="0.65"/>
+      <ellipse cx="80" cy="62" rx="14" ry="4" fill="rgba(255,255,255,0.95)" opacity="0.75"/>
+
+      <!-- LEFT EAR rim + inner -->
+      <path d="M 55 98 Q 42 70 45 38 Q 60 35 75 65 Q 78 85 70 96 Z"
+            fill="url(#catEarPink)" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+      <path d="M 60 90 Q 52 70 53 48 Q 62 50 70 70 Q 70 82 64 92 Z" fill="rgba(245,182,197,0.35)"/>
+
+      <!-- RIGHT EAR rim + inner -->
+      <path d="M 135 98 Q 148 70 145 38 Q 130 35 115 65 Q 112 85 120 96 Z"
+            fill="url(#catEarPink)" stroke="rgba(255,255,255,0.55)" stroke-width="1"/>
+      <path d="M 130 90 Q 138 70 137 48 Q 128 50 120 70 Q 120 82 126 92 Z" fill="rgba(245,182,197,0.35)"/>
+
+      <!-- EYES (almond, realistic) -->
+      <path d="M 70 100 Q 78 93 86 100 Q 78 107 70 100 Z" fill="#ffffff" opacity="0.9"/>
+      <path d="M 104 100 Q 112 93 120 100 Q 112 107 104 100 Z" fill="#ffffff" opacity="0.9"/>
+      <ellipse cx="78" cy="100" rx="6.5" ry="5.5" fill="url(#catEyeGlass)"/>
+      <ellipse cx="112" cy="100" rx="6.5" ry="5.5" fill="url(#catEyeGlass)"/>
+      <!-- vertical slit pupils -->
+      <ellipse cx="78" cy="100" rx="1.2" ry="4.5" fill="#0a0503"/>
+      <ellipse cx="112" cy="100" rx="1.2" ry="4.5" fill="#0a0503"/>
+      <!-- specular catchlights -->
+      <circle cx="80" cy="97.5" r="1.4" fill="#ffffff"/>
+      <circle cx="114" cy="97.5" r="1.4" fill="#ffffff"/>
+      <circle cx="76" cy="102" r="0.8" fill="rgba(255,255,255,0.7)"/>
+      <circle cx="110" cy="102" r="0.8" fill="rgba(255,255,255,0.7)"/>
+
+      <!-- NOSE (small, soft) -->
+      <ellipse cx="95" cy="116" rx="3.2" ry="2.3" fill="url(#catNoseGlass)"/>
+      <ellipse cx="94" cy="115.3" rx="1.2" ry="0.7" fill="rgba(255,255,255,0.85)"/>
+
+      <!-- MOUTH (subtle Y) -->
+      <path d="M 95 119 L 95 123 M 95 123 Q 92 125.5 89 124 M 95 123 Q 98 125.5 101 124"
+            stroke="rgba(60,30,20,0.7)" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+
+      <!-- WHISKERS (subtle, asymmetric) -->
+      <line x1="68" y1="119" x2="44" y2="115" stroke="rgba(255,255,255,0.7)" stroke-width="0.7" stroke-linecap="round"/>
+      <line x1="68" y1="123" x2="46" y2="125" stroke="rgba(255,255,255,0.6)" stroke-width="0.7" stroke-linecap="round"/>
+      <line x1="122" y1="119" x2="146" y2="115" stroke="rgba(255,255,255,0.7)" stroke-width="0.7" stroke-linecap="round"/>
+      <line x1="122" y1="123" x2="144" y2="125" stroke="rgba(255,255,255,0.6)" stroke-width="0.7" stroke-linecap="round"/>
+    </svg>
+  </button>
+</div>
+
 <!-- Animated Background -->
 <canvas id="bg-canvas"></canvas>
 <div class="grid-overlay"></div>
@@ -2079,20 +2698,24 @@
   </button>
   <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode">
     <div class="toggle-icon-wrap">
-      <!-- Sun (visible in dark mode) -->
+      <!-- Bulb OFF (visible in dark mode — click to turn lights on) -->
       <span class="ti ti-sun">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#94a3b8">
-          <circle cx="12" cy="12" r="4"/>
-          <line x1="12" y1="2" x2="12" y2="4"/><line x1="12" y1="20" x2="12" y2="22"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="2" y1="12" x2="4" y2="12"/><line x1="20" y1="12" x2="22" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          <g transform="rotate(180 12 12)">
+            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 2-2 2-3.5A6 6 0 0 0 12 2a6 6 0 0 0-6 6c0 1.5 1 2.5 2 3.5.8.8 1.3 1.5 1.5 2.5"/>
+            <path d="M9 18h6"/>
+            <path d="M10 22h4"/>
+          </g>
         </svg>
       </span>
-      <!-- Moon (visible in light mode) -->
+      <!-- Bulb ON (visible in light mode — click to turn lights off) -->
       <span class="ti ti-moon">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:#374151">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="#fde68a" stroke="#b45309" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <g transform="rotate(180 12 12)">
+            <path d="M15 14c.2-1 .7-1.7 1.5-2.5 1-1 2-2 2-3.5A6 6 0 0 0 12 2a6 6 0 0 0-6 6c0 1.5 1 2.5 2 3.5.8.8 1.3 1.5 1.5 2.5z" fill="#fde68a"/>
+            <path d="M9 18h6" stroke="#78350f"/>
+            <path d="M10 22h4" stroke="#78350f"/>
+          </g>
         </svg>
       </span>
     </div>
@@ -2360,6 +2983,32 @@
     const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
     applyTheme(next);
   });
+
+  /* Theme cat — click pulls rope, toggles theme */
+  const themeCat = document.getElementById('theme-cat');
+  const themeCatBody = document.getElementById('theme-cat-body');
+  const themeCatRope = document.getElementById('theme-cat-rope');
+  function pullRope() {
+    if (!themeCat || themeCat.classList.contains('pulling')) return;
+    themeCat.classList.add('pulling');
+    if (themeCatRope) themeCatRope.classList.add('pulling');
+    /* Theme flips at peak pull (~18% of 1.1s ≈ 200ms) — the click moment */
+    setTimeout(() => {
+      const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      applyTheme(next);
+    }, 200);
+    setTimeout(() => {
+      themeCat.classList.remove('pulling');
+      if (themeCatRope) themeCatRope.classList.remove('pulling');
+    }, 1150);
+  }
+  if (themeCatBody) themeCatBody.addEventListener('click', pullRope);
+  if (themeCatRope) {
+    themeCatRope.addEventListener('click', pullRope);
+    themeCatRope.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pullRope(); }
+    });
+  }
 
   /* ── Custom Cursor ──────────────────────────────────────────────── */
   const cursor = document.getElementById('cursor');
@@ -3085,6 +3734,235 @@
 
   buildOrbit();
 
+  /* ── Pet the sun easter egg ──────────────────────────────────────── */
+  (function petTheSun() {
+    const sun = document.querySelector('.orbit-sun');
+    if (!sun) return;
+    const HEARTS = ['♥','♡','✦','✧'];
+    const HEART_COLORS = ['#f0abfc','#06b6d4','#a78bfa','#f472b6'];
+    let count = parseInt(localStorage.getItem('vibe-pets') || '0', 10);
+    if (Number.isNaN(count)) count = 0;
+
+    const counter = document.createElement('div');
+    counter.className = 'pet-counter';
+    counter.setAttribute('aria-live', 'polite');
+    sun.appendChild(counter);
+    let hideT = 0;
+
+    function pet() {
+      count++;
+      localStorage.setItem('vibe-pets', String(count));
+
+      sun.classList.remove('pet-hit');
+      void sun.offsetWidth; /* restart animation */
+      sun.classList.add('pet-hit');
+
+      if (!REDUCED_MOTION) {
+        const n = 4 + Math.floor(Math.random() * 2);
+        for (let i = 0; i < n; i++) {
+          const h = document.createElement('span');
+          h.className = 'pet-heart';
+          h.textContent = HEARTS[Math.floor(Math.random() * HEARTS.length)];
+          h.style.color = HEART_COLORS[Math.floor(Math.random() * HEART_COLORS.length)];
+          h.style.setProperty('--hx', (Math.random() * 70 - 35).toFixed(0) + 'px');
+          h.style.animationDelay = (Math.random() * 0.18).toFixed(2) + 's';
+          h.style.fontSize = (1.0 + Math.random() * 0.6).toFixed(2) + 'rem';
+          h.addEventListener('animationend', () => h.remove(), { once: true });
+          sun.appendChild(h);
+        }
+      }
+
+      const word = count === 1 ? 'pet' : 'pets';
+      counter.textContent = `♥ ${count} ${word}`;
+      counter.classList.add('show');
+      clearTimeout(hideT);
+      hideT = setTimeout(() => counter.classList.remove('show'), 1600);
+    }
+
+    sun.addEventListener('click', pet);
+  })();
+
+  /* ── Shoot game ──────────────────────────────────────────────────── */
+  if (!REDUCED_MOTION) (function shootGame() {
+    const MAX_TARGETS = 3;
+    const SPAWN_MIN_MS = 1800;
+    const SPAWN_MAX_MS = 3500;
+
+    let score = 0;
+    let best = parseInt(localStorage.getItem('shoot-best') || '0', 10);
+    if (Number.isNaN(best)) best = 0;
+
+    /* Score chip */
+    const chip = document.createElement('div');
+    chip.className = 'score-chip';
+    chip.setAttribute('role', 'status');
+    chip.innerHTML = `
+      <span class="sc-icon">🎯</span>
+      <span class="sc-score">0</span>
+      <span class="sc-sep">·</span>
+      <span class="sc-best">best ${best}</span>
+      <button class="sc-reset" type="button" aria-label="Reset score">reset</button>
+    `;
+    document.body.appendChild(chip);
+    const elScore = chip.querySelector('.sc-score');
+    const elBest  = chip.querySelector('.sc-best');
+    const btnReset = chip.querySelector('.sc-reset');
+
+    btnReset.addEventListener('click', e => {
+      e.stopPropagation();
+      score = 0;
+      elScore.textContent = '0';
+    });
+
+    function flashChip() {
+      chip.classList.add('flash');
+      clearTimeout(flashChip._t);
+      flashChip._t = setTimeout(() => chip.classList.remove('flash'), 360);
+    }
+
+    /* Targets */
+    const targets = [];
+    let nextSpawnAt = performance.now() + 600;
+
+    let firstSpawn = true;
+    function spawnTarget() {
+      if (targets.length >= MAX_TARGETS) return;
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const fromLeft = Math.random() < 0.5;
+      const startX = firstSpawn ? W * 0.18 : (fromLeft ? -80 : W + 80);
+      const startY = firstSpawn ? Math.min(H * 0.4, 320) : 100 + Math.random() * (H - 240);
+      firstSpawn = false;
+      const speed  = 140 + Math.random() * 120;
+      const vx = (fromLeft ? 1 : -1) * speed;
+      const vy = (Math.random() - 0.5) * 30;
+      const wobbleAmp = 10 + Math.random() * 22;
+      const wobbleSpeed = 1.5 + Math.random() * 1.5;
+      const wobblePhase = Math.random() * Math.PI * 2;
+
+      const el = document.createElement('div');
+      el.className = 'shoot-target';
+      el.setAttribute('aria-label', 'Target — click to score');
+      el.innerHTML = `
+        <svg viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="ufoDome${Date.now()}${Math.floor(Math.random()*1000)}" cx="50%" cy="40%" r="55%">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="50%" stop-color="#f0abfc"/>
+              <stop offset="100%" stop-color="#7c3aed"/>
+            </radialGradient>
+            <linearGradient id="ufoBody${Date.now()}${Math.floor(Math.random()*1000)}" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"  stop-color="#f472b6"/>
+              <stop offset="55%" stop-color="#c026d3"/>
+              <stop offset="100%" stop-color="#5b21b6"/>
+            </linearGradient>
+          </defs>
+          <!-- saucer body -->
+          <ellipse cx="28" cy="34" rx="24" ry="7" fill="#c026d3" opacity="0.95"/>
+          <ellipse cx="28" cy="33" rx="24" ry="6" fill="#f472b6"/>
+          <ellipse cx="28" cy="34" rx="22" ry="5" fill="#7c3aed" opacity="0.55"/>
+          <!-- dome -->
+          <path d="M 12 32 A 16 14 0 0 1 44 32 Z" fill="#a78bfa" opacity="0.9"/>
+          <ellipse cx="28" cy="22" rx="13" ry="11" fill="#fbcfe8" opacity="0.85"/>
+          <ellipse cx="24" cy="18" rx="5" ry="3.5" fill="#ffffff" opacity="0.75"/>
+          <!-- bottom lights -->
+          <circle cx="10"  cy="36" r="2" fill="#22d3ee"/>
+          <circle cx="20"  cy="38" r="2" fill="#f0abfc"/>
+          <circle cx="28"  cy="39" r="2" fill="#22d3ee"/>
+          <circle cx="36"  cy="38" r="2" fill="#f0abfc"/>
+          <circle cx="46"  cy="36" r="2" fill="#22d3ee"/>
+        </svg>`;
+      document.body.appendChild(el);
+      const t = { el, x: startX, y: startY, baseY: startY, vx, vy, wobbleAmp, wobbleSpeed, wobblePhase, t0: performance.now(), alive: true };
+      el.style.transform = `translate3d(${startX}px,${startY}px,0)`;
+
+      el.addEventListener('pointerdown', e => {
+        e.stopPropagation();
+        hit(t, e.clientX, e.clientY);
+      });
+
+      targets.push(t);
+    }
+
+    function hit(t, cx, cy) {
+      if (!t.alive) return;
+      t.alive = false;
+      score++;
+      elScore.textContent = String(score);
+      flashChip();
+      if (score > best) {
+        best = score;
+        localStorage.setItem('shoot-best', String(best));
+        elBest.textContent = `best ${best}`;
+      }
+
+      /* Sparks */
+      const sparkCount = 10;
+      for (let i = 0; i < sparkCount; i++) {
+        const spark = document.createElement('span');
+        spark.className = 'shoot-spark';
+        const angle = (i / sparkCount) * Math.PI * 2 + Math.random() * 0.5;
+        const dist  = 50 + Math.random() * 40;
+        spark.style.left = (cx - 2.5) + 'px';
+        spark.style.top  = (cy - 2.5) + 'px';
+        spark.style.background = ['#f0abfc','#06b6d4','#a78bfa','#f472b6'][i % 4];
+        spark.style.boxShadow = '0 0 8px currentColor';
+        spark.style.setProperty('--sx', Math.cos(angle) * dist + 'px');
+        spark.style.setProperty('--sy', Math.sin(angle) * dist + 'px');
+        spark.addEventListener('animationend', () => spark.remove(), { once: true });
+        document.body.appendChild(spark);
+      }
+
+      /* Popup +1 */
+      const popup = document.createElement('div');
+      popup.className = 'shoot-popup';
+      popup.textContent = '+1';
+      popup.style.left = cx + 'px';
+      popup.style.top  = cy + 'px';
+      popup.addEventListener('animationend', () => popup.remove(), { once: true });
+      document.body.appendChild(popup);
+
+      /* Hit animation on target then remove */
+      t.el.style.setProperty('--tx', t.x + 'px');
+      t.el.style.setProperty('--ty', t.y + 'px');
+      t.el.classList.add('hit');
+      t.el.addEventListener('animationend', () => t.el.remove(), { once: true });
+    }
+
+    let lastT = performance.now();
+    function loop(now) {
+      const dt = Math.min(now - lastT, 48) / 1000;
+      lastT = now;
+
+      if (now >= nextSpawnAt && document.visibilityState === 'visible') {
+        spawnTarget();
+        nextSpawnAt = now + SPAWN_MIN_MS + Math.random() * (SPAWN_MAX_MS - SPAWN_MIN_MS);
+      }
+
+      const W = window.innerWidth;
+      for (let i = targets.length - 1; i >= 0; i--) {
+        const t = targets[i];
+        if (!t.alive) {
+          if (!document.body.contains(t.el)) targets.splice(i, 1);
+          continue;
+        }
+        t.x += t.vx * dt;
+        t.baseY += t.vy * dt;
+        const wobble = Math.sin((now / 1000) * t.wobbleSpeed + t.wobblePhase) * t.wobbleAmp;
+        t.y = t.baseY + wobble;
+        t.el.style.transform = `translate3d(${t.x}px,${t.y}px,0)`;
+
+        if (t.x < -100 || t.x > W + 100 || t.y < -120 || t.y > window.innerHeight + 120) {
+          t.alive = false;
+          t.el.remove();
+          targets.splice(i, 1);
+        }
+      }
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+  })();
+
   /* ── Particle Canvas ────────────────────────────────────────────── */
   const canvas = document.getElementById('bg-canvas');
   const ctx    = canvas.getContext('2d');
@@ -3178,6 +4056,62 @@
   }
   initParticles();
 
+  /* ── Click-reactive ripples ────────────────────────────────────── */
+  const ripples = [];
+  class Ripple {
+    constructor(x, y, delay = 0) {
+      this.x = x; this.y = y;
+      this.life = -delay;        // negative = waiting
+      this.maxLife = 700;        // ms
+      this.startR = 6;
+      this.endR = Math.max(W, H) < 700 ? 180 : 260;
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+    }
+    update(dt) {
+      this.life += dt;
+      return this.life < this.maxLife;
+    }
+    draw() {
+      if (this.life < 0) return;
+      const t = this.life / this.maxLife;
+      const ease = 1 - Math.pow(1 - t, 3);
+      const r = this.startR + (this.endR - this.startR) * ease;
+      const alpha = (1 - t) * (LIGHT_MODE ? 0.55 : 0.7);
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${this.color},${alpha})`;
+      ctx.lineWidth = 2 * (1 - t * 0.6);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, r * 0.55, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${this.color},${alpha * 0.45})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+  }
+
+  function spawnRipple(x, y) {
+    ripples.push(new Ripple(x, y, 0));
+    ripples.push(new Ripple(x, y, 110));
+    /* nudge nearby particles outward */
+    const radius = 140;
+    for (const p of particles) {
+      const dx = p.x - x, dy = p.y - y;
+      const d = Math.hypot(dx, dy);
+      if (d > 0 && d < radius) {
+        const force = (1 - d / radius) * 2.4;
+        p.vx += (dx / d) * force;
+        p.vy += (dy / d) * force;
+      }
+    }
+  }
+
+  if (!REDUCED_MOTION) {
+    window.addEventListener('pointerdown', e => {
+      spawnRipple(e.clientX, e.clientY);
+    });
+  }
+
   function drawConnections() {
     for (let i = 0; i < particles.length; i++) {
       for (let j = i + 1; j < particles.length; j++) {
@@ -3196,11 +4130,20 @@
     }
   }
 
-  function animCanvas() {
+  let lastFrameT = performance.now();
+  function animCanvas(now) {
+    if (now === undefined) now = performance.now();
+    const dt = Math.min(now - lastFrameT, 48);
+    lastFrameT = now;
     ctx.clearRect(0, 0, W, H);
     orbs.forEach(o => { o.update(); o.draw(); });
     drawConnections();
     particles.forEach(p => { p.update(); p.draw(); });
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const alive = ripples[i].update(dt);
+      if (!alive) ripples.splice(i, 1);
+      else ripples[i].draw();
+    }
     requestAnimationFrame(animCanvas);
   }
   animCanvas();
@@ -3297,46 +4240,47 @@
   function vibesStart() { tw.classList.add('fx-vibes'); }
   function vibesStop()  { tw.classList.remove('fx-vibes'); }
 
-  /* "using AI magic" — math/AI glyphs materialize and drift outward in 3D */
-  const GLYPHS    = ['∑','∇','∞','◇','⬡','△','◯','⊕','⟁','§','◈','✦','π','λ','∂','◬','⌬','⊗'];
-  const GLYPH_TINTS = ['', 'cyan', 'indigo', '', 'cyan', 'indigo'];
-  let glyphTimer = null;
-  function spawnGlyph() {
-    const b = getTwBox();
-    const el = document.createElement('span');
-    const tint = GLYPH_TINTS[Math.floor(Math.random() * GLYPH_TINTS.length)];
-    const cls = ['fx-glyph'];
-    if (tint) cls.push(tint);
-    if (Math.random() < 0.25) cls.push('big');
-    el.className = cls.join(' ');
-    el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
-    /* spawn near a random point along the text's vertical center band */
-    const sx = b.x + 0.15 * b.w + Math.random() * b.w * 0.7;
-    const sy = b.y + 0.25 * b.h + Math.random() * b.h * 0.5;
-    el.style.left = sx + 'px';
-    el.style.top  = sy + 'px';
-    /* drift outward: pick an angle biased upward, with random distance */
-    const angle = (Math.random() * Math.PI) - Math.PI;          /* -π..0 → upper hemisphere */
-    const dist  = b.h * (1.4 + Math.random() * 1.2);            /* 1.4–2.6 line-heights */
-    const gx1   = Math.cos(angle) * dist;
-    const gy1   = Math.sin(angle) * dist;                       /* negative → upward */
-    el.style.setProperty('--gx1', gx1 + 'px');
-    el.style.setProperty('--gy1', gy1 + 'px');
-    el.style.setProperty('--rot0', (Math.random() * 60 - 30) + 'deg');
-    el.style.setProperty('--rot1', (Math.random() * 240 - 120) + 'deg');
-    el.style.animationDelay = (Math.random() * 0.2) + 's';
-    heroTitle.appendChild(el);
-    setTimeout(() => el.remove(), 3000);
-  }
+  /* "using AI magic" — in-place text scramble/decode (no spawned objects) */
+  const SCRAMBLE_POOL = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789{}<>/=*+';
+  let magicTickTimer = null;
+  let magicOriginalText = '';
   function magicStart() {
     tw.classList.add('fx-magic');
-    for (let i = 0; i < 4; i++) spawnGlyph();
-    glyphTimer = setInterval(spawnGlyph, 180);
+    magicOriginalText = tw.textContent;
+    if (!magicOriginalText) return;
+    const chars = magicOriginalText.split('');
+    let phase = 'scramble';   /* 'scramble' | 'resolve' | 'hold' */
+    let resolveIdx = 0;
+    let frame = 0;
+    const scrambleFrames = 7;     /* ~245ms full noise */
+    const holdFrames     = 22;    /* ~770ms clean text */
+    function rndChar() {
+      return SCRAMBLE_POOL[Math.floor(Math.random() * SCRAMBLE_POOL.length)];
+    }
+    function tick() {
+      if (phase === 'scramble') {
+        tw.classList.add('scrambling');
+        tw.textContent = chars.map(c => c === ' ' ? ' ' : rndChar()).join('');
+        frame++;
+        if (frame > scrambleFrames) { phase = 'resolve'; resolveIdx = 0; frame = 0; }
+      } else if (phase === 'resolve') {
+        tw.textContent = chars.map((c, i) =>
+          (i < resolveIdx || c === ' ') ? c : rndChar()
+        ).join('');
+        resolveIdx++;
+        if (resolveIdx > chars.length) { phase = 'hold'; frame = 0; tw.classList.remove('scrambling'); }
+      } else {
+        tw.textContent = magicOriginalText;
+        frame++;
+        if (frame > holdFrames) { phase = 'scramble'; frame = 0; }
+      }
+    }
+    magicTickTimer = setInterval(tick, 35);
   }
   function magicStop() {
-    tw.classList.remove('fx-magic');
-    clearInterval(glyphTimer);
-    glyphTimer = null;
+    tw.classList.remove('fx-magic', 'scrambling');
+    if (magicTickTimer) { clearInterval(magicTickTimer); magicTickTimer = null; }
+    if (magicOriginalText) { tw.textContent = magicOriginalText; magicOriginalText = ''; }
   }
 
   /* "faster than my coffee gets cold" — machine vends, then text types,
