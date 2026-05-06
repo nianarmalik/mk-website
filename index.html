@@ -81,7 +81,6 @@
       background: var(--bg);
       color: var(--text);
       overflow-x: hidden;
-      cursor: none;
     }
 
     /* Display font for headings, brand and hero/section titles */
@@ -90,50 +89,13 @@
       font-family: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', sans-serif;
     }
 
-    /* ── Custom Cursor ────────────────────────────────────────────── */
-    #cursor {
-      position: fixed; top: 0; left: 0;
-      width: 12px; height: 12px;
-      background: var(--accent2);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9999;
-      transition: transform 0.1s ease;
-      mix-blend-mode: screen;
-    }
-    #cursor-ring {
-      position: fixed; top: 0; left: 0;
-      width: 36px; height: 36px;
-      border: 1.5px solid rgba(6,182,212,0.5);
-      border-radius: 50%;
-      pointer-events: none;
-      z-index: 9998;
-      transition: transform 0.18s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-    }
-    body:has(a:hover) #cursor-ring,
-    body:has(.card:hover) #cursor-ring {
-      width: 56px; height: 56px;
-      border-color: var(--accent1);
-      opacity: 0.7;
-    }
-    body:has(.shoot-target:hover) #cursor-ring {
-      width: 48px; height: 48px;
-      border-color: #f472b6;
-      border-width: 2px;
-      opacity: 1;
-    }
-    body:has(.shoot-target:hover) #cursor {
-      background: #f472b6;
-      transform: scale(1.4);
-    }
-
     /* ── Shoot game ──────────────────────────────────────────────── */
     .shoot-target {
       position: fixed;
       top: 0; left: 0;
       width: 56px; height: 56px;
       pointer-events: auto;
-      cursor: none;
+      cursor: pointer;
       z-index: 50;
       will-change: transform;
       transform: translate3d(-200px,-200px,0);
@@ -226,7 +188,6 @@
       box-shadow: 0 4px 24px rgba(0,0,0,0.18);
       user-select: none;
       pointer-events: auto;
-      cursor: none;
       opacity: 0.55;
       transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.22,1,0.36,1), box-shadow 0.3s ease;
     }
@@ -257,7 +218,7 @@
       color: var(--muted);
       font: inherit;
       font-size: 0.6rem;
-      cursor: none;
+      cursor: pointer;
       padding: 0 0.15rem;
       opacity: 0;
       transition: opacity 0.2s ease, color 0.2s ease;
@@ -282,6 +243,14 @@
       z-index: 80;
       pointer-events: none;
       user-select: none;
+      transition: opacity 0.3s ease;
+    }
+    .cat-rope { transition: opacity 0.3s ease; }
+    /* Hide cat + rope while a planet detail popup is open so they don't cover content */
+    body:has(.detail-panel.open) .theme-cat,
+    body:has(.detail-panel.open) .cat-rope {
+      opacity: 0;
+      pointer-events: none;
     }
     /* Spotlight glow */
     .theme-cat::before {
@@ -316,7 +285,7 @@
       bottom: 80px;    /* ends near cat's right paw level */
       transform-origin: top center;
       pointer-events: auto;
-      cursor: none;
+      cursor: pointer;
       z-index: 81;
     }
     .cat-rope-anchor {
@@ -370,7 +339,7 @@
       width: 180px;
       height: 240px;
       pointer-events: auto;
-      cursor: none;
+      cursor: pointer;
       transform-origin: 50% 92%;
       transition: transform 0.4s cubic-bezier(0.22,1,0.36,1), filter 0.3s ease;
       filter:
@@ -647,7 +616,7 @@
       border: 2px solid #3b82f6;
       background: var(--surface);
       backdrop-filter: blur(12px);
-      cursor: none;
+      cursor: pointer;
       flex-shrink: 0;
       display: flex; align-items: center; justify-content: center;
       position: relative; overflow: hidden;
@@ -688,10 +657,6 @@
       48%      { filter: drop-shadow(0 0 6px rgba(253,224,71,1)); }
       52%      { filter: drop-shadow(0 0 3px rgba(253,224,71,0.7)); }
     }
-
-    /* Light mode: fix cursor blend mode */
-    [data-theme="light"] #cursor { mix-blend-mode: normal; background: var(--accent1); }
-    [data-theme="light"] #cursor-ring { border-color: rgba(124,58,237,0.35); }
 
     /* ── Hero ────────────────────────────────────────────────────── */
     #hero {
@@ -762,7 +727,7 @@
       border-radius: 100px;
       font-size: 1rem; font-weight: 600;
       background: linear-gradient(135deg, var(--accent1), #4f46e5);
-      color: #fff; border: none; cursor: none;
+      color: #fff; border: none; cursor: pointer;
       text-decoration: none;
       box-shadow: 0 0 30px var(--glow1);
       transition: transform 0.2s, box-shadow 0.2s;
@@ -778,7 +743,7 @@
       font-size: 1rem; font-weight: 600;
       background: transparent;
       color: var(--text); border: 1px solid var(--border);
-      text-decoration: none; cursor: none;
+      text-decoration: none; cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
     }
     .btn-ghost:hover {
@@ -1159,7 +1124,7 @@
       border: 1px solid var(--border);
       background: transparent;
       color: var(--muted); font-size: 0.875rem;
-      cursor: none; transition: all 0.2s;
+      cursor: pointer; transition: all 0.2s;
     }
     .filter-btn:hover { border-color: var(--accent1); color: var(--text); }
     .filter-btn.active {
@@ -1213,7 +1178,7 @@
       background: radial-gradient(circle at 38% 32%, rgba(124,58,237,0.45), rgba(6,6,18,0.97));
       border: 1px solid rgba(124,58,237,0.45);
       display: flex; flex-direction: column; align-items: center; justify-content: center;
-      gap: 0.3rem; z-index: 10; cursor: none;
+      gap: 0.3rem; z-index: 10; cursor: pointer;
       box-shadow: 0 0 60px rgba(124,58,237,0.22), inset 0 0 30px rgba(124,58,237,0.12);
       backdrop-filter: blur(20px);
     }
@@ -1234,7 +1199,7 @@
     .planet-arm { position:absolute; top:0; left:0; width:0; height:0; transform-origin:0 0; }
 
     /* Planet wrapper — counter-rotates so it stays upright */
-    .planet { position:absolute; transform:translate(-50%,-50%); z-index:5; cursor:none; }
+    .planet { position:absolute; transform:translate(-50%,-50%); z-index:5; cursor:pointer; }
     .orbit-ring-cw  .planet { animation: counterCCW linear infinite; }
     .orbit-ring-ccw .planet { animation: counterCW  linear infinite; }
     @keyframes counterCW  { to { transform:translate(-50%,-50%) rotate( 360deg); } }
@@ -1284,22 +1249,28 @@
       transition: right .55s cubic-bezier(.23,1,.32,1);
       display: flex; flex-direction: column;
       box-shadow: -20px 0 80px rgba(0,0,0,.55), 0 0 60px rgba(124,58,237,.1);
+      color: var(--text);
+    }
+    [data-theme="light"] .detail-panel {
+      background: rgba(252,250,246,0.96);
+      border-color: rgba(124,58,237,0.22);
+      box-shadow: -20px 0 60px rgba(30,20,50,0.18), 0 0 40px rgba(124,58,237,0.08);
     }
     .detail-panel.open { right: 2rem; }
 
     .dp-close {
       position:absolute; top:1rem; right:1rem; z-index:10;
       width:30px; height:30px; border-radius:50%;
-      background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1);
-      color:var(--muted); font-size:.85rem; cursor:none;
+      background: var(--surface); border:1px solid var(--border);
+      color:var(--muted); font-size:.85rem; cursor:pointer;
       display:flex; align-items:center; justify-content:center;
       transition:background .2s, color .2s;
     }
-    .dp-close:hover { background:rgba(255,255,255,.15); color:var(--text); }
+    .dp-close:hover { background: var(--border); color:var(--text); }
 
     .dp-preview {
       height: 210px; flex-shrink:0; overflow:hidden; position:relative;
-      border-bottom: 1px solid rgba(255,255,255,.06);
+      border-bottom: 1px solid var(--border);
     }
     .dp-preview .mock-preview { height:100%; }
     .dp-preview .mock-editor,
@@ -1805,11 +1776,11 @@
     .dp-link-disabled {
       display: inline-flex; align-items: center; gap: .5rem;
       padding: .7rem 1.5rem; border-radius: 100px;
-      background: rgba(255,255,255,0.07);
-      color: rgba(255,255,255,0.35);
+      background: var(--surface);
+      color: var(--muted);
       font-size: .875rem; font-weight: 600;
       cursor: not-allowed;
-      border: 1px solid rgba(255,255,255,0.1);
+      border: 1px solid var(--border);
       user-select: none;
     }
 
@@ -1828,6 +1799,13 @@
       z-index: 9000;
       box-shadow: 0 12px 48px rgba(0,0,0,0.7), 0 0 24px rgba(45,212,191,0.08);
     }
+    [data-theme="light"] #dp-float-tooltip {
+      background: rgba(252,250,246,0.98);
+      border-color: rgba(8,145,178,0.30);
+      color: var(--text);
+      box-shadow: 0 12px 48px rgba(30,20,50,0.18), 0 0 24px rgba(8,145,178,0.10);
+    }
+    [data-theme="light"] #dp-float-tooltip strong { color: #0e7490; }
     #dp-float-tooltip.visible {
       opacity: 1; transform: translateY(0);
     }
@@ -2035,12 +2013,14 @@
     .line-hi     { color: #22d3ee; }
 
     /* ── About Me ────────────────────────────────────────────────── */
-    .about-grid {
+    .philosophy-grid {
       display: grid; grid-template-columns: 1fr 1fr;
       gap: 4rem; align-items: start;
       margin-top: 3rem;
     }
-    @media (max-width: 768px) { .about-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+    @media (max-width: 768px) { .philosophy-grid { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .about-text { max-width: 760px; margin-top: 3rem; }
 
     .about-text p {
       color: var(--muted); line-height: 1.85; margin-bottom: 1rem; font-size: 0.95rem;
@@ -2259,16 +2239,6 @@
     }
     @keyframes introBar { to { width: 180px; } }
 
-    /* ── Cinematic: Cursor Trail ──────────────────────────────── */
-    .cursor-trail {
-      position: fixed; top: 0; left: 0;
-      border-radius: 50%; pointer-events: none; z-index: 9996;
-      background: var(--accent2); mix-blend-mode: screen;
-    }
-    [data-theme="light"] .cursor-trail {
-      mix-blend-mode: multiply; background: var(--accent1);
-    }
-
     /* ── Cinematic: Hero Parallax Container ──────────────────── */
     .hero-content { will-change: transform; }
     #hero { perspective: 1400px; }
@@ -2386,8 +2356,8 @@
     }
 
     /* ── Cinematic: Section top accent line ──────────────────── */
-    #apps, #about { position: relative; }
-    #apps::before, #about::before {
+    #apps, #about, #philosophy { position: relative; }
+    #apps::before, #about::before, #philosophy::before {
       content: '';
       position: absolute; left: 50%; top: 0; transform: translateX(-50%);
       height: 1px; width: 0;
@@ -2395,7 +2365,7 @@
       transition: width 1.2s cubic-bezier(0.22,1,0.36,1);
       pointer-events: none;
     }
-    #apps.in-view::before, #about.in-view::before { width: 80%; }
+    #apps.in-view::before, #about.in-view::before, #philosophy.in-view::before { width: 80%; }
 
     /* ── Footer brand styles ─────────────────────────────────────── */
     .footer-brand {
@@ -2413,7 +2383,7 @@
     .nav-burger {
       display: none;
       background: transparent; border: none; padding: 0.4rem;
-      cursor: none; flex-direction: column; gap: 5px;
+      cursor: pointer; flex-direction: column; gap: 5px;
       width: 36px; height: 36px;
       align-items: center; justify-content: center;
       margin-left: 0.5rem;
@@ -2440,16 +2410,6 @@
       outline-offset: 4px;
     }
 
-    /* ── Touch / coarse pointer: drop custom cursor ──────────────── */
-    @media (hover: none), (pointer: coarse) {
-      body { cursor: auto !important; }
-      a, button, .planet-bubble, .filter-btn, .theme-toggle,
-      .dp-close, .orbit-sun, .nav-burger, .nav-cta {
-        cursor: pointer !important;
-      }
-      #cursor, #cursor-ring, .cursor-trail { display: none !important; }
-    }
-
     /* ── Reduced motion ──────────────────────────────────────────── */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -2458,7 +2418,7 @@
         transition-duration: 0.001ms !important;
         scroll-behavior: auto !important;
       }
-      .film-grain, .cursor-trail { display: none !important; }
+      .film-grain { display: none !important; }
       .gradient-text { animation: none !important; background-position: 0 center !important; }
       .stats-bar::after { display: none !important; }
       .cta-glow { animation: none !important; }
@@ -2545,10 +2505,6 @@
   <div class="intro-tagline">malikkhan.me</div>
   <div class="intro-bar"></div>
 </div>
-
-<!-- Custom Cursor -->
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
 
 <!-- Theme Rope (hangs from bulb in nav) -->
 <div class="cat-rope" id="theme-cat-rope" role="button" tabindex="0" aria-label="Pull rope to toggle theme">
@@ -2690,7 +2646,8 @@
   </a>
   <ul class="nav-links" id="nav-links">
     <li><a href="#apps">Apps</a></li>
-    <li><a href="#about">Philosophy</a></li>
+    <li><a href="#about">About Me</a></li>
+    <li><a href="#philosophy">Philosophy</a></li>
     <li><a href="#cta" class="nav-cta">Get in Touch</a></li>
   </ul>
   <button class="nav-burger" id="nav-burger" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav-links">
@@ -2812,75 +2769,64 @@
   </section>
 
 
-  <!-- ── About + Philosophy ───────────────────────────────────────── -->
+  <!-- ── About Me ─────────────────────────────────────────────────── -->
   <section id="about">
     <div class="container">
-      <p class="section-label reveal">Philosophy</p>
+      <p class="section-label reveal">About</p>
       <h2 class="section-title reveal">The Human Behind the Vibes</h2>
-      <div class="about-grid">
-
-        <!-- Left: personal story -->
-        <div class="about-text">
-          <div class="reveal">
-            <p>
-              Hey, I'm <strong>Malik</strong> — a software professional with 15+ years across the industry,
-              now based in the beautiful Netherlands for the last 8 years. I moved here from India seeking a
-              <strong>safe, open, and secular environment</strong> for my family — and the Netherlands has been
-              exactly that.
-            </p>
-            <div class="about-stats">
-              <div class="about-stat">
-                <span class="about-stat-num">15+</span>
-                <span class="about-stat-label">Years in tech</span>
-              </div>
-              <div class="about-stat">
-                <span class="about-stat-num">8</span>
-                <span class="about-stat-label">Years in NL</span>
-              </div>
-              <div class="about-stat">
-                <span class="about-stat-num">∞</span>
-                <span class="about-stat-label">Ideas pending</span>
-              </div>
+      <div class="about-text">
+        <div class="reveal">
+          <p>
+            Hey, I'm <strong>Malik</strong> — a software professional with 15+ years across the industry,
+            now based in the beautiful Netherlands for the last 8 years. I moved here from India seeking a
+            <strong>safe, open, and secular environment</strong> for my family — and the Netherlands has been
+            exactly that.
+          </p>
+          <div class="about-stats">
+            <div class="about-stat">
+              <span class="about-stat-num">15+</span>
+              <span class="about-stat-label">Years in tech</span>
             </div>
-            <div class="role-tags">
-              <span class="role-tag">Java Developer</span>
-              <span class="role-tag">Deployment Engineer</span>
-              <span class="role-tag">Tester & QA</span>
-              <span class="role-tag">Scrum Master</span>
-              <span class="role-tag">Team Lead</span>
-              <span class="role-tag">Architect</span>
-              <span class="role-tag">Operations Engineer</span>
+            <div class="about-stat">
+              <span class="about-stat-num">8</span>
+              <span class="about-stat-label">Years in NL</span>
             </div>
-            <p>
-              I'm reserved — I talk less and do more. I've always been inspired by people and ideas,
-              but never had enough time to turn them into reality.
-              <strong>Then vibe coding happened.</strong> Seeing an idea come alive gives me energy
-              I can't get enough of. Maybe something here will inspire someone to build something even more interesting.
-            </p>
-            <p>
-              I live with my wife, our son, and our daughter — the three people who make my life incredibly beautiful and hilariously difficult, often in the same five minutes.
-            </p>
-
-            <div class="periyar-quote" style="margin-top:1.5rem;">
-              <p class="periyar-quote-text">
-                "If larger country oppresses a smaller country, I'll stand with smaller country.
-                If smaller country has Majoritarian Religion which oppresses minority religions, I'll stand with Minority religion.
-                If minority religion has caste and one caste oppresses another caste, I'll stand with caste being oppressed.
-                If in oppressed caste an employer oppresses his employee, I'll stand with employee.
-                If employee goes Home and oppresses his wife, I'll stand with that woman.
-                Overall <em>oppression is my enemy</em>."
-              </p>
-              <div class="periyar-quote-author">— PERIYAR</div>
-            </div>
-
-            <div class="fun-quote" style="margin-top:1rem;">
-              A colleague once said: <span>"The problem is between the chair and the keyboard."</span> 😄
-              <br><small style="opacity:0.6;font-size:0.72rem;">...sometimes painfully accurate.</small>
+            <div class="about-stat">
+              <span class="about-stat-num">∞</span>
+              <span class="about-stat-label">Ideas pending</span>
             </div>
           </div>
+          <div class="role-tags">
+            <span class="role-tag">Java Developer</span>
+            <span class="role-tag">Deployment Engineer</span>
+            <span class="role-tag">Tester & QA</span>
+            <span class="role-tag">Scrum Master</span>
+            <span class="role-tag">Team Lead</span>
+            <span class="role-tag">Architect</span>
+            <span class="role-tag">Operations Engineer</span>
+          </div>
+          <p>
+            I'm reserved — I talk less and do more. I've always been inspired by people and ideas,
+            but never had enough time to turn them into reality.
+            <strong>Then vibe coding happened.</strong> Seeing an idea come alive gives me energy
+            I can't get enough of. Maybe something here will inspire someone to build something even more interesting.
+          </p>
+          <p>
+            I live with my wife, our son, and our daughter — the three people who make my life incredibly beautiful and hilariously difficult, often in the same five minutes.
+          </p>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <!-- Right: philosophy cards -->
+  <!-- ── Philosophy ────────────────────────────────────────────────── -->
+  <section id="philosophy">
+    <div class="container">
+      <p class="section-label reveal">Philosophy</p>
+      <h2 class="section-title reveal">What I Stand For</h2>
+      <div class="philosophy-grid">
+
+        <!-- Left: vibe-coding ethos -->
         <div class="reveal">
           <p style="color:var(--muted);font-size:0.95rem;line-height:1.75;margin-bottom:1.5rem;">
             Vibe coding is about lowering the barrier between imagination and reality.
@@ -2925,6 +2871,30 @@
           </div>
         </div>
 
+        <!-- Right: quotes that shaped me -->
+        <div class="reveal">
+          <p style="color:var(--muted);font-size:0.95rem;line-height:1.75;margin-bottom:1.5rem;">
+            Beyond code, a few words I keep close.
+          </p>
+
+          <div class="periyar-quote">
+            <p class="periyar-quote-text">
+              "If larger country oppresses a smaller country, I'll stand with smaller country.
+              If smaller country has Majoritarian Religion which oppresses minority religions, I'll stand with Minority religion.
+              If minority religion has caste and one caste oppresses another caste, I'll stand with caste being oppressed.
+              If in oppressed caste an employer oppresses his employee, I'll stand with employee.
+              If employee goes Home and oppresses his wife, I'll stand with that woman.
+              Overall <em>oppression is my enemy</em>."
+            </p>
+            <div class="periyar-quote-author">— PERIYAR</div>
+          </div>
+
+          <div class="fun-quote" style="margin-top:1rem;">
+            A colleague once said: <span>"The problem is between the chair and the keyboard."</span> 😄
+            <br><small style="opacity:0.6;font-size:0.72rem;">...sometimes painfully accurate.</small>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
@@ -2939,7 +2909,7 @@
         I'm always down to collaborate, share notes on AI-assisted development, or just talk shop about building cool stuff fast.
       </p>
       <div class="hero-actions reveal">
-        <a href="mailto:nainarmalik1705@gmail.com" class="btn-primary">Say Hello →</a>
+        <a href="https://www.linkedin.com/in/malik-khan-83379861/" target="_blank" rel="noopener noreferrer" class="btn-primary">Say Hello →</a>
       </div>
     </div>
   </section>
@@ -3009,23 +2979,6 @@
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pullRope(); }
     });
   }
-
-  /* ── Custom Cursor ──────────────────────────────────────────────── */
-  const cursor = document.getElementById('cursor');
-  const ring   = document.getElementById('cursor-ring');
-  let mx = 0, my = 0, rx = 0, ry = 0;
-
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.transform = `translate(${mx - 6}px, ${my - 6}px)`;
-  });
-
-  (function animRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.transform = `translate(${rx - 18}px, ${ry - 18}px)`;
-    requestAnimationFrame(animRing);
-  })();
 
   /* ── Orbit System ───────────────────────────────────────────────── */
 
@@ -4500,33 +4453,6 @@
       scrollProgress.style.width = (scrolled / total * 100) + '%';
   }, { passive: true });
 
-  /* ── Cinematic: Cursor Trail (skipped on touch / reduced motion) ── */
-  if (!IS_TOUCH && !REDUCED_MOTION) {
-    const TRAIL_N = 5;
-    const trailEls = Array.from({ length: TRAIL_N }, (_, i) => {
-      const el = document.createElement('div');
-      el.className = 'cursor-trail';
-      const size = 9 - i * 1.5;
-      el.style.cssText = `width:${size}px;height:${size}px;opacity:${0.38 - i * 0.07};margin-left:${-size/2}px;margin-top:${-size/2}px;`;
-      document.body.appendChild(el);
-      return el;
-    });
-    const trailPos = Array.from({ length: TRAIL_N }, () => ({ x: 0, y: 0 }));
-    (function animTrail() {
-      trailPos[0] = { x: mx, y: my };
-      for (let i = TRAIL_N - 1; i > 0; i--) {
-        trailPos[i] = {
-          x: trailPos[i].x + (trailPos[i-1].x - trailPos[i].x) * 0.32,
-          y: trailPos[i].y + (trailPos[i-1].y - trailPos[i].y) * 0.32,
-        };
-      }
-      trailEls.forEach((el, i) => {
-        el.style.transform = `translate(${trailPos[i].x}px,${trailPos[i].y}px)`;
-      });
-      requestAnimationFrame(animTrail);
-    })();
-  }
-
   /* ── Cinematic: Hero Parallax ────────────────────────────────────── */
   const heroContent = document.querySelector('.hero-content');
   const heroSection = document.getElementById('hero');
@@ -4587,7 +4513,7 @@
   /* ── Cinematic: Section accent line ─────────────────────────────── */
   new IntersectionObserver(entries => {
     entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
-  }, { threshold: 0.08 }).observe && document.querySelectorAll('#apps, #about').forEach(s => {
+  }, { threshold: 0.08 }).observe && document.querySelectorAll('#apps, #about, #philosophy').forEach(s => {
     new IntersectionObserver(entries => {
       entries.forEach(e => e.target.classList.toggle('in-view', e.isIntersecting));
     }, { threshold: 0.08 }).observe(s);
