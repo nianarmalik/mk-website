@@ -1820,14 +1820,14 @@
       border-top-color: rgba(5,12,18,0.97);
     }
 
-    /* ── Mock UI: Reflect (routine tracker) ─────────────────────── */
-    .mock-reflect {
+    /* ── Mock UI: Keystone (routine tracker) ─────────────────────── */
+    .mock-keystone {
       height: 100%;
       background: linear-gradient(160deg, #0d0820 0%, #130a2e 50%, #0a0618 100%);
       display: flex; flex-direction: column;
       padding: 0.85rem; overflow: hidden; position: relative;
     }
-    .mock-reflect::before {
+    .mock-keystone::before {
       content: '';
       position: absolute; top: -30px; right: -30px;
       width: 120px; height: 120px; border-radius: 50%;
@@ -3068,15 +3068,15 @@
       </svg>`,
     },
     {
-      id: 'reflect', orbit: 1,
+      id: 'keystone', orbit: 1,
       bg: 'linear-gradient(145deg,#0d0820,#180f38,#0a0618)',
       name: 'Keystone',
-      desc: 'Build routines that actually stick. Daily, weekly, monthly, yearly — or fully custom. Reflect helps you show up consistently for the things that matter.',
+      desc: 'Build routines that actually stick. Daily, weekly, monthly, yearly — or fully custom. keystone helps you show up consistently for the things that matter.',
       tags: ['web','tool'], link: '',
       disabledLabel: 'Coming Soon',
       disabledTitle: 'Coming soon ✨',
       disabledMsg: 'Keystone is in the works. Building something worth waiting for.',
-      previewType: 'reflect',
+      previewType: 'keystone',
       bubbleHTML: `<svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="rfbg" cx="50%" cy="40%" r="65%">
@@ -3349,10 +3349,10 @@
             <span class="kudoly-word">rockstar</span>
           </div>
         </div>`;
-      case 'reflect': return `
-        <div class="mock-reflect">
+      case 'keystone': return `
+        <div class="mock-keystone">
           <div class="rf-header">
-            <span class="rf-title">Reflect</span>
+            <span class="rf-title">keystone</span>
             <span class="rf-date">Mon, 14 Apr</span>
           </div>
           <div class="rf-routines">
