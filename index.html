@@ -95,11 +95,11 @@
       top: 0; left: 0;
       width: 56px; height: 56px;
       pointer-events: auto;
-      cursor: pointer;
+      cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'><circle cx='16' cy='16' r='12' fill='none' stroke='%23f0abfc' stroke-width='2'/><line x1='16' y1='2' x2='16' y2='10' stroke='%23f0abfc' stroke-width='2'/><line x1='16' y1='22' x2='16' y2='30' stroke='%23f0abfc' stroke-width='2'/><line x1='2' y1='16' x2='10' y2='16' stroke='%23f0abfc' stroke-width='2'/><line x1='22' y1='16' x2='30' y2='16' stroke='%23f0abfc' stroke-width='2'/><circle cx='16' cy='16' r='2' fill='%23f0abfc'/></svg>") 16 16, crosshair;
       z-index: 50;
       will-change: transform;
       transform: translate3d(-200px,-200px,0);
-      transition: filter 0.15s ease;
+      transition: filter 0.15s ease, opacity 0.3s ease;
       filter: drop-shadow(0 0 14px rgba(244,114,182,0.95))
               drop-shadow(0 0 28px rgba(124,58,237,0.7));
       animation: shootBob 1.6s ease-in-out infinite;
@@ -196,6 +196,12 @@
       transform: scale(1.08);
       opacity: 1;
       box-shadow: 0 4px 32px rgba(240,171,252,0.45);
+    }
+    /* Hide chip + targets when the footer is in view so they don't overlap brand text */
+    body.footer-visible .score-chip,
+    body.footer-visible .shoot-target {
+      opacity: 0;
+      pointer-events: none;
     }
     .score-chip .sc-icon { font-size: 0.85rem; }
     .score-chip .sc-score {
@@ -3914,6 +3920,15 @@
       requestAnimationFrame(loop);
     }
     requestAnimationFrame(loop);
+
+    /* Hide chip + active targets when the footer is in viewport */
+    const footerEl = document.querySelector('footer');
+    if (footerEl && 'IntersectionObserver' in window) {
+      const io = new IntersectionObserver(entries => {
+        document.body.classList.toggle('footer-visible', entries[0].isIntersecting);
+      }, { rootMargin: '0px 0px 0px 0px', threshold: 0.01 });
+      io.observe(footerEl);
+    }
   })();
 
   /* ── Particle Canvas ────────────────────────────────────────────── */
