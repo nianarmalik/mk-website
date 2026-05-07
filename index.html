@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Malik Khan — Built with AI, Fueled by Vibes</title>
-  <meta name="description" content="Malik Khan — software professional building apps, tools, and experiments through AI-assisted vibe coding. Based in the Netherlands.">
+  <title>Malik Khan — Independent maker, building with AI</title>
+  <meta name="description" content="Malik Khan — independent maker building apps, tools, and experiments solo with AI as co-pilot. Based in the Netherlands.">
   <meta name="author" content="Malik Khan">
   <meta name="theme-color" content="#060612" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f4f1eb" media="(prefers-color-scheme: light)">
@@ -13,15 +13,15 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://malikkhan.me/">
-  <meta property="og:title" content="Malik Khan — Built with AI, Fueled by Vibes">
-  <meta property="og:description" content="A collection of apps, tools, and experiments crafted through AI-assisted vibe coding.">
+  <meta property="og:title" content="Malik Khan — Independent maker, building with AI">
+  <meta property="og:description" content="Solo-built apps, tools, and experiments — AI handles the boilerplate, I handle the calls.">
   <meta property="og:image" content="https://malikkhan.me/og-image.png">
   <meta property="og:site_name" content="Malik Khan">
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Malik Khan — Built with AI, Fueled by Vibes">
-  <meta name="twitter:description" content="A collection of apps, tools, and experiments crafted through AI-assisted vibe coding.">
+  <meta name="twitter:title" content="Malik Khan — Independent maker, building with AI">
+  <meta name="twitter:description" content="Solo-built apps, tools, and experiments — AI handles the boilerplate, I handle the calls.">
   <meta name="twitter:image" content="https://malikkhan.me/og-image.png">
 
   <!-- Favicon (inline SVG: gradient MK badge) -->
@@ -54,7 +54,7 @@
     }
 
     [data-theme="light"] {
-      --bg: #f4f1eb;
+      --bg: #f6f2ea;
       --surface: rgba(0,0,0,0.04);
       --border: rgba(0,0,0,0.09);
       --accent1: #7c3aed;
@@ -64,9 +64,33 @@
       --muted: #6b7280;
       --glow1: rgba(124,58,237,0.2);
       --glow2: rgba(8,145,178,0.2);
-      --nav-bg: rgba(244,241,235,0.82);
-      --grid-line: rgba(124,58,237,0.04);
+      --nav-bg: rgba(246,242,234,0.78);
+      --grid-line: rgba(124,58,237,0.07);
       --process-num: rgba(0,0,0,0.05);
+    }
+
+    /* Light mode: layered aurora wash so the page feels alive instead of flat cream */
+    [data-theme="light"] body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 75% 55% at 12% -8%,  rgba(167,139,250,0.40), transparent 62%),
+        radial-gradient(ellipse 60% 45% at 96% 22%,  rgba(34,211,238,0.28),  transparent 62%),
+        radial-gradient(ellipse 65% 50% at 50% 108%, rgba(240,171,252,0.34), transparent 64%),
+        radial-gradient(ellipse 55% 40% at 88% 92%,  rgba(124,58,237,0.18),  transparent 62%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
+    }
+
+    /* Dark mode: nebula wash — magenta + teal poles with indigo and rose accents */
+    [data-theme="dark"] body {
+      background-color: var(--bg);
+      background-image:
+        radial-gradient(ellipse 70% 50% at 88% -5%,  rgba(217,70,239,0.26),  transparent 62%),
+        radial-gradient(ellipse 60% 45% at 8% 22%,   rgba(99,102,241,0.22),  transparent 62%),
+        radial-gradient(ellipse 70% 50% at 50% 105%, rgba(20,184,166,0.20),  transparent 64%),
+        radial-gradient(ellipse 50% 40% at 12% 95%,  rgba(244,114,182,0.18), transparent 62%);
+      background-attachment: fixed;
+      background-repeat: no-repeat;
     }
 
     /* Smooth theme transition on everything except canvas */
@@ -432,7 +456,8 @@
           drop-shadow(0 0 50px rgba(59,130,246,0.55));
       }
     }
-    /* Paw at rest by default — only animates up when pulling */
+    /* Right arm rests at the side and swings UP-RIGHT to grab the rope.
+       Pivot anchors at the shoulder (top of the arm bbox). */
     .theme-cat .cat-arm-right {
       transform-origin: 64% 38%;
       transform: rotate(0deg) translate(0, 0);
@@ -974,7 +999,7 @@
       .coffee-station, .coffee-station * { animation: none !important; transition: none !important; }
     }
 
-    /* ── Phrase: "with pure vibes" — wobble + intense glow ───────────── */
+    /* ── Phrase: "as a solo maker" — wobble + intense glow ───────────── */
     .typewriter.fx-vibes {
       display: inline-block;
       animation: gradientShimmer 1.2s linear infinite, vibesWobble 1.6s ease-in-out infinite;
@@ -2691,7 +2716,7 @@
     <div class="hero-content">
       <div class="hero-badge">
         <span class="badge-dot"></span>
-        Built with AI · Fueled by Vibes
+        Idea → app, in days
       </div>
       <h1 class="hero-title">
         <span class="hero-title-line1" id="hero-title-line1">I build things</span><br />
@@ -2699,8 +2724,8 @@
       </h1>
     </div>
     <p class="hero-sub">
-      A collection of apps, tools, and experiments crafted through AI-assisted vibe coding —
-      where ideas become products at the speed of thought.
+      Solo-built apps, tools, and experiments — AI handles the boilerplate, I handle the calls.
+      Ideas become products at the speed of thought.
     </p>
     <div class="hero-actions">
       <a href="#apps" class="btn-primary">Explore Apps ↓</a>
@@ -2718,8 +2743,8 @@
       <div class="stat-label">Hours Total</div>
     </div>
     <div class="stat">
-      <div class="stat-num" data-target="100">0</div>
-      <div class="stat-label">% Vibes</div>
+      <div class="stat-num" data-target="2">0</div>
+      <div class="stat-label">Team (me + AI)</div>
     </div>
     <div class="stat">
       <div class="stat-num" data-target="3">0</div>
@@ -2733,7 +2758,7 @@
       <p class="section-label reveal">Portfolio</p>
       <h2 class="section-title reveal">Apps &amp; Experiments</h2>
       <p class="section-desc reveal">
-        Each project started with a vibe, a prompt, and an idea — then shipped in record time.
+        Each project started with an idea, a prompt, and a clear call — then shipped in record time.
       </p>
 
       <!-- Filter -->
@@ -2754,7 +2779,7 @@
         <div class="orbit-sun">
           <div class="sun-ring"></div>
           <div class="sun-ring2"></div>
-          <span class="sun-title">⚡ Vibe Orbit</span>
+          <span class="sun-title">⚡ Build Orbit</span>
           <span class="sun-hint">click a planet<br>to explore</span>
         </div>
       </div>
@@ -2779,7 +2804,7 @@
   <section id="about">
     <div class="container">
       <p class="section-label reveal">About</p>
-      <h2 class="section-title reveal">The Human Behind the Vibes</h2>
+      <h2 class="section-title reveal">The Maker Behind the Builds</h2>
       <div class="about-text">
         <div class="reveal">
           <p>
@@ -2814,7 +2839,7 @@
           <p>
             I'm reserved — I talk less and do more. I've always been inspired by people and ideas,
             but never had enough time to turn them into reality.
-            <strong>Then vibe coding happened.</strong> Seeing an idea come alive gives me energy
+            <strong>Then I started building solo with AI.</strong> Seeing an idea come alive gives me energy
             I can't get enough of. Maybe something here will inspire someone to build something even more interesting.
           </p>
           <p>
@@ -2832,10 +2857,10 @@
       <h2 class="section-title reveal">What I Stand For</h2>
       <div class="philosophy-grid">
 
-        <!-- Left: vibe-coding ethos -->
+        <!-- Left: maker ethos -->
         <div class="reveal">
           <p style="color:var(--muted);font-size:0.95rem;line-height:1.75;margin-bottom:1.5rem;">
-            Vibe coding is about lowering the barrier between imagination and reality.
+            Solo building with AI is about lowering the barrier between imagination and reality.
             AI doesn't replace the creative mind — it removes the friction.
           </p>
           <div class="philosophy-visual">
@@ -2865,7 +2890,7 @@
                 <svg width="36" height="36" viewBox="0 0 36 36" fill="none"><defs><linearGradient id="vi4" x1="0" y1="0" x2="36" y2="36"><stop stop-color="#7c3aed"/><stop offset="1" stop-color="#06b6d4"/></linearGradient></defs><path d="M18 4 L19.8 13.2 L28 10 L22 17 L31 19.8 L22 22 L26 30 L18 25 L10 30 L14 22 L5 19.8 L14 17 L8 10 L16.2 13.2 Z" stroke="url(#vi4)" stroke-width="1.8" stroke-linejoin="round" fill="none"/></svg>
               </div>
               <h4>Have Fun</h4>
-              <p>Vibes over process</p>
+              <p>Calls over ceremony</p>
             </div>
             <div class="vibe-card vibe-card-wide">
               <div class="icon">
@@ -2910,7 +2935,7 @@
     <div class="cta-glow"></div>
     <div class="container">
       <p class="section-label reveal">What's Next</p>
-      <h2 class="section-title reveal">Got a vibe idea?<br /><span class="gradient-text">Let's build it.</span></h2>
+      <h2 class="section-title reveal">Got an idea?<br /><span class="gradient-text">Let's build it.</span></h2>
       <p class="section-desc reveal">
         I'm always down to collaborate, share notes on AI-assisted development, or just talk shop about building cool stuff fast.
       </p>
@@ -3260,10 +3285,10 @@
         <div style="padding:0;height:100%"><div class="mock-editor">
           <div class="editor-bar"><span class="editor-dot"></span><span class="editor-dot"></span><span class="editor-dot"></span><span class="editor-filename">app.ts</span></div>
           <div class="editor-body">
-            <div class="el"><span class="el-num">1</span><span class="el-code"><span class="cm">// vibe coded ✨</span></span></div>
+            <div class="el"><span class="el-num">1</span><span class="el-code"><span class="cm">// built solo ✨</span></span></div>
             <div class="el"><span class="el-num">2</span><span class="el-code"><span class="ck">import</span> { <span class="cs">Claude</span> } <span class="ck">from</span> <span class="cst">"@anthropic"</span></span></div>
             <div class="el"><span class="el-num">3</span><span class="el-code"><span class="ck">const</span> <span class="cv">ai</span> = <span class="ck">new</span> <span class="cs">Claude</span>()</span></div>
-            <div class="el"><span class="el-num">4</span><span class="el-code"><span class="ck">const</span> <span class="cv">app</span> = <span class="ck">await</span> <span class="cv">ai</span>.<span class="cf">build</span>({ <span class="cv">vibe</span>: <span class="cst">"immaculate"</span> })</span></div>
+            <div class="el"><span class="el-num">4</span><span class="el-code"><span class="ck">const</span> <span class="cv">app</span> = <span class="ck">await</span> <span class="cv">ai</span>.<span class="cf">build</span>({ <span class="cv">mode</span>: <span class="cst">"solo"</span> })</span></div>
             <div class="el"><span class="el-num">5</span><span class="el-code"><span class="ck">return</span> <span class="cv">app</span>.<span class="cf">ship</span>()<span class="el-cursor"></span></span></div>
           </div>
         </div></div>`;
@@ -4184,7 +4209,7 @@
 
   /* ── Typewriter ─────────────────────────────────────────────────── */
   const phrases = [
-    'with pure vibes',
+    'as a solo maker',
     'using AI magic',
     'faster than my coffee gets cold',
     'from zero to shipped',
@@ -4204,7 +4229,7 @@
   }
 
   /* === phrase effects ============================================== */
-  /* "with pure vibes" — wobble + glow */
+  /* "as a solo maker" — wobble + glow */
   function vibesStart() { tw.classList.add('fx-vibes'); }
   function vibesStop()  { tw.classList.remove('fx-vibes'); }
 
@@ -4280,6 +4305,8 @@
   /* "from zero to shipped" — full-screen 3D rocket flight */
   const rocketCleanups = [];
   function rocketStart() {
+    /* Skip launch when the hero isn't on screen — heroVisible is set by the parallax observer below */
+    if (!heroVisible) return;
     /* trail puffs spaced along the diagonal path */
     const N = 28;
     const totalDur = 3200;       /* must match rocketCross duration */
@@ -4333,7 +4360,7 @@
   function limitsStop() { tw.classList.remove('fx-limits'); }
 
   const PHRASE_FX = {
-    'with pure vibes':                { pauseMs: 2400, start: vibesStart,  stop: vibesStop  },
+    'as a solo maker':                { pauseMs: 2400, start: vibesStart,  stop: vibesStop  },
     'using AI magic':                 { pauseMs: 2600, start: magicStart,  stop: magicStop  },
     'faster than my coffee gets cold':{ preMs: 1700, preStart: coffeeVend, pauseMs: 1000, start: () => {}, stop: coffeeStop },
     'from zero to shipped':           { pauseMs: 3600, start: rocketStart, stop: rocketStop },
